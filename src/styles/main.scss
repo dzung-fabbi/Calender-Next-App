@@ -1,0 +1,43 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+@layer base {
+  // setup font, text 
+  body {
+    @apply font-primary text-base antialiased font-normal mx-auto text-default;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+html {
+  font-size: 16px;
+}
+
+@media only screen and (max-width: 375px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media screen and (min-width: 376px) and (max-width: 767px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn {
+  text-transform: none;
+  @apply min-h-[45px] h-[45px];
+}
+.btn-primary {
+  @apply rounded-[14px] text-white bg-primary;
+}
