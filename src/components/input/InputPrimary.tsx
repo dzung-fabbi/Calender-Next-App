@@ -1,9 +1,11 @@
 import clsx from 'clsx'
 import React from 'react'
+import { twMerge } from 'tailwind-merge'
 
 export type InputProps = {
   containerClass?: string
   error?: string
+  label: string
 } & React.ComponentProps<'input'>
 
 export default function Input({
@@ -14,25 +16,27 @@ export default function Input({
   onChange = () => {},
   className,
   error,
+  label,
   ...rest
 }: InputProps) {
   return (
-    <div className={`${containerClass} relative flex flex-col`}>
+    <div className={twMerge('relative', containerClass && `${containerClass}`)}>
+      <span className="text-sm text-[#A6B1BE] absolute top-[5px] left-[10px]">
+        {label}
+      </span>
       <input
         {...rest}
         type={type}
         id={`${name}-id`}
         name={name}
         onChange={onChange}
-        className={clsx(className, 'input input-primary placeholder:italic', {
+        className={clsx(className, 'input placeholder:italic', {
           'input-error': error,
-          'pr-16': Boolean(children),
+          'pr-12': Boolean(children),
         })}
       />
       {children && (
-        <div className="absolute right-[.75rem] -translate-y-1/2 top-1/2">
-          {children}
-        </div>
+        <div className="absolute right-[.75rem] top-[46%]">{children}</div>
       )}
       {error && (
         <span className="absolute label-text top-full text-error">{error}</span>

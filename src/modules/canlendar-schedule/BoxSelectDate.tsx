@@ -2,6 +2,8 @@ import * as React from 'react'
 
 import { BadgePrimary } from '@/components/badge'
 
+import { CalendarPreview } from './parts'
+
 export default function BoxSelectDate() {
   return (
     <div className="flex flex-col gap-y-30px">
@@ -23,6 +25,7 @@ export default function BoxSelectDate() {
           <BadgePrimary>15/2/2023</BadgePrimary>
           <BadgePrimary>14/2/2023</BadgePrimary>
         </div>
+        <CalendarPreview />
       </div>
     </div>
   )

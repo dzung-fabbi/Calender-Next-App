@@ -15,7 +15,7 @@ const Main = (props: IMainProps) => (
       <Sidebar />
       <div className="grow">
         <Header />
-        <div className="w-full mt-6">{props.children}</div>
+        <div className="w-full mt-6 mb-20">{props.children}</div>
       </div>
       <BoxCalenderRight />
     </div>
