@@ -14,7 +14,7 @@ const NAVBAR_MENU = [
 function Header() {
   const [navbarActive, setNavbarActive] = useState(1)
   return (
-    <section className="flex justify-between gap-x-5 py-[25px] border-b-[1px] border-[#DDE1DD]">
+    <section className="flex justify-between items-center gap-x-5 py-[25px] border-b-[1px] border-[#DDE1DD]">
       <nav className="flex gap-x-5">
         {NAVBAR_MENU.map(({ value, label }) => {
           return (

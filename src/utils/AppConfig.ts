@@ -1,6 +1,6 @@
 export const AppConfig = {
-  site_name: 'Recustomer',
-  title: 'Recustomer',
-  description: 'Recustomer',
-  locale: 'ja',
+  site_name: 'Calendar',
+  title: 'Calendar',
+  description: 'Calendar',
+  locale: 'vi',
 }

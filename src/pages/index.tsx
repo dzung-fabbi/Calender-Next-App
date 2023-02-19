@@ -2,10 +2,11 @@ import type { ReactElement } from 'react'
 
 import { Main } from '@/layouts/Main'
 import { Meta } from '@/layouts/Meta'
+import type { NextPageWithLayout } from '@/models'
 
-const Home = () => {
+const Home: NextPageWithLayout = () => {
   return (
-    <div className="mt-5">
+    <div>
       <p>Home</p>
     </div>
   )

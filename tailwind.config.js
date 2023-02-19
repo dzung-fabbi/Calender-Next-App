@@ -11,7 +11,6 @@ module.exports = {
       sm: '640px',
       md: '768px',
       lg: '1024px',
-      '2lg': '1150px',
       xl: '1280px',
       '2xl': '1440px',
       '3xl': '1600px',
@@ -40,9 +39,18 @@ module.exports = {
         gray: {
           primary: '#596370',
         },
+        green: {
+          btn: '#96C397',
+          bgPrimary: '#D9E8DA',
+        },
+      },
+      spacing: {
+        '30px': '30px',
+        '25px': '25px',
       },
       borderRadius: {
         primary: '10px',
+        '30px': '30px',
       },
       boxShadow: {
         sdprimary: '10px 10px 20px rgba(211, 211, 211, 0.25)',

@@ -36,8 +36,12 @@ html {
 
 .btn {
   text-transform: none;
-  @apply min-h-[45px] h-[45px];
+  @apply min-h-[45px] h-[45px] min-w-[110px];
 }
 .btn-primary {
   @apply rounded-[14px] text-white bg-primary;
+}
+
+.card {
+  @apply bg-white rounded-30px shadow py-8 px-[10px];
 }
