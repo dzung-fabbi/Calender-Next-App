@@ -44,6 +44,10 @@ module.exports = {
           bgPrimary: '#D9E8DA',
         },
       },
+      backgroundImage: {
+        datePreview:
+          'linear-gradient(180deg, #FFFFFF 0%, #FFE9E8 99.99%, rgba(250, 251, 250, 0) 100%)',
+      },
       spacing: {
         '30px': '30px',
         '25px': '25px',

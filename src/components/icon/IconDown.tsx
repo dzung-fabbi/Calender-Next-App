@@ -1,7 +1,7 @@
-export default function IconXMark() {
+export default function IconDown() {
   return (
     <svg
-      className="w-5 h-5 text-gray-400"
+      className="w-6 h-6 text-gray-400"
       width="24"
       height="24"
       viewBox="0 0 24 24"
@@ -13,8 +13,7 @@ export default function IconXMark() {
     >
       {' '}
       <path stroke="none" d="M0 0h24v24H0z" />{' '}
-      <line x1="18" y1="6" x2="6" y2="18" />{' '}
-      <line x1="6" y1="6" x2="18" y2="18" />
+      <polyline points="6 9 12 15 18 9" />
     </svg>
   )
 }
