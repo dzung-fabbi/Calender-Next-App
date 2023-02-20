@@ -5,7 +5,7 @@ import IconChevronLeft from './IconChevronLeft'
 import IconChevronRight from './IconChevronRight'
 import IconDown from './IconDown'
 import IconEmail from './IconEmail'
-import IconUploadImage from './IconUploadImage'
+import IconPhone from './IconPhone'
 import IconXMark from './IconXMark'
 
 export {
@@ -16,6 +16,6 @@ export {
   IconChevronRight,
   IconDown,
   IconEmail,
-  IconUploadImage,
+  IconPhone,
   IconXMark,
 }

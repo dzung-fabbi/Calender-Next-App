@@ -16,14 +16,14 @@ function Header() {
   const router = useRouter()
   const [navbarActive, setNavbarActive] = useState(1)
   return (
-    <section className="flex justify-between items-center gap-x-5 py-[25px] border-b-[1px] border-[#DDE1DD]">
+    <section className="flex justify-between items-center gap-x-5 py-25px border-b border-[#DDE1DD]">
       <nav className="flex gap-x-5">
         {NAVBAR_MENU.map(({ value, label }) => {
           return (
             <div
               key={value}
               className={twMerge(
-                'font-medium text-default p-[10px] cursor-pointer transition-all',
+                'font-medium text-default p-2.5 cursor-pointer transition-all',
                 `${
                   navbarActive === value &&
                   'text-primary border-b-[1px] border-primary'
@@ -39,9 +39,7 @@ function Header() {
       <div className="flex gap-x-4">
         <button
           className="btn btn-primary"
-          onClick={() => {
-            router.push('/calendar-schedule')
-          }}
+          onClick={() => router.push('/calendar-schedule')}
         >
           Sắp đặt lịch làm việc
         </button>

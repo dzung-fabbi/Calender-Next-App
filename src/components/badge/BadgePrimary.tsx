@@ -15,7 +15,7 @@ export default function BadgePrimary({
   return (
     <div
       className={twMerge(
-        'rounded-primary min-h-[60px] w-[150px] hover:brightness-90 transition-all cursor-pointer flex justify-center items-center text-default font-medium bg-[#F6F3F3]',
+        'rounded-primary min-h-[60px] min-w-[150px] hover:brightness-90 transition-all cursor-pointer flex justify-center items-center text-default font-medium bg-gray-bgBtn',
         className
       )}
       onClick={onClick}
