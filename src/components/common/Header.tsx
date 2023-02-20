@@ -13,8 +13,8 @@ const NAVBAR_MENU = [
   },
 ]
 function Header() {
-  const [navbarActive, setNavbarActive] = useState(1)
   const router = useRouter()
+  const [navbarActive, setNavbarActive] = useState(1)
   return (
     <section className="flex justify-between items-center gap-x-5 py-25px border-b border-[#DDE1DD]">
       <nav className="flex gap-x-5">
