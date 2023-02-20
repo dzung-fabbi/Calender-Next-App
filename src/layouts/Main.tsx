@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { BoxCalenderRight, Header, Sidebar } from '@/components/common'
+import { BoxCalenderRight, Sidebar } from '@/components/common'
 
 type IMainProps = {
   meta: ReactNode
@@ -14,8 +14,8 @@ const Main = (props: IMainProps) => (
     <div className="flex w-full mx-auto gap-x-4 xl:gap-x-30px">
       <Sidebar />
       <div className="grow">
-        <Header />
-        <div className="w-full mt-6 mb-20">{props.children}</div>
+        {/* <Header /> */}
+        <div className="w-full mb-20">{props.children}</div>
       </div>
       <BoxCalenderRight />
     </div>

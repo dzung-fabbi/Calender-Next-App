@@ -6,7 +6,7 @@ export default function CalendarPreview() {
   return (
     <div>
       <section className="flex items-center py-7 rounded-primary bg-datePreview">
-        <div className="w-2/4 flex flex-col gap-y-[6px] relative">
+        <div className="w-5/12 flex flex-col gap-y-[6px] relative">
           <h4 className="font-medium text-[1.625rem] text-center">
             Tháng 02 năm 2023
           </h4>
@@ -21,7 +21,8 @@ export default function CalendarPreview() {
             CHỦ NHẬT
           </span>
         </div>
-        <div className="flex flex-col flex-1 w-2/4">
+        <div className="w-1/6"></div>
+        <div className="flex flex-col flex-1 w-5/12">
           <div className="flex">
             <div className="flex flex-col w-2/5">
               <h1 className="font-bold text-[5rem] leading-none text-left text-orange-primary">
@@ -77,7 +78,7 @@ export default function CalendarPreview() {
         </div>
         <div className="px-[30px]">
           <div className="flex pl-[20px] border-b border-[#E2E2E2]">
-            <div className="w-1/3 flex py-4">
+            <div className="flex w-1/3 py-4">
               <img src="/images/mouse.png" alt="" />
               <div className="flex flex-col pl-1">
                 <span className="font-semibold text-left">Tý</span>
@@ -130,7 +131,7 @@ export default function CalendarPreview() {
         </div>
         <div className="px-[30px]">
           <div className="flex pl-[20px] border-b border-[#E2E2E2]">
-            <div className="w-1/3 flex py-4">
+            <div className="flex w-1/3 py-4">
               <img src="/images/mouse.png" alt="" />
               <div className="flex flex-col pl-1">
                 <span className="font-semibold text-left">Tý</span>
