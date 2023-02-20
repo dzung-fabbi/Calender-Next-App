@@ -7,10 +7,10 @@ import type { NextPageWithLayout } from '@/models'
 
 const Home: NextPageWithLayout = () => {
   return (
-    <div>
-      <p className="text-xl	font-bold">Lịch tháng 12</p>
+    <>
+      <p className="text-xl font-bold">Lịch tháng 12</p>
       <CalendarPreview />
-    </div>
+    </>
   )
 }
 
