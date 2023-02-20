@@ -1,7 +1,8 @@
 import * as React from 'react'
 
 import { BadgePrimary } from '@/components/badge'
-import { CalendarPreview } from '@/components/common'
+
+import { CalendarPreview } from '../home'
 
 export default function BoxSelectDate() {
   return (

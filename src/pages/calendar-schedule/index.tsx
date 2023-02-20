@@ -1,5 +1,5 @@
 import { Header, TitlePage } from '@/components/common'
-import ModalContact from '@/components/modal/ModalContact'
+import { ModalContact } from '@/components/modal'
 import { useToggle } from '@/hooks'
 import { Main } from '@/layouts/Main'
 import { Meta } from '@/layouts/Meta'

@@ -1,11 +1,9 @@
-import * as React from 'react'
-
 export default function Loading() {
   return (
-    <div className="text-center">
-      <div role="status">
+    <div className="bg-black/[.2] fixed inset-0 w-[100wh] h-[100vh] z-[100]">
+      <div className="absolute -translate-x-1/2 -translate-y-full top-1/2 left-1/2">
         <svg
-          className="inline w-10 h-10 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+          className="inline w-16 h-16 text-gray-200 animate-spin dark:text-gray-600 fill-primary"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +17,6 @@ export default function Loading() {
             fill="currentFill"
           />
         </svg>
-        <span className="sr-only">Loading...</span>
       </div>
     </div>
   )

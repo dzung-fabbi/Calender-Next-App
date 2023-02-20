@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import BadgeDateStatus from './BadgeDateStatus'
+import { BadgeDateStatus } from '@/components/badge'
 
 export default function CalendarPreview() {
   return (
@@ -186,14 +186,14 @@ export default function CalendarPreview() {
           <div className="flex items-center mb-4">
             <div className="rounded-[10px] h-[43px] w-[6px] bg-[#FD7770] mr-2"></div>
             <span className="font-semibold text-[#FD7770] mr-2">Sao tốt: </span>
-            <span className="text-[#13A2FA] text-sm">
+            <span className="text-sm text-blue-tag">
               Tứ tướng, Ô phệ, Kính an, Nguyệt không, Giải thần
             </span>
           </div>
           <div className="flex items-center">
             <div className="rounded-[10px] h-[43px] w-[6px] bg-[#B9CBDC] mr-2"></div>
             <span className="font-semibold text-[#292D32] mr-2">Sao xấu: </span>
-            <span className="text-[#13A2FA] text-sm">
+            <span className="text-sm text-blue-tag">
               Ngũ hư, Đại thời, Đại bại, Hàm trì, Nguyệt hại, Tiểu hao, Thiên
               lao
             </span>

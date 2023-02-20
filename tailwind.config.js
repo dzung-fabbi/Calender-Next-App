@@ -43,6 +43,9 @@ module.exports = {
           'label-input': '#A6B1BE',
           bgBtn: '#F6F3F3',
         },
+        blue: {
+          tag: '#13A2FA',
+        },
         green: {
           btn: '#96C397',
           bgPrimary: '#D9E8DA',
@@ -69,7 +72,6 @@ module.exports = {
       },
       animation: {
         fade: 'fade 0.5s ease-in-out',
-        flip: 'flip 1.2s ease-in-out infinite',
       },
       keyframes: {
         fade: {
