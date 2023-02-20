@@ -43,6 +43,9 @@ module.exports = {
           btn: '#96C397',
           bgPrimary: '#D9E8DA',
         },
+        orange: {
+          primary: '#F98E51',
+        },
       },
       backgroundImage: {
         datePreview:
