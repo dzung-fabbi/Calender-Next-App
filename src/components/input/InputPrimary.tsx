@@ -32,7 +32,7 @@ export default function Input({
         onChange={onChange}
         className={clsx(className, 'input placeholder:italic', {
           'input-error': error,
-          'pr-12': Boolean(children),
+          'pr-10': Boolean(children),
         })}
       />
       {children && (

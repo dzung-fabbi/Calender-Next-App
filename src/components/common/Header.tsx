@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 const NAVBAR_MENU = [
@@ -12,9 +11,12 @@ const NAVBAR_MENU = [
     value: 2,
   },
 ]
-function Header() {
+interface HeaderProps {
+  status?: number
+  onChangeStatus?: (tab: number) => void
+}
+function Header({ status, onChangeStatus }: HeaderProps) {
   const router = useRouter()
-  const [navbarActive, setNavbarActive] = useState(1)
   return (
     <section className="flex justify-between items-center gap-x-5 py-25px border-b border-[#DDE1DD]">
       <nav className="flex gap-x-5">
@@ -25,11 +27,11 @@ function Header() {
               className={twMerge(
                 'font-medium text-default p-2.5 cursor-pointer transition-all',
                 `${
-                  navbarActive === value &&
+                  status === value &&
                   'text-primary border-b-[1px] border-primary'
                 }`
               )}
-              onClick={() => setNavbarActive(value)}
+              onClick={() => onChangeStatus?.(value)}
             >
               {label}
             </div>
