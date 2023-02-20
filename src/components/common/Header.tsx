@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
@@ -12,6 +13,7 @@ const NAVBAR_MENU = [
   },
 ]
 function Header() {
+  const router = useRouter()
   const [navbarActive, setNavbarActive] = useState(1)
   return (
     <section className="flex justify-between items-center gap-x-5 py-[25px] border-b-[1px] border-[#DDE1DD]">
@@ -35,7 +37,14 @@ function Header() {
         })}
       </nav>
       <div className="flex gap-x-4">
-        <button className="btn btn-primary ">Sắp đặt lịch làm việc</button>
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            router.push('/calendar-schedule')
+          }}
+        >
+          Sắp đặt lịch làm việc
+        </button>
         <div className="avatar">
           <div className="w-[45px] h-[45px] rounded-lg">
             <img
