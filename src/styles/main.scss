@@ -50,10 +50,51 @@ html {
   @apply min-h-[3.875rem] border border-[#EAECEA] pt-5 pl-[10px] pb-0 text-default font-medium text-lg;
 }
 
-ul li::before {
+.bg-datePreview ul li::before {
   content: "\2022";
   color: #FD7770;
   font-weight: bold;
   display: inline-block;
   width: 12px;
+}
+
+.lvn-lichad-da::after {
+  content: "\2022";
+  color: #1BC022;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.lvn-lichad-colhide, .lvn-lichad-colhide .lvn-lichad-da {
+  color: #292D3257 !important;
+}
+
+.lvn-lichad-da {
+  padding-left: 5px;
+}
+
+.good-day::before {
+  content: "\2022";
+  color: #1BC022;
+  font-weight: bold;
+  display: inline-block;
+  width: 12px;
+  font-size: 20px;
+}
+
+.ugly-day::before {
+  content: "\2022";
+  color: #596370;
+  font-weight: bold;
+  display: inline-block;
+  width: 12px;
+  font-size: 20px;
+}
+
+.today {
+  width: 38px;
+  height: 50px;
+
+  background: rgba(150, 195, 151, 0.33);
+  border-radius: 10px;
 }
