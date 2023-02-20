@@ -76,8 +76,8 @@ export default function CalendarPreview() {
           Giờ tốt trong ngày
         </div>
         <div className="px-[30px]">
-          <div className="flex pl-[20px] border-b-[#E2E2E2]">
-            <div className="flex w-1/3 py-4">
+          <div className="flex pl-[20px] border-b border-[#E2E2E2]">
+            <div className="w-1/3 flex py-4">
               <img src="/images/mouse.png" alt="" />
               <div className="flex flex-col pl-1">
                 <span className="font-semibold text-left">Tý</span>
@@ -129,8 +129,8 @@ export default function CalendarPreview() {
           Giờ Xấu trong ngày
         </div>
         <div className="px-[30px]">
-          <div className="flex pl-[20px] border-b-[#E2E2E2]">
-            <div className="flex w-1/3 py-4">
+          <div className="flex pl-[20px] border-b border-[#E2E2E2]">
+            <div className="w-1/3 flex py-4">
               <img src="/images/mouse.png" alt="" />
               <div className="flex flex-col pl-1">
                 <span className="font-semibold text-left">Tý</span>
