@@ -20,21 +20,21 @@ export default function BoxSelectInfo() {
         </Input>
         <Input
           label="Năm sinh"
-          className="w-[180px] xl:w-[200px] 2xl:w-[220px]"
+          className="w-[180px] xl:w-[200px]"
           value={'12/02/1994'}
         >
           <IconDown />
         </Input>
         <Input
           label="Ngày bắt đầu"
-          className="w-[180px] xl:w-[200px] 2xl:w-[220px]"
+          className="w-[180px] xl:w-[200px]"
           value={'12/02/2023'}
         >
           <IconCalendar />
         </Input>
         <Input
           label="Ngày kết thúc"
-          className="w-[180px] xl:w-[200px] 2xl:w-[220px]"
+          className="w-[180px] xl:w-[200px]"
           value={'12/03/2023'}
         >
           <IconCalendar />

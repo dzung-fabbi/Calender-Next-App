@@ -21,7 +21,7 @@ export default function Input({
 }: InputProps) {
   return (
     <div className={twMerge('relative', containerClass && `${containerClass}`)}>
-      <span className="text-sm text-[#A6B1BE] absolute top-[5px] left-[10px]">
+      <span className="text-sm text-gray-label-input absolute top-[5px] left-[10px]">
         {label}
       </span>
       <input

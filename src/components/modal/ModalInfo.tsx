@@ -19,7 +19,7 @@ export default function ModalInformation(props: ModalInfoProps) {
       onRequestClose={toggleModal}
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center transition-all"
       ariaHideApp={false}
-      className="w-4/5 max-w-md bg-white rounded-[16px] p-4 outline-none relative max-h-[90vh] overflow-y-auto shadow-sdprimary"
+      className="w-4/5 max-w-md bg-white rounded-[16px] p-4 outline-none relative max-h-[90vh] overflow-y-auto -top-20 shadow-sdprimary"
       contentLabel="Example Modal"
     >
       <div

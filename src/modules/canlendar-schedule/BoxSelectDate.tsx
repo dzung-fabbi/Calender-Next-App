@@ -23,7 +23,6 @@ export default function BoxSelectDate() {
           <BadgePrimary>19/2/2023</BadgePrimary>
           <BadgePrimary>24/2/2023</BadgePrimary>
           <BadgePrimary>15/2/2023</BadgePrimary>
-          <BadgePrimary>14/2/2023</BadgePrimary>
         </div>
         <CalendarPreview />
       </div>

@@ -35,9 +35,13 @@ module.exports = {
       colors: {
         default: '#292D32',
         primary: '#FD7770',
+        'primary-swarthy': '#FC3227',
         secondary: '#B9CBDC',
         gray: {
           primary: '#596370',
+          secondary: '#808182',
+          'label-input': '#A6B1BE',
+          bgBtn: '#F6F3F3',
         },
         green: {
           btn: '#96C397',
@@ -51,6 +55,7 @@ module.exports = {
       spacing: {
         '30px': '30px',
         '25px': '25px',
+        2.5: '0.625rem',
       },
       borderRadius: {
         primary: '10px',
@@ -92,7 +97,6 @@ module.exports = {
           success: '#aee9d1',
           warning: '#FBBD23',
           error: '#FF3636',
-          borderBase: '#e0e0e0',
         },
       },
     ],
