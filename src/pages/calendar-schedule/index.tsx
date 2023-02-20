@@ -1,4 +1,4 @@
-import { TitlePage } from '@/components/common'
+import { Header, TitlePage } from '@/components/common'
 import ModalContact from '@/components/modal/ModalContact'
 import { useToggle } from '@/hooks'
 import { Main } from '@/layouts/Main'
@@ -10,15 +10,18 @@ const CalendarSchedule: NextPageWithLayout = () => {
   const [isOpenModal, toogleModal] = useToggle(false)
   return (
     <>
-      <TitlePage>Nhập khoảng thời gian</TitlePage>
-      <div className="flex flex-col gap-y-9">
-        <BoxSelectInfo />
-        <BoxSelectDate />
-      </div>
-      <div className="flex justify-center mt-5 ">
-        <button className="w-[145px] btn btn-primary" onClick={toogleModal}>
-          Đặt lịch
-        </button>
+      <Header />
+      <div className="mt-6">
+        <TitlePage>Nhập khoảng thời gian</TitlePage>
+        <div className="flex flex-col gap-y-9">
+          <BoxSelectInfo />
+          <BoxSelectDate />
+        </div>
+        <div className="flex justify-center mt-5 ">
+          <button className="w-[145px] btn btn-primary" onClick={toogleModal}>
+            Đặt lịch
+          </button>
+        </div>
       </div>
 
       <ModalContact
