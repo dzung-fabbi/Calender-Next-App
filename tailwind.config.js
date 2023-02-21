@@ -85,31 +85,4 @@ module.exports = {
       },
     },
   },
-  // eslint-disable-next-line global-require
-  plugins: [require('daisyui')],
-
-  // daisyUI config (optional)
-  daisyui: {
-    styled: true,
-    themes: [
-      {
-        mytheme: {
-          primary: '#FD7770',
-          secondary: '#B9CBDC',
-          accent: '#37CDBE',
-          neutral: '#3D4451',
-          info: '#3ABFF8',
-          success: '#aee9d1',
-          warning: '#FBBD23',
-          error: '#FF3636',
-        },
-      },
-    ],
-    base: true,
-    utils: true,
-    logs: true,
-    rtl: false,
-    prefix: '',
-    darkTheme: 'dark',
-  },
 }
