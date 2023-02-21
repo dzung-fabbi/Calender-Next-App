@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
+import { Button } from '../button'
 import { IconEmail, IconPhone } from '../icon'
 import ModalInformation from './ModalInfo'
 
@@ -90,12 +91,9 @@ export default function ModalContact({
         >
           Quay lại
         </button>
-        <button
-          className="h-[3.5rem] btn btn-primary w-[145px]"
-          onClick={onSubmit}
-        >
+        <Button primary onClick={onSubmit} className="h-[3.5rem]">
           Gửi
-        </button>
+        </Button>
       </div>
     </ModalInformation>
   )
