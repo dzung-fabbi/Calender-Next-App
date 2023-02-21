@@ -34,20 +34,12 @@ html {
   }
 }
 
-.btn {
-  text-transform: none;
-  @apply min-h-[45px] h-[45px] min-w-[110px];
-}
-.btn-primary {
-  @apply rounded-[14px] text-white bg-primary;
+.input {
+  @apply min-h-[3.875rem] border border-[#EAECEA] pt-5 pl-[10px] pb-0 text-default font-medium text-lg;
 }
 
 .card {
   @apply bg-white rounded-30px shadow py-8 px-[10px];
-}
-
-.input {
-  @apply min-h-[3.875rem] border border-[#EAECEA] pt-5 pl-[10px] pb-0 text-default font-medium text-lg;
 }
 
 .bg-datePreview ul li::before {

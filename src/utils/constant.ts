@@ -1,6 +1,3 @@
-export const VALIDATE_EMAIL = 'VALIDATE_EMAIL'
-export const VALIDATE_REQUIRED = 'VALIDATE_REQUIRED'
-export const VALIDATE_MAX_LENGTH = 'VALIDATE_MAX_LENGTH'
 /**
  * Copyright 2004 Ho Ngoc Duc [http://come.to/duc]. All Rights Reserved.<p>
  * Permission to use, copy, modify, and redistribute this software and its
@@ -137,3 +134,8 @@ export const CHI = [
   'Tuất',
   'Hợi',
 ]
+
+export const MODE_TAB_HEADER = {
+  PREVIEW: 1,
+  CALENDAR_CHANGE: 2,
+}
