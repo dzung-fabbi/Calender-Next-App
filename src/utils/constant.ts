@@ -8,10 +8,10 @@ export const VALIDATE_MAX_LENGTH = 'VALIDATE_MAX_LENGTH'
  * this copyright notice appears in all copies.
  */
 
-const ABOUT =
+export const ABOUT =
   '\u00C2m l\u1ECBch Vi\u1EC7t Nam - Version 0.8' +
   '\n\u00A9 2004 H\u1ED3 Ng\u1ECDc \u0110\u1EE9c [http://come.to/duc]'
-const TK19 = [
+export const TK19 = [
   0x30baa3, 0x56ab50, 0x422ba0, 0x2cab61, 0x52a370, 0x3c51e8, 0x60d160,
   0x4ae4b0, 0x376926, 0x58daa0, 0x445b50, 0x3116d2, 0x562ae0, 0x3ea2e0,
   0x28e2d2, 0x4ec950, 0x38d556, 0x5cb520, 0x46b690, 0x325da4, 0x5855d0,
@@ -29,7 +29,7 @@ const TK19 = [
   0x2abaa3, 0x50ab50,
 ] /* Years 2000-2099 */
 
-const TK20 = [
+export const TK20 = [
   0x3c4bd8, 0x624ae0, 0x4ca570, 0x3854d5, 0x5cd260, 0x44d950, 0x315554,
   0x5656a0, 0x409ad0, 0x2a55d2, 0x504ae0, 0x3aa5b6, 0x60a4d0, 0x48d250,
   0x33d255, 0x58b540, 0x42d6a0, 0x2cada2, 0x5295b0, 0x3f4977, 0x644970,
@@ -47,7 +47,7 @@ const TK20 = [
   0x3696d5, 0x5c92e0,
 ] /* Years 1900-1999 */
 
-const TK21 = [
+export const TK21 = [
   0x46c960, 0x2ed954, 0x54d4a0, 0x3eda50, 0x2a7552, 0x4e56a0, 0x38a7a7,
   0x5ea5d0, 0x4a92b0, 0x32aab5, 0x58a950, 0x42b4a0, 0x2cbaa4, 0x50ad50,
   0x3c55d9, 0x624ba0, 0x4ca5b0, 0x375176, 0x5c5270, 0x466930, 0x307934,
@@ -65,7 +65,7 @@ const TK21 = [
   0x3ed150, 0x28e952,
 ] /* Years 2000-2099 */
 
-const TK22 = [
+export const TK22 = [
   0x4eb520, 0x38d727, 0x5eada0, 0x4a55b0, 0x362db5, 0x5a45b0, 0x44a2b0,
   0x2eb2b4, 0x54a950, 0x3cb559, 0x626b20, 0x4cad50, 0x385766, 0x5c5370,
   0x484570, 0x326574, 0x5852b0, 0x406950, 0x2a7953, 0x505aa0, 0x3baaa7,
@@ -83,715 +83,57 @@ const TK22 = [
   0x48b540, 0x33d556,
 ] /* Years 2100-2199 */
 
-const CAN = [
-  'Gi\341p',
-  '\u1EA4t',
-  'B\355nh',
-  '\u0110inh',
-  'M\u1EADu',
-  'K\u1EF7',
+export const TIETKHI = [
+  'Xuân Phân',
+  'Thanh Minh',
+  'Cốc Vũ',
+  'Lập Hạ',
+  'Tiểu Mãn',
+  'Mang Chủng',
+  'Hạ Chí',
+  'Tiểu Thử',
+  'Đại Thử',
+  'Lập Thu',
+  'Xử Thử',
+  'Bạch Lộ',
+  'Thu Phân',
+  'Hàn Lộ',
+  'Sương Giáng',
+  'Lập Đông',
+  'Tiểu Tuyết',
+  'Đại Tuyết',
+  'Đông Chí',
+  'Tiểu Hàn',
+  'Đại Hàn',
+  'Lập Xuân',
+  'Vũ Thủy',
+  'Kinh Trập',
+]
+
+export const CAN = [
+  'Giáp',
+  'Ất',
+  'Bính',
+  'Đinh',
+  'Mậu',
+  'Kỷ',
   'Canh',
-  'T\342n',
-  'Nh\342m',
-  'Qu\375',
-]
-const CHI = [
-  'T\375',
-  'S\u1EEDu',
-  'D\u1EA7n',
-  'M\343o',
-  'Th\354n',
-  'T\u1EF5',
-  'Ng\u1ECD',
-  'M\371i',
-  'Th\342n',
-  'D\u1EADu',
-  'Tu\u1EA5t',
-  'H\u1EE3i',
-]
-const TUAN = [
-  'Ch\u1EE7 nh\u1EADt',
-  'Th\u1EE9 hai',
-  'Th\u1EE9 ba',
-  'Th\u1EE9 t\u01B0',
-  'Th\u1EE9 n\u0103m',
-  'Th\u1EE9 s\341u',
-  'Th\u1EE9 b\u1EA3y',
-]
-const GIO_HD = [
-  '110100101100',
-  '001101001011',
-  '110011010010',
-  '101100110100',
-  '001011001101',
-  '010010110011',
-]
-const TIETKHI = [
-  'Xu\u00E2n ph\u00E2n',
-  'Thanh minh',
-  'C\u1ED1c v\u0169',
-  'L\u1EADp h\u1EA1',
-  'Ti\u1EC3u m\u00E3n',
-  'Mang ch\u1EE7ng',
-  'H\u1EA1 ch\u00ED',
-  'Ti\u1EC3u th\u1EED',
-  '\u0110\u1EA1i th\u1EED',
-  'L\u1EADp thu',
-  'X\u1EED th\u1EED',
-  'B\u1EA1ch l\u1ED9',
-  'Thu ph\u00E2n',
-  'H\u00E0n l\u1ED9',
-  'S\u01B0\u01A1ng gi\u00E1ng',
-  'L\u1EADp \u0111\u00F4ng',
-  'Ti\u1EC3u tuy\u1EBFt',
-  '\u0110\u1EA1i tuy\u1EBFt',
-  '\u0110\u00F4ng ch\u00ED',
-  'Ti\u1EC3u h\u00E0n',
-  '\u0110\u1EA1i h\u00E0n',
-  'L\u1EADp xu\u00E2n',
-  'V\u0169 Th\u1EE7y',
-  'Kinh tr\u1EADp',
+  'Tân',
+  'Nhâm',
+  'Quý',
 ]
 
-/* Create lunar date object, stores (lunar) date, month, year, leap month indicator, and Julian date number */
-function LunarDate(dd, mm, yy, leap, jd) {
-  this.day = dd
-  this.month = mm
-  this.year = yy
-  this.leap = leap
-  this.jd = jd
-}
-
-const { PI } = Math
-
-/* Discard the fractional part of a number, e.g., INT(3.2) = 3 */
-function INT(d) {
-  return Math.floor(d)
-}
-
-function jdn(dd, mm, yy) {
-  const a = INT((14 - mm) / 12)
-  const y = yy + 4800 - a
-  const m = mm + 12 * a - 3
-  const jd =
-    dd +
-    INT((153 * m + 2) / 5) +
-    365 * y +
-    INT(y / 4) -
-    INT(y / 100) +
-    INT(y / 400) -
-    32045
-  return jd
-  // return 367*yy - INT(7*(yy+INT((mm+9)/12))/4) - INT(3*(INT((yy+(mm-9)/7)/100)+1)/4) + INT(275*mm/9)+dd+1721029;
-}
-
-function jdn2date(jd) {
-  let Z
-  let A
-  let alpha
-  let B
-  let C
-  let D
-  let E
-  let dd
-  let mm
-  let yyyy
-  let F
-  Z = jd
-  if (Z < 2299161) {
-    A = Z
-  } else {
-    alpha = INT((Z - 1867216.25) / 36524.25)
-    A = Z + 1 + alpha - INT(alpha / 4)
-  }
-  B = A + 1524
-  C = INT((B - 122.1) / 365.25)
-  D = INT(365.25 * C)
-  E = INT((B - D) / 30.6001)
-  dd = INT(B - D - INT(30.6001 * E))
-  if (E < 14) {
-    mm = E - 1
-  } else {
-    mm = E - 13
-  }
-  if (mm < 3) {
-    yyyy = C - 4715
-  } else {
-    yyyy = C - 4716
-  }
-  return [dd, mm, yyyy]
-}
-
-function decodeLunarYear(yy, k) {
-  let monthLengths
-  let regularMonths
-  let offsetOfTet
-  let leapMonth
-  let leapMonthLength
-  let solarNY
-  let currentJD
-  let j
-  let mm
-  const ly = []
-  monthLengths = [29, 30]
-  regularMonths = new Array(12)
-  offsetOfTet = k >> 17
-  leapMonth = k & 0xf
-  leapMonthLength = monthLengths[(k >> 16) & 0x1]
-  solarNY = jdn(1, 1, yy)
-  currentJD = solarNY + offsetOfTet
-  j = k >> 4
-  for (i = 0; i < 12; i++) {
-    regularMonths[12 - i - 1] = monthLengths[j & 0x1]
-    j >>= 1
-  }
-  if (leapMonth == 0) {
-    for (mm = 1; mm <= 12; mm++) {
-      ly.push(new LunarDate(1, mm, yy, 0, currentJD))
-      currentJD += regularMonths[mm - 1]
-    }
-  } else {
-    for (mm = 1; mm <= leapMonth; mm++) {
-      ly.push(new LunarDate(1, mm, yy, 0, currentJD))
-      currentJD += regularMonths[mm - 1]
-    }
-    ly.push(new LunarDate(1, leapMonth, yy, 1, currentJD))
-    currentJD += leapMonthLength
-    for (mm = leapMonth + 1; mm <= 12; mm++) {
-      ly.push(new LunarDate(1, mm, yy, 0, currentJD))
-      currentJD += regularMonths[mm - 1]
-    }
-  }
-  return ly
-}
-
-function getYearInfo(yyyy) {
-  let yearCode
-  if (yyyy < 1900) {
-    yearCode = TK19[yyyy - 1800]
-  } else if (yyyy < 2000) {
-    yearCode = TK20[yyyy - 1900]
-  } else if (yyyy < 2100) {
-    yearCode = TK21[yyyy - 2000]
-  } else {
-    yearCode = TK22[yyyy - 2100]
-  }
-  return decodeLunarYear(yyyy, yearCode)
-}
-
-const FIRST_DAY = jdn(25, 1, 1800) // Tet am lich 1800
-const LAST_DAY = jdn(31, 12, 2199)
-
-function findLunarDate(jd, ly) {
-  if (jd > LAST_DAY || jd < FIRST_DAY || ly[0].jd > jd) {
-    return new LunarDate(0, 0, 0, 0, jd)
-  }
-  let i = ly.length - 1
-  while (jd < ly[i].jd) {
-    i--
-  }
-  const off = jd - ly[i].jd
-  ret = new LunarDate(ly[i].day + off, ly[i].month, ly[i].year, ly[i].leap, jd)
-  return ret
-}
-
-function getLunarDate(dd, mm, yyyy) {
-  let ly
-  let jd
-  if (yyyy < 1800 || yyyy > 2199) {
-    // return new LunarDate(0, 0, 0, 0, 0);
-  }
-  ly = getYearInfo(yyyy)
-  jd = jdn(dd, mm, yyyy)
-  if (jd < ly[0].jd) {
-    ly = getYearInfo(yyyy - 1)
-  }
-  return findLunarDate(jd, ly)
-}
-
-/* Compute the longitude of the sun at any time.
- * Parameter: floating number jdn, the number of days since 1/1/4713 BC noon
- * Algorithm from: "Astronomical Algorithms" by Jean Meeus, 1998
- */
-function SunLongitude(jdn) {
-  let T
-  let T2
-  let dr
-  let M
-  let L0
-  let DL
-  let L
-  T = (jdn - 2451545.0) / 36525 // Time in Julian centuries from 2000-01-01 12:00:00 GMT
-  T2 = T * T
-  dr = PI / 180 // degree to radian
-  M = 357.5291 + 35999.0503 * T - 0.0001559 * T2 - 0.00000048 * T * T2 // mean anomaly, degree
-  L0 = 280.46645 + 36000.76983 * T + 0.0003032 * T2 // mean longitude, degree
-  DL = (1.9146 - 0.004817 * T - 0.000014 * T2) * Math.sin(dr * M)
-  DL =
-    DL +
-    (0.019993 - 0.000101 * T) * Math.sin(dr * 2 * M) +
-    0.00029 * Math.sin(dr * 3 * M)
-  L = L0 + DL // true longitude, degree
-  L *= dr
-  L -= PI * 2 * INT(L / (PI * 2)) // Normalize to (0, 2*PI)
-  return L
-}
-
-/* Compute the sun segment at start (00:00) of the day with the given integral Julian day number.
- * The time zone if the time difference between local time and UTC: 7.0 for UTC+7:00.
- * The function returns a number between 0 and 23.
- * From the day after March equinox and the 1st major term after March equinox, 0 is returned.
- * After that, return 1, 2, 3 ...
- */
-function getSunLongitude(dayNumber, timeZone) {
-  return INT((SunLongitude(dayNumber - 0.5 - timeZone / 24.0) / PI) * 12)
-}
-
-let today = new Date()
-// var currentLunarYear = getYearInfo(today.getFullYear());
-const currentLunarDate = getLunarDate(
-  today.getDate(),
-  today.getMonth() + 1,
-  today.getFullYear()
-)
-let currentMonth = today.getMonth() + 1
-let currentYear = today.getFullYear()
-
-function parseQuery(q) {
-  const ret = []
-  if (q.length < 2) return ret
-  const s = q.substring(1, q.length)
-  const arr = s.split('&')
-  let i
-  let j
-  for (i = 0; i < arr.length; i++) {
-    const a = arr[i].split('=')
-    for (j = 0; j < a.length; j++) {
-      ret.push(a[j])
-    }
-  }
-  return ret
-}
-
-function getSelectedMonth() {
-  const query = window.location.search
-  const arr = parseQuery(query)
-  let idx
-  for (idx = 0; idx < arr.length; idx++) {
-    if (arr[idx] == 'mm') {
-      currentMonth = parseInt(arr[idx + 1])
-    } else if (arr[idx] == 'yy') {
-      currentYear = parseInt(arr[idx + 1])
-    }
-  }
-}
-
-function getMonth(mm, yy) {
-  let ly1
-  let ly2
-  let tet1
-  let jd1
-  let jd2
-  let mm1
-  let yy1
-  let result
-  let i
-  if (mm < 12) {
-    mm1 = mm + 1
-    yy1 = yy
-  } else {
-    mm1 = 1
-    yy1 = yy + 1
-  }
-  jd1 = jdn(1, mm, yy)
-  jd2 = jdn(1, mm1, yy1)
-  ly1 = getYearInfo(yy)
-  // alert('1/'+mm+'/'+yy+' = '+jd1+'; 1/'+mm1+'/'+yy1+' = '+jd2);
-  tet1 = ly1[0].jd
-  result = []
-  if (tet1 <= jd1) {
-    /* tet(yy) = tet1 < jd1 < jd2 <= 1.1.(yy+1) < tet(yy+1) */
-    for (i = jd1; i < jd2; i++) {
-      result.push(findLunarDate(i, ly1))
-    }
-  } else if (jd1 < tet1 && jd2 < tet1) {
-    /* tet(yy-1) < jd1 < jd2 < tet1 = tet(yy) */
-    ly1 = getYearInfo(yy - 1)
-    for (i = jd1; i < jd2; i++) {
-      result.push(findLunarDate(i, ly1))
-    }
-  } else if (jd1 < tet1 && tet1 <= jd2) {
-    /* tet(yy-1) < jd1 < tet1 <= jd2 < tet(yy+1) */
-    ly2 = getYearInfo(yy - 1)
-    for (i = jd1; i < tet1; i++) {
-      result.push(findLunarDate(i, ly2))
-    }
-    for (i = tet1; i < jd2; i++) {
-      result.push(findLunarDate(i, ly1))
-    }
-  }
-  return result
-}
-
-function getDayName(lunarDate) {
-  if (lunarDate.day == 0) {
-    return ''
-  }
-  const cc = getCanChi(lunarDate)
-  const s = 'Ng\u00E0y ' + cc[0] + ', th\341ng ' + cc[1] + ', n\u0103m ' + cc[2]
-  return s
-}
-
-function getYearCanChi(year) {
-  return `${CAN[(year + 6) % 10]} ${CHI[(year + 8) % 12]}`
-}
-
-/*
- * Can cua gio Chinh Ty (00:00) cua ngay voi JDN nay
- */
-function getCanHour0(jdn) {
-  return CAN[((jdn - 1) * 2) % 10]
-}
-
-function getCanChi(lunar) {
-  let dayName
-  let monthName
-  let yearName
-  dayName = `${CAN[(lunar.jd + 9) % 10]} ${CHI[(lunar.jd + 1) % 12]}`
-  monthName = `${CAN[(lunar.year * 12 + lunar.month + 3) % 10]} ${
-    CHI[(lunar.month + 1) % 12]
-  }`
-  if (lunar.leap == 1) {
-    monthName += ' (nhu\u1EADn)'
-  }
-  yearName = getYearCanChi(lunar.year)
-  return [dayName, monthName, yearName]
-}
-
-function getDayString(lunar, solarDay, solarMonth, solarYear) {
-  let s
-  const dayOfWeek = TUAN[(lunar.jd + 1) % 7]
-  s = `${dayOfWeek} ${solarDay}/${solarMonth}/${solarYear}`
-  s += ' -+- '
-  s = s + 'Ng\u00E0y ' + lunar.day + ' th\341ng ' + lunar.month
-  if (lunar.leap == 1) {
-    s += ' nhu\u1EADn'
-  }
-  return s
-}
-
-function getTodayString() {
-  let s = getDayString(
-    currentLunarDate,
-    today.getDate(),
-    today.getMonth() + 1,
-    today.getFullYear()
-  )
-  s += ` n\u0103m ${getYearCanChi(currentLunarDate.year)}`
-  return s
-}
-
-function getCurrentTime() {
-  today = new Date()
-  const Std = today.getHours()
-  const Min = today.getMinutes()
-  const Sec = today.getSeconds()
-  const s1 = Std < 10 ? `0${Std}` : Std
-  const s2 = Min < 10 ? `0${Min}` : Min
-  // var s3  = ((Sec < 10) ? "0" + Sec : Sec);
-  // return s1 + ":" + s2 + ":" + s3;
-  return `${s1}:${s2}`
-}
-
-function getGioHoangDao(jd) {
-  const chiOfDay = (jd + 1) % 12
-  const gioHD = GIO_HD[chiOfDay % 6] // same values for Ty' (1) and Ngo. (6), for Suu and Mui etc.
-  let ret = ''
-  let count = 0
-  for (let i = 0; i < 12; i++) {
-    if (gioHD.charAt(i) == '1') {
-      ret += CHI[i]
-      ret += ` (${(i * 2 + 23) % 24}-${(i * 2 + 1) % 24})`
-      if (count++ < 5) ret += ', '
-      if (count == 3) ret += '\n'
-    }
-  }
-  return ret
-}
-
-const DAYNAMES = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7']
-const PRINT_OPTS = new OutputOptions()
-const FONT_SIZES = ['9pt', '13pt', '17pt']
-const TAB_WIDTHS = ['180px', '420px', '600px']
-
-function OutputOptions() {
-  this.fontSize = '13pt'
-  this.tableWidth = '420px'
-}
-
-function setOutputSize(size) {
-  let idx = 1
-  if (size == 'small') {
-    idx = 0
-  } else if (size == 'big') {
-    idx = 2
-  } else {
-    idx = 1
-  }
-  PRINT_OPTS.fontSize = FONT_SIZES[idx]
-  PRINT_OPTS.tableWidth = TAB_WIDTHS[idx]
-}
-
-function printSelectedMonth() {
-  getSelectedMonth()
-  return printMonth(currentMonth, currentYear)
-}
-
-function printMonth(mm, yy) {
-  let res = ''
-  res += printStyle()
-  res += printTable(mm, yy)
-  res += printFoot()
-  return res
-}
-
-function printYear(yy) {
-  const yearName = `N&#x103;m ${getYearCanChi(yy)} ${yy}`
-  let res = ''
-  res += printStyle()
-  res += '<table align=center>\n'
-  res += `<tr><td colspan="3" class="tennam" onClick="showYearSelect();">${yearName}</td></tr>\n`
-  for (let i = 1; i <= 12; i++) {
-    if (i % 3 == 1) res += '<tr>\n'
-    res += '<td>\n'
-    res += printTable(i, yy)
-    res += '</td>\n'
-    if (i % 3 == 0) res += '</tr>\n'
-  }
-  res += '<table>\n'
-  res += printFoot()
-  return res
-}
-
-function printSelectedYear() {
-  getSelectedMonth()
-  return printYear(currentYear)
-}
-
-function printStyle() {
-  const { fontSize } = PRINT_OPTS
-  let res = ''
-  res += '<style type="text/css">\n'
-  res += '<!--\n'
-  // res += '  body {margin:0}\n';
-  res +=
-    '  .tennam {text-align:center; font-size:150%; line-height:120%; font-weight:bold; color:#000000; background-color: #CCCCCC}\n'
-  res += `  .thang {font-size: ${fontSize}; padding:1; line-height:100%; font-family:Tahoma,Verdana,Arial; table-layout:fixed}\n`
-  res +=
-    '  .tenthang {text-align:center; font-size:125%; line-height:100%; font-weight:bold; color:#330033; background-color: #CCFFCC}\n'
-  res +=
-    '  .navi-l {text-align:center; font-size:75%; line-height:100%; font-family:Verdana,Times New Roman,Arial; font-weight:bold; color:red; background-color: #CCFFCC}\n'
-  res +=
-    '  .navi-r {text-align:center; font-size:75%; line-height:100%; font-family:Verdana,Arial,Times New Roman; font-weight:bold; color:#330033; background-color: #CCFFCC}\n'
-  res +=
-    '  .ngaytuan {width:14%; text-align:center; font-size:125%; line-height:100%; color:#330033; background-color: #FFFFCC}\n'
-  res += '  .ngaythang {background-color:#FDFDF0}\n'
-  res += '  .homnay {background-color:#FFF000}\n'
-  res += '  .tet {background-color:#FFCC99}\n'
-  res += '  .am {text-align:right;font-size:75%;line-height:100%;color:blue}\n'
-  res +=
-    '  .am2 {text-align:right;font-size:75%;line-height:100%;color:#004080}\n'
-  res += '  .t2t6 {text-align:left;font-size:125%;color:black}\n'
-  res += '  .t7 {text-align:left;font-size:125%;line-height:100%;color:green}\n'
-  res += '  .cn {text-align:left;font-size:125%;line-height:100%;color:red}\n'
-  res += '-->\n'
-  res += '</style>\n'
-  return res
-}
-
-function printTable(mm, yy) {
-  let i
-  let j
-  let k
-  let solar
-  let lunar
-  let cellClass
-  let solarClass
-  let lunarClass
-  const currentMonth = getMonth(mm, yy)
-  if (currentMonth.length == 0) return
-  let ld1 = currentMonth[0]
-  const emptyCells = (ld1.jd + 1) % 7
-  const MonthHead = `${mm}/${yy}`
-  const LunarHead = getYearCanChi(ld1.year)
-  let res = ''
-  res += `<table class="thang" border="2" cellpadding="1" cellspacing="1" width="${PRINT_OPTS.tableWidth}">\n`
-  res += printHead(mm, yy)
-  for (i = 0; i < 6; i++) {
-    res += '<tr>\n'
-    for (j = 0; j < 7; j++) {
-      k = 7 * i + j
-      if (k < emptyCells || k >= emptyCells + currentMonth.length) {
-        res += printEmptyCell()
-      } else {
-        solar = k - emptyCells + 1
-        ld1 = currentMonth[k - emptyCells]
-        res += printCell(ld1, solar, mm, yy)
-      }
-    }
-    res += '</tr>\n'
-  }
-  res += '</table>\n'
-  return res
-}
-
-function getPrevMonthLink(mm, yy) {
-  const mm1 = mm > 1 ? mm - 1 : 12
-  const yy1 = mm > 1 ? yy : yy - 1
-  // return '<a href="'+window.location.pathname+'?yy='+yy1+'&mm='+mm1+'"><img src="left1.gif" width=8 height=12 alt="PrevMonth" border=0></a>';
-  return `<a href="${window.location.pathname}?yy=${yy1}&mm=${mm1}">&lt;</a>`
-}
-
-function getNextMonthLink(mm, yy) {
-  const mm1 = mm < 12 ? mm + 1 : 1
-  const yy1 = mm < 12 ? yy : yy + 1
-  // return '<a href="'+window.location.pathname+'?yy='+yy1+'&mm='+mm1+'"><img src="right1.gif" width=8 height=12 alt="NextMonth" border=0></a>';
-  return `<a href="${window.location.pathname}?yy=${yy1}&mm=${mm1}">&gt;</a>`
-}
-
-function getPrevYearLink(mm, yy) {
-  // return '<a href="'+window.location.pathname+'?yy='+(yy-1)+'&mm='+mm+'"><img src="left2.gif" width=16 height=12 alt="PrevYear" border=0></a>';
-  return `<a href="${window.location.pathname}?yy=${
-    yy - 1
-  }&mm=${mm}">&lt;&lt;</a>`
-}
-
-function getNextYearLink(mm, yy) {
-  // return '<a href="'+window.location.pathname+'?yy='+(yy+1)+'&mm='+mm+'"><img src="right2.gif" width=16 height=12 alt="NextYear" border=0></a>';
-  return `<a href="${window.location.pathname}?yy=${
-    yy + 1
-  }&mm=${mm}">&gt;&gt;</a>`
-}
-
-function printHead(mm, yy) {
-  let res = ''
-  const monthName = `${mm}/${yy}`
-  // res += ('<tr><td colspan="7" class="tenthang" onClick="showMonthSelect();">'+monthName+'</td></tr>\n');
-  res += `<tr><td colspan="2" class="navi-l">${getPrevYearLink(
-    mm,
-    yy
-  )} &nbsp;${getPrevMonthLink(mm, yy)}</td>\n`
-  // res += ('<td colspan="1" class="navig"><a href="'+getPrevMonthLink(mm, yy)+'"><img src="left1.gif" alt="Prev"></a></td>\n');
-  res += `<td colspan="3" class="tenthang" onClick="showMonthSelect();">${monthName}</td>\n`
-  // res += ('<td colspan="1" class="navi-r"><a href="'+getNextMonthLink(mm, yy)+'"><img src="right1.gif" alt="Next"></a></td>\n');
-  res += `<td colspan="2" class="navi-r">${getNextMonthLink(
-    mm,
-    yy
-  )} &nbsp;${getNextYearLink(mm, yy)}</td></tr>\n`
-  // res += ('<tr><td colspan="7" class="tenthang"><a href="'+getNextMonthLink(mm, yy)+'"><img src="right.gif" alt="Next"></a></td></tr>\n');
-  res += '<tr onClick="alertAbout();">\n'
-  for (let i = 0; i <= 6; i++) {
-    res += `<td class=ngaytuan>${DAYNAMES[i]}</td>\n`
-  }
-  res += '</tr>\n'
-  return res
-}
-
-function printEmptyCell() {
-  return '<td class=ngaythang><div class=cn>&nbsp;</div> <div class=am>&nbsp;</div></td>\n'
-}
-
-function printCell(lunarDate, solarDate, solarMonth, solarYear) {
-  console.log(12312312313)
-
-  let cellClass
-  let solarClass
-  let lunarClass
-  let solarColor
-  cellClass = 'ngaythang'
-  solarClass = 't2t6'
-  lunarClass = 'am'
-  solarColor = 'black'
-  const dow = (lunarDate.jd + 1) % 7
-  if (dow == 0) {
-    solarClass = 'cn'
-    solarColor = 'red'
-  } else if (dow == 6) {
-    solarClass = 't7'
-    solarColor = 'green'
-  }
-  if (
-    solarDate == today.getDate() &&
-    solarMonth == today.getMonth() + 1 &&
-    solarYear == today.getFullYear()
-  ) {
-    cellClass = 'homnay'
-  }
-  if (lunarDate.day == 1 && lunarDate.month == 1) {
-    cellClass = 'tet'
-  }
-  if (lunarDate.leap == 1) {
-    lunarClass = 'am2'
-  }
-  let lunar = lunarDate.day
-  if (solarDate == 1 || lunar == 1) {
-    lunar = `${lunarDate.day}/${lunarDate.month}`
-  }
-  let res = ''
-  let args = `${lunarDate.day},${lunarDate.month},${lunarDate.year},${lunarDate.leap}`
-  args += `,${lunarDate.jd},${solarDate},${solarMonth},${solarYear}`
-  res += `<td class="${cellClass}"`
-  if (lunarDate != null)
-    res += ` title="${getDayName(lunarDate)}" onClick="alertDayInfo(${args});"`
-  res += ` <div style=color:${solarColor} class="${solarClass}">${solarDate}</div> <div class="${lunarClass}">${lunar}</div></td>\n`
-  return res
-}
-
-function printFoot() {
-  let res = ''
-  res += '<script language="JavaScript" src="amlich-hnd.js"></script>\n'
-  return res
-}
-
-function showMonthSelect() {
-  const home = 'http://www.ifis.uni-luebeck.de/~duc/amlich/JavaScript/'
-  window.open(
-    home,
-    'win2702',
-    'menubar=yes,scrollbars=yes,status=yes,toolbar=yes,resizable=yes,location=yes'
-  )
-  // window.location = home;
-  // alertAbout();
-}
-
-function showYearSelect() {
-  // window.open("selectyear.html", "win2702", "menubar=yes,scrollbars=yes");
-  window.print()
-}
-
-function infoCellSelect(id) {
-  if (id == 0) {
-  }
-}
-
-function alertDayInfo(dd, mm, yy, leap, jd, sday, smonth, syear) {
-  const lunar = new LunarDate(dd, mm, yy, leap, jd)
-  let s = getDayString(lunar, sday, smonth, syear)
-  s += ' \u00E2m l\u1ECBch\n'
-  s += getDayName(lunar)
-  s += `\nGi\u1EDD \u0111\u1EA7u ng\u00E0y: ${getCanHour0(jd)} ${CHI[0]}`
-  s += `\nTi\u1EBFt: ${TIETKHI[getSunLongitude(jd + 1, 7.0)]}`
-  s += `\nGi\u1EDD ho\u00E0ng \u0111\u1EA1o: ${getGioHoangDao(jd)}`
-  alert(s)
-}
-
-function alertAbout() {
-  alert(ABOUT)
-}
-
-function showVietCal() {
-  window.status = `${getCurrentTime()} -+- ${getTodayString()}`
-  window.window.setTimeout('showVietCal()', 5000)
-}
-
-// showVietCal();
+export const CHI = [
+  'Tý',
+  'Sửu',
+  'Dần',
+  'Mão',
+  'Thìn',
+  'Tỵ',
+  'Ngọ',
+  'Mùi',
+  'Thân',
+  'Dậu',
+  'Tuất',
+  'Hợi',
+]
