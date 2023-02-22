@@ -4,7 +4,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import * as React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { IconChevronRight, IconDown } from '@/components/icon'
@@ -120,11 +120,11 @@ function TabPanel(props: TabPanelProps) {
 export default function CalendarSwitch() {
   const [tab, setTab] = React.useState(0)
   const [tabConvert, setTabConvert] = React.useState(1)
-
-  const [time, setTime] = useState<Dayjs | null>(null)
-  const [day, setDay] = useState<string>('')
-  const [month, setMonth] = useState<string>('')
-  const [year, setYear] = useState<string>('')
+  const currentDate = dayjs()
+  const [time, setTime] = useState<Dayjs | null>(currentDate)
+  const [day, setDay] = useState<string>(currentDate.format('DD'))
+  const [month, setMonth] = useState<string>(currentDate.format('MM'))
+  const [year, setYear] = useState<string>(currentDate.format('YYYY'))
   const [tietkhi, setTietkhi] = useState<string>('')
   const [can, setCan] = useState<string>('')
   const [chi, setChi] = useState<string>('')
@@ -140,32 +140,40 @@ export default function CalendarSwitch() {
     setTime(newValue)
   }
 
+  const convertFromLunar = () => {
+    const value = getSolarDate(removeZero(day), removeZero(month), +year)
+    setConvertDate({
+      time: dayjs(time).format('HH:mm A'),
+      day: addZero(value[0]) || '',
+      month: addZero(value[1]) || '',
+      year: value[2] || '',
+    })
+    setConvertTietkhi(
+      getTietkhiByLunar(removeZero(day), removeZero(month), +year) || ''
+    )
+  }
+
+  const convertFromSolar = () => {
+    const value = convertSolar2Lunar(removeZero(day), removeZero(month), +year)
+    setConvertDate({
+      time: dayjs(time).format('HH:mm A'),
+      day: addZero(value[0]) || '',
+      month: addZero(value[1]) || '',
+      year: value[2] || '',
+    })
+  }
+
+  useEffect(() => {
+    convertFromSolar()
+  }, [])
+
   const handleConvert = () => {
     if (tab === 0) {
       if (!day || !month || !year) return
-      const value = convertSolar2Lunar(
-        removeZero(day),
-        removeZero(month),
-        +year
-      )
-      setConvertDate({
-        time: dayjs(time).format('HH:mm A'),
-        day: addZero(value[0]) || '',
-        month: addZero(value[1]) || '',
-        year: value[2] || '',
-      })
+      convertFromSolar()
     } else if (tab === 1) {
       if (!day || !month || !year) return
-      const value = getSolarDate(removeZero(day), removeZero(month), +year)
-      setConvertDate({
-        time: dayjs(time).format('HH:mm A'),
-        day: addZero(value[0]) || '',
-        month: addZero(value[1]) || '',
-        year: value[2] || '',
-      })
-      setConvertTietkhi(
-        getTietkhiByLunar(removeZero(day), removeZero(month), +year)
-      )
+      convertFromLunar()
     }
   }
   return (
