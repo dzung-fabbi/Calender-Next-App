@@ -5,217 +5,400 @@ import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import * as React from 'react'
 import { useState } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 import { IconChevronRight, IconDown } from '@/components/icon'
 import { Input } from '@/components/input'
-import { TabPrimary } from '@/components/tab'
+import { CAN, CHI, TIETKHI } from '@/utils/constant'
+import {
+  addZero,
+  convertSolar2Lunar,
+  getSolarDate,
+  getTietkhiByLunar,
+  removeZero,
+} from '@/utils/helpers'
 
-const top100Films = [
-  { label: 'The Shawshank Redemption', year: 1994 },
-  { label: 'The Godfather', year: 1972 },
-  { label: 'The Godfather: Part II', year: 1974 },
-  { label: 'The Dark Knight', year: 2008 },
-  { label: '12 Angry Men', year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: 'Pulp Fiction', year: 1994 },
-  {
-    label: 'The Lord of the Rings: The Return of the King',
-    year: 2003,
-  },
-  { label: 'The Good, the Bad and the Ugly', year: 1966 },
-  { label: 'Fight Club', year: 1999 },
-  {
-    label: 'The Lord of the Rings: The Fellowship of the Ring',
-    year: 2001,
-  },
-  {
-    label: 'Star Wars: Episode V - The Empire Strikes Back',
-    year: 1980,
-  },
-  { label: 'Forrest Gump', year: 1994 },
-  { label: 'Inception', year: 2010 },
-  {
-    label: 'The Lord of the Rings: The Two Towers',
-    year: 2002,
-  },
-  { label: "One Flew Over the Cuckoo's Nest", year: 1975 },
-  { label: 'Goodfellas', year: 1990 },
-  { label: 'The Matrix', year: 1999 },
-  { label: 'Seven Samurai', year: 1954 },
-  {
-    label: 'Star Wars: Episode IV - A New Hope',
-    year: 1977,
-  },
-  { label: 'City of God', year: 2002 },
-  { label: 'Se7en', year: 1995 },
-  { label: 'The Silence of the Lambs', year: 1991 },
-  { label: "It's a Wonderful Life", year: 1946 },
-  { label: 'Life Is Beautiful', year: 1997 },
-  { label: 'The Usual Suspects', year: 1995 },
-  { label: 'Léon: The Professional', year: 1994 },
-  { label: 'Spirited Away', year: 2001 },
-  { label: 'Saving Private Ryan', year: 1998 },
-  { label: 'Once Upon a Time in the West', year: 1968 },
-  { label: 'American History X', year: 1998 },
-  { label: 'Interstellar', year: 2014 },
-  { label: 'Casablanca', year: 1942 },
-  { label: 'City Lights', year: 1931 },
-  { label: 'Psycho', year: 1960 },
-  { label: 'The Green Mile', year: 1999 },
-  { label: 'The Intouchables', year: 2011 },
-  { label: 'Modern Times', year: 1936 },
-  { label: 'Raiders of the Lost Ark', year: 1981 },
-  { label: 'Rear Window', year: 1954 },
-  { label: 'The Pianist', year: 2002 },
-  { label: 'The Departed', year: 2006 },
-  { label: 'Terminator 2: Judgment Day', year: 1991 },
-  { label: 'Back to the Future', year: 1985 },
-  { label: 'Whiplash', year: 2014 },
-  { label: 'Gladiator', year: 2000 },
-  { label: 'Memento', year: 2000 },
-  { label: 'The Prestige', year: 2006 },
-  { label: 'The Lion King', year: 1994 },
-  { label: 'Apocalypse Now', year: 1979 },
-  { label: 'Alien', year: 1979 },
-  { label: 'Sunset Boulevard', year: 1950 },
-  {
-    label:
-      'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb',
-    year: 1964,
-  },
-  { label: 'The Great Dictator', year: 1940 },
-  { label: 'Cinema Paradiso', year: 1988 },
-  { label: 'The Lives of Others', year: 2006 },
-  { label: 'Grave of the Fireflies', year: 1988 },
-  { label: 'Paths of Glory', year: 1957 },
-  { label: 'Django Unchained', year: 2012 },
-  { label: 'The Shining', year: 1980 },
-  { label: 'WALL·E', year: 2008 },
-  { label: 'American Beauty', year: 1999 },
-  { label: 'The Dark Knight Rises', year: 2012 },
-  { label: 'Princess Mononoke', year: 1997 },
-  { label: 'Aliens', year: 1986 },
-  { label: 'Oldboy', year: 2003 },
-  { label: 'Once Upon a Time in America', year: 1984 },
-  { label: 'Witness for the Prosecution', year: 1957 },
-  { label: 'Das Boot', year: 1981 },
-  { label: 'Citizen Kane', year: 1941 },
-  { label: 'North by Northwest', year: 1959 },
-  { label: 'Vertigo', year: 1958 },
-  {
-    label: 'Star Wars: Episode VI - Return of the Jedi',
-    year: 1983,
-  },
-  { label: 'Reservoir Dogs', year: 1992 },
-  { label: 'Braveheart', year: 1995 },
-  { label: 'M', year: 1931 },
-  { label: 'Requiem for a Dream', year: 2000 },
-  { label: 'Amélie', year: 2001 },
-  { label: 'A Clockwork Orange', year: 1971 },
-  { label: 'Like Stars on Earth', year: 2007 },
-  { label: 'Taxi Driver', year: 1976 },
-  { label: 'Lawrence of Arabia', year: 1962 },
-  { label: 'Double Indemnity', year: 1944 },
-  {
-    label: 'Eternal Sunshine of the Spotless Mind',
-    year: 2004,
-  },
-  { label: 'Amadeus', year: 1984 },
-  { label: 'To Kill a Mockingbird', year: 1962 },
-  { label: 'Toy Story 3', year: 2010 },
-  { label: 'Logan', year: 2017 },
-  { label: 'Full Metal Jacket', year: 1987 },
-  { label: 'Dangal', year: 2016 },
-  { label: 'The Sting', year: 1973 },
-  { label: '2001: A Space Odyssey', year: 1968 },
-  { label: "Singin' in the Rain", year: 1952 },
-  { label: 'Toy Story', year: 1995 },
-  { label: 'Bicycle Thieves', year: 1948 },
-  { label: 'The Kid', year: 1921 },
-  { label: 'Inglourious Basterds', year: 2009 },
-  { label: 'Snatch', year: 2000 },
-  { label: '3 Idiots', year: 2009 },
-  { label: 'Monty Python and the Holy Grail', year: 1975 },
+interface TabPanelProps {
+  children?: React.ReactNode
+  index: number
+  value: number
+}
+interface DateProps {
+  time: string | number
+  day: string | number
+  month: string | number
+  year: string | number
+}
+const days = [
+  '01',
+  '02',
+  '03',
+  '04',
+  '05',
+  '06',
+  '07',
+  '08',
+  '09',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '20',
+  '21',
+  '22',
+  '23',
+  '24',
+  '25',
+  '26',
+  '27',
+  '28',
+  '29',
+  '30',
+  '31',
 ]
-export default function CalendarSwitch() {
-  const [value, setValue] = useState('Snatch')
-  const [time, setTime] = React.useState<Dayjs | null>(
-    dayjs('2014-08-18T21:11:54')
+
+const months = [
+  '01',
+  '02',
+  '03',
+  '04',
+  '05',
+  '06',
+  '07',
+  '08',
+  '09',
+  '10',
+  '11',
+  '12',
+]
+
+const LIST_TAB = [
+  {
+    label: 'Ngày dương',
+    tabValue: 0,
+    allow: [1],
+  },
+  {
+    label: 'Ngày âm',
+    tabValue: 1,
+    allow: [0, 2],
+  },
+  {
+    label: 'Tiết khí',
+    tabValue: 2,
+    allow: [1, 3],
+  },
+  {
+    label: 'Can chi',
+    tabValue: 3,
+    allow: [2],
+  },
+]
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && children}
+    </div>
   )
+}
+
+export default function CalendarSwitch() {
+  const [tab, setTab] = React.useState(0)
+  const [tabConvert, setTabConvert] = React.useState(1)
+
+  const [time, setTime] = useState<Dayjs | null>(null)
+  const [day, setDay] = useState<string>('')
+  const [month, setMonth] = useState<string>('')
+  const [year, setYear] = useState<string>('')
+  const [tietkhi, setTietkhi] = useState<string>('')
+  const [can, setCan] = useState<string>('')
+  const [chi, setChi] = useState<string>('')
+  const [convertDate, setConvertDate] = useState<DateProps>({
+    time: '',
+    day: '',
+    month: '',
+    year: '',
+  })
+  const [convertTietkhi, setConvertTietkhi] = useState<string>('')
 
   const handleChange = (newValue: Dayjs | null) => {
     setTime(newValue)
   }
+
+  const handleConvert = () => {
+    if (tab === 0) {
+      if (!day || !month || !year) return
+      const value = convertSolar2Lunar(
+        removeZero(day),
+        removeZero(month),
+        +year
+      )
+      setConvertDate({
+        time: dayjs(time).format('HH:mm A'),
+        day: addZero(value[0]) || '',
+        month: addZero(value[1]) || '',
+        year: value[2] || '',
+      })
+    } else if (tab === 1) {
+      if (!day || !month || !year) return
+      const value = getSolarDate(removeZero(day), removeZero(month), +year)
+      setConvertDate({
+        time: dayjs(time).format('HH:mm A'),
+        day: addZero(value[0]) || '',
+        month: addZero(value[1]) || '',
+        year: value[2] || '',
+      })
+      setConvertTietkhi(
+        getTietkhiByLunar(removeZero(day), removeZero(month), +year)
+      )
+    }
+  }
   return (
     <div className="relative flex flex-wrap w-full gap-5">
       <div className="flex flex-col flex-1 px-5 pt-2.5 pb-8  border shadow border-primary rounded-primary gap-y-4">
-        <TabPrimary tabActive={1} />
-        <span className="text-sm font-medium text-gray-primary">
-          Lựa chọn ngày dương
-        </span>
-        <div className="flex gap-2.5">
-          <TimePicker
-            label="Chọn giờ"
-            value={time}
-            onChange={handleChange}
-            renderInput={(params) => <TextField variant="filled" {...params} />}
-          />
-          <Input label="Ngày" value={'12'} className="w-[88px] xl:w-24">
-            <IconDown />
-          </Input>
-          <Input label="Tháng" value={'02'} className="w-[88px] xl:w-24">
-            <IconDown />
-          </Input>
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={top100Films.map((e) => e.label)}
-            sx={{ width: 300 }}
-            renderInput={(params) => (
-              <TextField variant="filled" {...params} label="Movie" />
-            )}
-            value={value}
-            clearIcon={null}
-            onChange={(_, v) => {
-              setValue(v)
-            }}
-            popupIcon={<IconDown />}
-          />
-          <Input label="Năm" value={'2013'} className="w-[100px] xl:w-28">
-            <IconDown />
-          </Input>
+        <div className="text-sm font-medium text-center border-b border-gray-200 text-gray-secondary">
+          <ul className="flex flex-wrap gap-4">
+            {LIST_TAB.map(({ label, tabValue, allow }) => {
+              return (
+                <li key={tabValue}>
+                  <label
+                    onClick={() => {
+                      if (!allow.includes(tabConvert))
+                        setTabConvert(allow[0] || 0)
+                      setTab(tabValue)
+                    }}
+                    className={twMerge(
+                      'inline-block p-2 font-semibold transition-all border-b-2 border-transparent rounded-t-lg hover:text-default hover:border-default',
+                      tabValue === tab && 'text-default border-default'
+                    )}
+                  >
+                    {label}
+                  </label>
+                </li>
+              )
+            })}
+          </ul>
         </div>
+        <TabPanel value={tab} index={tab === 0 || tab === 1 ? tab : 0}>
+          <div className="text-sm font-medium text-gray-primary mb-4">
+            Lựa chọn ngày {tab === 0 ? 'dương' : 'âm'}
+          </div>
+          <div className="flex gap-2.5">
+            <TimePicker
+              label="Chọn giờ"
+              value={time}
+              onChange={handleChange}
+              renderInput={(params) => (
+                <TextField sx={{ width: 150 }} variant="filled" {...params} />
+              )}
+            />
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={days}
+              sx={{ width: 110 }}
+              renderInput={(params) => (
+                <TextField variant="filled" {...params} label="Ngày" />
+              )}
+              value={day}
+              disableClearable
+              onChange={(_, v: string) => {
+                setDay(v)
+              }}
+              popupIcon={<IconDown />}
+            />
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={months}
+              sx={{ width: 110 }}
+              renderInput={(params) => (
+                <TextField variant="filled" {...params} label="Tháng" />
+              )}
+              value={month}
+              disableClearable
+              onChange={(_, v: string) => {
+                setMonth(v)
+              }}
+              popupIcon={<IconDown />}
+            />
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={Array.from({ length: 400 }, (_, i) =>
+                (i + 1900).toString()
+              )}
+              sx={{ width: 110 }}
+              renderInput={(params) => (
+                <TextField variant="filled" {...params} label="Năm" />
+              )}
+              value={year}
+              disableClearable
+              onChange={(_, v: string) => {
+                setYear(v)
+              }}
+              popupIcon={<IconDown />}
+            />
+          </div>
+        </TabPanel>
+        <TabPanel value={tab} index={2}>
+          <div className="text-sm font-medium text-gray-primary mb-4">
+            Lựa chọn tiết khí
+          </div>
+          <div className="flex gap-2.5">
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={TIETKHI}
+              sx={{ width: 200 }}
+              renderInput={(params) => (
+                <TextField variant="filled" {...params} label="Tiết khí" />
+              )}
+              value={tietkhi}
+              disableClearable
+              onChange={(_, v: string) => {
+                setTietkhi(v)
+              }}
+              popupIcon={<IconDown />}
+            />
+          </div>
+        </TabPanel>
+        <TabPanel value={tab} index={3}>
+          <div className="text-sm font-medium text-gray-primary mb-4">
+            Lựa chọn can chi
+          </div>
+          <div className="flex gap-2.5">
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={CAN}
+              sx={{ width: 150 }}
+              renderInput={(params) => (
+                <TextField variant="filled" {...params} label="Can" />
+              )}
+              value={can}
+              disableClearable
+              onChange={(_, v: string) => {
+                setCan(v)
+              }}
+              popupIcon={<IconDown />}
+            />
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={CHI}
+              sx={{ width: 150 }}
+              renderInput={(params) => (
+                <TextField variant="filled" {...params} label="Chi" />
+              )}
+              value={chi}
+              disableClearable
+              onChange={(_, v: string) => {
+                setChi(v)
+              }}
+              popupIcon={<IconDown />}
+            />
+          </div>
+        </TabPanel>
       </div>
       <div className="flex flex-col flex-1 px-5 pt-2.5 pb-8 gap-y-4 border border-transparent shadow rounded-primary">
-        <TabPrimary tabActive={2} />
-        <span className="text-sm font-medium text-gray-primary">Ngày âm</span>
-        <div className="flex gap-2.5">
-          <Input
-            label="Giờ"
-            value={'10:00 AM'}
-            containerClass="grow"
-            className="w-full min-w-[150px] bg-[#FFF6F6] border-transparent"
-          ></Input>
-          <Input
-            label="Ngày"
-            value={'12'}
-            className="w-[88px] xl:w-24 bg-[#FFF6F6] border-transparent"
-          ></Input>
-          <Input
-            label="Tháng"
-            value={'02'}
-            className="w-[88px] xl:w-24 bg-[#FFF6F6] border-transparent"
-          ></Input>
-          <Input
-            label="Năm"
-            value={'2013'}
-            className="w-[100px] xl:w-28 bg-[#FFF6F6] border-transparent"
-          ></Input>
+        <div className="text-sm font-medium text-center border-b border-gray-200 text-gray-secondary">
+          <ul className="flex flex-wrap gap-4">
+            {LIST_TAB.map(({ label, tabValue, allow }) => {
+              return (
+                <li key={tabValue}>
+                  <label
+                    onClick={() => {
+                      if (allow.includes(tab)) setTabConvert(tabValue)
+                    }}
+                    className={twMerge(
+                      'inline-block p-2 font-semibold transition-all border-b-2 border-transparent rounded-t-lg',
+                      tabValue === tabConvert && 'text-default border-default',
+                      allow.includes(tab)
+                        ? 'hover:text-default hover:border-default'
+                        : 'opacity-50'
+                    )}
+                  >
+                    {label}
+                  </label>
+                </li>
+              )
+            })}
+          </ul>
         </div>
+        <TabPanel
+          value={tabConvert}
+          index={tabConvert === 0 || tabConvert === 1 ? tabConvert : 0}
+        >
+          <div className="text-sm font-medium text-gray-primary mb-4">
+            {tabConvert === 0 ? 'Ngày dương' : 'Ngày âm'}
+          </div>
+          <div className="flex gap-2.5">
+            <Input
+              label="Giờ"
+              value={convertDate.time}
+              containerClass="grow"
+              className="w-full min-w-[150px] bg-[#FFF6F6] border-transparent rounded-md"
+              disabled
+            ></Input>
+            <Input
+              label="Ngày"
+              value={convertDate.day}
+              className="w-[88px] xl:w-24 bg-[#FFF6F6] border-transparent rounded-md"
+              disabled
+            ></Input>
+            <Input
+              label="Tháng"
+              value={convertDate.month}
+              className="w-[88px] xl:w-24 bg-[#FFF6F6] border-transparent rounded-md"
+              disabled
+            ></Input>
+            <Input
+              label="Năm"
+              value={convertDate.year}
+              className="w-[100px] xl:w-28 bg-[#FFF6F6] border-transparent rounded-md"
+              disabled
+            ></Input>
+          </div>
+        </TabPanel>
+        <TabPanel value={tabConvert} index={2}>
+          <div className="text-sm font-medium text-gray-primary mb-4">
+            Tiết khí tương ứng
+          </div>
+          <Input
+            label="Tiết khí"
+            value={convertTietkhi}
+            containerClass="grow"
+            className="w-[150px] bg-[#FFF6F6] border-transparent rounded-md"
+            disabled
+          ></Input>
+        </TabPanel>
+        <TabPanel value={tabConvert} index={3}>
+          <div className="text-sm font-medium text-gray-primary mb-4">
+            Can chi tương ứng
+          </div>
+        </TabPanel>
       </div>
 
       <div className="absolute flex items-center justify-center w-8 h-8 -translate-x-1/2 -translate-y-1/2 bg-white border-2 cursor-pointer hover:opacity-90 top-1/2 left-1/2 rounded-lg border-primary/[43] ring-2 ring-primary/[0.32]">
-        <IconChevronRight />
+        <button onClick={handleConvert}>
+          <IconChevronRight />
+        </button>
       </div>
     </div>
   )
