@@ -5,6 +5,8 @@
  * this copyright notice appears in all copies.
  */
 
+import dayjs from 'dayjs'
+
 export const ABOUT =
   '\u00C2m l\u1ECBch Vi\u1EC7t Nam - Version 0.8' +
   '\n\u00A9 2004 H\u1ED3 Ng\u1ECDc \u0110\u1EE9c [http://come.to/duc]'
@@ -139,3 +141,6 @@ export const MODE_TAB_HEADER = {
   PREVIEW: 1,
   CALENDAR_CHANGE: 2,
 }
+export const DATE_FORMAT = 'DD/MM/YYYY'
+export const isValidDate = (date: string) =>
+  dayjs(date, DATE_FORMAT, true).isValid()

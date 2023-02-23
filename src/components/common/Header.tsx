@@ -21,8 +21,8 @@ function Header() {
   const tabHeader = useStore((state) => state.tabHeader)
   const onChangeTab = useStore((state) => state.setTabHeader)
   const handleChangeTabHeader = (newTab: number) => {
-    if (router.pathname !== '/') router.push('/')
     onChangeTab(newTab)
+    if (router.pathname !== '/') router.push('/')
   }
   return (
     <section className="flex justify-between items-center gap-x-5 py-25px border-b border-[#DDE1DD]">

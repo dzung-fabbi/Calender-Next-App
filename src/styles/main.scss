@@ -96,12 +96,16 @@ html {
   font-size: 18px !important;
   font-family: 'Inter', 'sans-serif' !important;
 }
+.MuiInputLabel-root:has(~ .Mui-error) {
+  color: #d32f2f !important;
+}
 
 .MuiFilledInput-root {
   font-size: 18px !important;
   font-weight: 500 !important;
   font-family: 'Inter', 'sans-serif' !important;
   height: 60px !important;
+  border-radius: 4px;
 }
 
 .MuiFormControl-root {
@@ -109,9 +113,18 @@ html {
   border-radius: 4px;
 }
 
+.MuiFormControl-root {
+  border: 1px solid #EAECEA !important;
+  border-radius: 4px;
+}
+.MuiFormControl-root:has(.Mui-error) {
+  border: 1px solid red !important;
+}
+
 .MuiInputBase-root.MuiFilledInput-root:before {
   border-bottom: unset !important;
 }
+
 
 .MuiInputBase-root.MuiFilledInput-root::after {
   border-bottom: unset !important;
