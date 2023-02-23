@@ -72,52 +72,53 @@ export default function CalendarPreview() {
           </ul>
         </div>
       </section>
-      <section>
-        <div className="mt-[30px] bg-[#FD7770] rounded-t-primary py-[10px] pl-[20px] text-white">
+      <section className="bg-[#FFFAF9] mt-30px rounded-primary">
+        <div className="bg-primary rounded-t-primary py-[10px] pl-5 text-white">
           Giờ tốt trong ngày
         </div>
         <div className="px-[30px]">
-          <div className="flex pl-[20px] border-b border-[#E2E2E2]">
-            <div className="flex w-1/3 py-4">
-              <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col pl-1">
+          <div className="flex pl-5 border-b border-[#E2E2E2]">
+            <div className="flex items-center w-1/3 py-4 gap-2.5">
+              <img src="/images/mouse.png" alt="" className="" />
+              <div className="flex flex-col">
                 <span className="font-semibold text-left">Tý</span>
                 <span>23:00 - 01:00</span>
               </div>
             </div>
-            <div className="flex w-1/3 py-4">
+            <div className="flex items-center w-1/3 py-4 gap-2.5">
               <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col pl-1">
+
+              <div className="flex flex-col">
                 <span className="font-semibold text-left">Tý</span>
                 <span>23:00 - 01:00</span>
               </div>
             </div>
-            <div className="flex w-1/3 py-4">
+            <div className="flex items-center w-1/3 py-4 gap-2.5">
               <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col pl-1">
+              <div className="flex flex-col">
                 <span className="font-semibold text-left">Tý</span>
                 <span>23:00 - 01:00</span>
               </div>
             </div>
           </div>
-          <div className="flex pl-[20px]">
-            <div className="flex w-1/3 py-4">
+          <div className="flex pl-5">
+            <div className="flex items-center w-1/3 py-4 gap-2.5">
               <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col pl-1">
+              <div className="flex flex-col">
                 <span className="font-semibold text-left">Tý</span>
                 <span>23:00 - 01:00</span>
               </div>
             </div>
-            <div className="flex w-1/3 py-4">
+            <div className="flex items-center w-1/3 py-4 gap-2.5">
               <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col pl-1">
+              <div className="flex flex-col">
                 <span className="font-semibold text-left">Tý</span>
                 <span>23:00 - 01:00</span>
               </div>
             </div>
-            <div className="flex w-1/3 py-4">
+            <div className="flex items-center w-1/3 py-4 gap-2.5">
               <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col pl-1">
+              <div className="flex flex-col">
                 <span className="font-semibold text-left">Tý</span>
                 <span>23:00 - 01:00</span>
               </div>
@@ -125,52 +126,52 @@ export default function CalendarPreview() {
           </div>
         </div>
       </section>
-      <section>
-        <div className="mt-[30px] bg-[#B9CBDC] rounded-t-primary py-[10px] pl-[20px] text-black">
+      <section className="bg-[#F2F7FC] mt-30px rounded-primary">
+        <div className="bg-[#B9CBDC] rounded-t-primary py-[10px] pl-5 text-black">
           Giờ Xấu trong ngày
         </div>
         <div className="px-[30px]">
-          <div className="flex pl-[20px] border-b border-[#E2E2E2]">
-            <div className="flex w-1/3 py-4">
+          <div className="flex pl-5 border-b border-[#E2E2E2]">
+            <div className="flex items-center w-1/3 py-4 gap-2.5">
               <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col pl-1">
+              <div className="flex flex-col">
                 <span className="font-semibold text-left">Tý</span>
                 <span>23:00 - 01:00</span>
               </div>
             </div>
-            <div className="flex w-1/3 py-4">
+            <div className="flex items-center w-1/3 py-4 gap-2.5">
               <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col pl-1">
+              <div className="flex flex-col">
                 <span className="font-semibold text-left">Tý</span>
                 <span>23:00 - 01:00</span>
               </div>
             </div>
-            <div className="flex w-1/3 py-4">
+            <div className="flex items-center w-1/3 py-4 gap-2.5">
               <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col pl-1">
+              <div className="flex flex-col">
                 <span className="font-semibold text-left">Tý</span>
                 <span>23:00 - 01:00</span>
               </div>
             </div>
           </div>
-          <div className="flex pl-[20px]">
-            <div className="flex w-1/3 py-4">
+          <div className="flex pl-5">
+            <div className="flex items-center w-1/3 py-4 gap-2.5">
               <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col pl-1">
+              <div className="flex flex-col">
                 <span className="font-semibold text-left">Tý</span>
                 <span>23:00 - 01:00</span>
               </div>
             </div>
-            <div className="flex w-1/3 py-4">
+            <div className="flex items-center w-1/3 py-4 gap-2.5">
               <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col pl-1">
+              <div className="flex flex-col">
                 <span className="font-semibold text-left">Tý</span>
                 <span>23:00 - 01:00</span>
               </div>
             </div>
-            <div className="flex w-1/3 py-4">
+            <div className="flex items-center w-1/3 py-4 gap-2.5">
               <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col pl-1">
+              <div className="flex flex-col">
                 <span className="font-semibold text-left">Tý</span>
                 <span>23:00 - 01:00</span>
               </div>
@@ -178,21 +179,21 @@ export default function CalendarPreview() {
           </div>
         </div>
       </section>
-      <section>
-        <div className="mt-[30px] bg-[#FD7770] rounded-t-primary py-[10px] pl-[20px] text-white">
+      <section className="bg-[#FFFAF9] mt-30px rounded-primary">
+        <div className=" bg-primary rounded-t-primary py-[10px] pl-5 text-white">
           Sao tốt xấu
         </div>
         <div className="flex flex-col p-5">
           <div className="flex items-center mb-4">
-            <div className="rounded-[10px] h-[43px] w-[6px] bg-[#FD7770] mr-2"></div>
-            <span className="font-semibold text-[#FD7770] mr-2">Sao tốt: </span>
+            <div className="rounded-primary h-[43px] w-[6px] bg-primary mr-2"></div>
+            <span className="mr-2 font-semibold text-primary">Sao tốt: </span>
             <span className="text-sm text-blue-tag">
               Tứ tướng, Ô phệ, Kính an, Nguyệt không, Giải thần
             </span>
           </div>
           <div className="flex items-center">
-            <div className="rounded-[10px] h-[43px] w-[6px] bg-[#B9CBDC] mr-2"></div>
-            <span className="font-semibold text-[#292D32] mr-2">Sao xấu: </span>
+            <div className="rounded-primary h-[43px] w-[6px] bg-[#B9CBDC] mr-2"></div>
+            <span className="mr-2 font-semibold">Sao xấu: </span>
             <span className="text-sm text-blue-tag">
               Ngũ hư, Đại thời, Đại bại, Hàm trì, Nguyệt hại, Tiểu hao, Thiên
               lao
@@ -200,24 +201,24 @@ export default function CalendarPreview() {
           </div>
         </div>
       </section>
-      <section>
-        <div className="mt-[30px] bg-[#FD7770] rounded-t-primary py-[10px] pl-[20px] text-white">
+      <section className="bg-[#FFFAF9] mt-30px rounded-primary">
+        <div className="bg-primary rounded-t-primary py-[10px] pl-5 text-white">
           Việc nên - Không nên làm
         </div>
         <div className="flex flex-col p-5">
           <div className="flex items-center mb-4">
-            <div className="rounded-[10px] h-[43px] w-[6px] bg-[#FD7770] mr-2"></div>
-            <span className="font-semibold text-[#FD7770] mr-2">Nên: </span>
-            <span className="text-[#596370] text-sm">
+            <div className="rounded-primary h-[43px] w-[6px] bg-primary mr-2"></div>
+            <span className="mr-2 font-semibold text-primary">Nên: </span>
+            <span className="text-sm text-gray-primary">
               Cúng tế, tắm gội, chặt cây, săn bắn, cắt may, đuổi bắt, cắt tóc
               sửa móng
             </span>
           </div>
           <div className="flex items-center">
-            <div className="rounded-[10px] h-[92px] min-w-[6px] bg-[#B9CBDC] mr-2"></div>
-            <div className="font-semibold text-[#292D32] mr-2">
-              Không nên:{' '}
-              <span className="text-[#596370] text-sm font-normal">
+            <div className="rounded-primary h-[92px] min-w-[6px] bg-[#B9CBDC] mr-2"></div>
+            <div className="mr-2 font-semibold">
+              Không nên:
+              <span className="text-sm font-normal text-gray-primary">
                 Đội mũ cài trâm, đính hôn, ăn hỏi, cưới gả, thu nạp người, mời
                 thầy chữa bệnh, đan dệt, nấu rượu, mở kho xuất tiền hàng, đánh
                 cá, phá thổ, an táng, cải táng, Họp thân hữu, giải trừ, dựng cột
