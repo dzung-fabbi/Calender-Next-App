@@ -172,8 +172,8 @@ function SunLongitude(value: any) {
  * From the day after March equinox and the 1st major term after March equinox, 0 is returned.
  * After that, return 1, 2, 3 ...
  */
-export function getSunLongitude(dayNumber: any, timeZone: any) {
-  return INT((SunLongitude(dayNumber - 0.5 - timeZone / 24) / PI) * 6)
+function getSunLongitude(dayNumber: any, timeZone: any) {
+  return INT((SunLongitude(dayNumber - 0.5 - timeZone / 24) / PI) * 12)
 }
 
 /* Compute the day of the k-th new moon in the given time zone.
