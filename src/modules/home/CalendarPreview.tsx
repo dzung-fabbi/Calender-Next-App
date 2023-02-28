@@ -1,24 +1,43 @@
 import * as React from 'react'
 
 import { BadgeDateStatus } from '@/components/badge'
+import { useStore } from '@/store/useStore'
+import { DAYS, TIETKHI } from '@/utils/constant'
+import {
+  addZero,
+  getDayName,
+  getGioHoangDao,
+  getLunarDate,
+  getSunLongitude,
+} from '@/utils/helpers'
 
 export default function CalendarPreview() {
+  const currentDate = useStore((state) => state.currentDate)
+  const dayOfWeek = currentDate.day()
+  const day = currentDate.format('DD')
+  const month = currentDate.format('MM')
+  const year = currentDate.format('YYYY')
+  const currentLunarDate = getLunarDate(+day, +month, +year)
+  const dayName = getDayName(currentLunarDate)
+  const arrGioHD: any = getGioHoangDao(currentLunarDate.jd)
+
   return (
     <div>
+      <p className="text-xl font-bold">Lịch tháng {month}</p>
       <section className="flex items-center py-7 rounded-primary bg-datePreview">
         <div className="w-5/12 flex flex-col gap-y-[6px] relative">
           <h4 className="font-medium text-[1.625rem] text-center">
-            Tháng 02 năm 2023
+            Tháng {month} năm {year}
           </h4>
           <h1 className="font-bold text-[8.75rem] text-primary leading-none text-center relative">
-            18
+            {day}
             <div className="absolute left-2/3 top-0 rotate-[-31.24deg]">
               <BadgeDateStatus />
             </div>
           </h1>
 
           <span className="uppercase font-semibold text-[1.625rem] text-center">
-            CHỦ NHẬT
+            {DAYS[dayOfWeek]}
           </span>
         </div>
         <div className="w-1/6"></div>
@@ -26,32 +45,40 @@ export default function CalendarPreview() {
           <div className="flex">
             <div className="flex flex-col w-2/5">
               <h1 className="font-bold text-[5rem] leading-none text-left text-orange-primary">
-                25
+                {addZero(currentLunarDate.day)}
               </h1>
               <span className="font-semibold text-left">
-                Tháng 11 (Âm Lịch)
+                Tháng {addZero(currentLunarDate.month)}{' '}
+                {currentLunarDate.leap === 1 && 'Nhuận'} (Âm Lịch)
               </span>
             </div>
             <div className="flex flex-col justify-end flex-1">
-              <span className="font-semibold text-left">Năm nhâm dần</span>
-              <span className="font-semibold text-left">Ngày ất dậu</span>
-              <span className="font-semibold text-left">Tháng mậu thân</span>
+              <span className="font-semibold text-left">Năm {dayName[2]}</span>
+              <span className="font-semibold text-left">Ngày {dayName[0]}</span>
+              <span className="font-semibold text-left">
+                Tháng {dayName[1]}
+              </span>
             </div>
           </div>
           <ul className="flex pt-5">
             <li className="w-2/5">
-              Ngày: <span className="font-semibold text-left">Giáp Ngọ</span>
+              Ngày:{' '}
+              <span className="font-semibold text-left">{dayName[0]}</span>
             </li>
             <li>
-              Tháng: <span className="font-semibold text-left">Nhâm Tý</span>
+              Tháng:{' '}
+              <span className="font-semibold text-left">{dayName[1]}</span>
             </li>
           </ul>
           <ul className="flex">
             <li className="w-2/5">
-              Năm: <span className="font-semibold text-left">Nhâm Dần</span>
+              Năm: <span className="font-semibold text-left">{dayName[2]}</span>
             </li>
             <li>
-              Tiết: <span className="font-semibold text-left">Đại Tuyết</span>
+              Tiết:{' '}
+              <span className="font-semibold text-left">
+                {TIETKHI[getSunLongitude(currentLunarDate.jd + 1, 7.0)]}
+              </span>
             </li>
           </ul>
           <ul className="flex">
@@ -78,51 +105,34 @@ export default function CalendarPreview() {
         </div>
         <div className="px-[30px]">
           <div className="flex pl-5 border-b border-[#E2E2E2]">
-            <div className="flex items-center w-1/3 py-4 gap-2.5">
-              <img src="/images/mouse.png" alt="" className="" />
-              <div className="flex flex-col">
-                <span className="font-semibold text-left">Tý</span>
-                <span>23:00 - 01:00</span>
-              </div>
-            </div>
-            <div className="flex items-center w-1/3 py-4 gap-2.5">
-              <img src="/images/mouse.png" alt="" />
-
-              <div className="flex flex-col">
-                <span className="font-semibold text-left">Tý</span>
-                <span>23:00 - 01:00</span>
-              </div>
-            </div>
-            <div className="flex items-center w-1/3 py-4 gap-2.5">
-              <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col">
-                <span className="font-semibold text-left">Tý</span>
-                <span>23:00 - 01:00</span>
-              </div>
-            </div>
+            {[0, 1, 2].map((e: number) => {
+              return (
+                <div key={e} className="flex items-center w-1/3 py-4 gap-2.5">
+                  <img src={arrGioHD[e].img} alt="" className="" />
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-left">
+                      {arrGioHD[e].name}
+                    </span>
+                    <span>{arrGioHD[e].time}</span>
+                  </div>
+                </div>
+              )
+            })}
           </div>
           <div className="flex pl-5">
-            <div className="flex items-center w-1/3 py-4 gap-2.5">
-              <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col">
-                <span className="font-semibold text-left">Tý</span>
-                <span>23:00 - 01:00</span>
-              </div>
-            </div>
-            <div className="flex items-center w-1/3 py-4 gap-2.5">
-              <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col">
-                <span className="font-semibold text-left">Tý</span>
-                <span>23:00 - 01:00</span>
-              </div>
-            </div>
-            <div className="flex items-center w-1/3 py-4 gap-2.5">
-              <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col">
-                <span className="font-semibold text-left">Tý</span>
-                <span>23:00 - 01:00</span>
-              </div>
-            </div>
+            {[3, 4, 5].map((e: number) => {
+              return (
+                <div key={e} className="flex items-center w-1/3 py-4 gap-2.5">
+                  <img src={arrGioHD[e].img} alt="" className="" />
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-left">
+                      {arrGioHD[e].name}
+                    </span>
+                    <span>{arrGioHD[e].time}</span>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>

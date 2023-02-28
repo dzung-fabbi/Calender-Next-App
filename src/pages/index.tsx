@@ -25,7 +25,6 @@ const Home: NextPageWithLayout = () => {
         src="/images/banner.png"
         alt=""
       />
-      <p className="text-xl font-bold">Lịch tháng 12</p>
       <CalendarPreview />
     </>
   )
