@@ -1,4 +1,14 @@
-import { CAN, CHI, TIETKHI, TK19, TK20, TK21, TK22 } from './constant'
+import {
+  CAN,
+  CHI,
+  GIO_HD,
+  ICON_CHI,
+  TIETKHI,
+  TK19,
+  TK20,
+  TK21,
+  TK22,
+} from './constant'
 
 export function removeZero(value: string) {
   return +value
@@ -162,7 +172,7 @@ function SunLongitude(value: any) {
  * From the day after March equinox and the 1st major term after March equinox, 0 is returned.
  * After that, return 1, 2, 3 ...
  */
-function getSunLongitude(dayNumber: any, timeZone: any) {
+export function getSunLongitude(dayNumber: any, timeZone: any) {
   return INT((SunLongitude(dayNumber - 0.5 - timeZone / 24) / PI) * 6)
 }
 
@@ -434,4 +444,126 @@ export function getYearCanChi(year: any) {
 export function getTietkhiByLunar(dd: any, mm: any, yy: any) {
   const jd = jdFromDate(dd, mm, yy)
   return TIETKHI[getSunLongitude(jd + 1, 7.0)]
+}
+
+const FIRST_DAY = jdn(25, 1, 1800) // Tet am lich 1800
+const LAST_DAY = jdn(31, 12, 2199)
+
+function findLunarDate(jd: any, ly: any) {
+  if (jd > LAST_DAY || jd < FIRST_DAY || ly[0].jd > jd) {
+    return new (LunarDate as any)(0, 0, 0, 0, jd)
+  }
+  let i = ly.length - 1
+  while (jd < ly[i].jd) {
+    // eslint-disable-next-line no-plusplus
+    i--
+  }
+  const off = jd - ly[i].jd
+  const ret = new (LunarDate as any)(
+    ly[i].day + off,
+    ly[i].month,
+    ly[i].year,
+    ly[i].leap,
+    jd
+  )
+  return ret
+}
+
+export function getLunarDate(dd: any, mm: any, yyyy: any) {
+  let ly
+  if (yyyy < 1800 || yyyy > 2199) {
+    // return new LunarDate(0, 0, 0, 0, 0);
+  }
+  ly = getYearInfo(yyyy)
+  const jd = jdn(dd, mm, yyyy)
+  if (jd < ly[0].jd) {
+    ly = getYearInfo(yyyy - 1)
+  }
+  return findLunarDate(jd, ly)
+}
+
+function getCanChi(lunar: any) {
+  let monthName
+  const dayName = `${CAN[(lunar.jd + 9) % 10]} ${CHI[(lunar.jd + 1) % 12]}`
+  monthName = `${CAN[(lunar.year * 12 + lunar.month + 3) % 10]} ${
+    CHI[(lunar.month + 1) % 12]
+  }`
+  if (lunar.leap === 1) {
+    monthName += ' (nhu\u1EADn)'
+  }
+  const yearName = getYearCanChi(lunar.year)
+  return [dayName, monthName, yearName]
+}
+
+export function getDayName(lunarDate: any) {
+  if (lunarDate.day === 0) {
+    return ''
+  }
+  return getCanChi(lunarDate)
+}
+export function getGioHoangDao(jd: any) {
+  const chiOfDay = (jd + 1) % 12
+  const gioHD: any = GIO_HD[chiOfDay % 6] // same values for Ty' (1) and Ngo. (6), for Suu and Mui etc.
+  const array = []
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < 12; i++) {
+    // eslint-disable-next-line eqeqeq
+    if (gioHD.charAt(i) == '1') {
+      array.push({
+        name: CHI[i],
+        img: ICON_CHI[i],
+        time: `${addZero((i * 2 + 23) % 24)}:00 - ${addZero(
+          (i * 2 + 1) % 24
+        )}:00`,
+      })
+    }
+  }
+  return array
+}
+
+export function getMonth(mm: any, yy: any) {
+  let ly1
+  let ly2
+  let mm1
+  let yy1
+  let i
+  if (mm < 12) {
+    mm1 = mm + 1
+    yy1 = yy
+  } else {
+    mm1 = 1
+    yy1 = yy + 1
+  }
+  const jd1 = jdn(1, mm, yy)
+  const jd2 = jdn(1, mm1, yy1)
+  ly1 = getYearInfo(yy)
+  // alert('1/'+mm+'/'+yy+' = '+jd1+'; 1/'+mm1+'/'+yy1+' = '+jd2);
+  const tet1 = ly1[0].jd
+  const result = []
+  if (tet1 <= jd1) {
+    /* tet(yy) = tet1 < jd1 < jd2 <= 1.1.(yy+1) < tet(yy+1) */
+    // eslint-disable-next-line no-plusplus
+    for (i = jd1; i < jd2; i++) {
+      result.push(findLunarDate(i, ly1))
+    }
+  } else if (jd1 < tet1 && jd2 < tet1) {
+    /* tet(yy-1) < jd1 < jd2 < tet1 = tet(yy) */
+    ly1 = getYearInfo(yy - 1)
+    // eslint-disable-next-line no-plusplus
+    for (i = jd1; i < jd2; i++) {
+      result.push(findLunarDate(i, ly1))
+    }
+  } else if (jd1 < tet1 && tet1 <= jd2) {
+    /* tet(yy-1) < jd1 < tet1 <= jd2 < tet(yy+1) */
+    ly2 = getYearInfo(yy - 1)
+    // eslint-disable-next-line no-plusplus
+    for (i = jd1; i < tet1; i++) {
+      result.push(findLunarDate(i, ly2))
+    }
+    // eslint-disable-next-line no-plusplus
+    for (i = tet1; i < jd2; i++) {
+      result.push(findLunarDate(i, ly1))
+    }
+  }
+  return result
 }

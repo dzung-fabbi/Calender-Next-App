@@ -137,6 +137,50 @@ export const CHI = [
   'Hợi',
 ]
 
+export const ICON_CHI = [
+  '/images/chi/ty.png',
+  '/images/chi/suu.png',
+  '/images/chi/dan.png',
+  '/images/chi/mao.png',
+  '/images/chi/thin.png',
+  '/images/chi/ti.png',
+  '/images/chi/ngo.png',
+  '/images/chi/mui.png',
+  '/images/chi/than.png',
+  '/images/chi/dau.png',
+  '/images/chi/tuat.png',
+  '/images/chi/hoi.png',
+]
+
+export const DAYS = [
+  'CHỦ NHẬT',
+  'THỨ HAI',
+  'THỨ BA',
+  'THỨ TƯ',
+  'THỨ NĂM',
+  'THỨ SÁU',
+  'THỨ BẢY',
+]
+
+export const LOWER_DAYS = [
+  'Chủ Nhật',
+  'Thứ Hai',
+  'Thứ Ba',
+  'Thứ Tư',
+  'Thứ Năm',
+  'Thứ Sáu',
+  'Thứ Bảy',
+]
+
+export const GIO_HD = [
+  '110100101100',
+  '001101001011',
+  '110011010010',
+  '101100110100',
+  '001011001101',
+  '010010110011',
+]
+
 export const MODE_TAB_HEADER = {
   PREVIEW: 1,
   CALENDAR_CHANGE: 2,
