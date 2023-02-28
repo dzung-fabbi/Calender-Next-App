@@ -101,6 +101,70 @@ const LIST_TAB = [
   },
 ]
 
+const CAN_CHI = [
+  "Giáp Tý",
+  "Ất Sửu",
+  "Bính Dần",
+  "Đinh Mão",
+  "Mậu Thìn",
+  "Kỷ Tỵ",
+  "Canh Ngọ",
+  "Tân Mùi",
+  "Nhâm Thân",
+  "Quý Dậu",
+  "Giáp Tuất",
+  "Ất Hợi",
+  "Bính Tý",
+  "Đinh Sửu",
+  "Mậu Dần",
+  "Kỷ Mão",
+  "Canh Thìn",
+  "Tân Tỵ",
+  "Nhâm Ngọ",
+  "Quý Mùi",
+  "Giáp Thân",
+  "Ất Dậu",
+  "Bính Tuất",
+  "Đinh Hợi",
+  "Mậu Tý",
+  "Kỷ Sửu",
+  "Canh Dần",
+  "Tân Mão",
+  "Nhâm Thìn",
+  "Quý Tỵ",
+  "Giáp Ngọ",
+  "Ất Mùi",
+  "Bính Thân",
+  "Đinh Dậu",
+  "Mậu Tuất",
+  "Kỷ Hợi",
+  "Canh Tý",
+  "Tân Sửu",
+  "Nhâm Dần",
+  "Quý Mão",
+  "Giáp Thìn",
+  "Ất Tỵ",
+  "Bính Ngọ",
+  "Đinh Mùi",
+  "Mậu Thân",
+  "Kỷ Dậu",
+  "Canh Tuất",
+  "Tân Hợi",
+  "Nhâm Tý",
+  "Quý Sửu",
+  "Giáp Dần",
+  "Ất Mão",
+  "Bính Thìn",
+  "Đinh Tỵ",
+  "Mậu Ngọ",
+  "Kỷ Mùi",
+  "Canh Thân",
+  "Tân Dậu",
+  "Nhâm Tuất",
+  "Quý Hợi",
+]
+
+
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props
 
@@ -126,8 +190,12 @@ export default function CalendarSwitch() {
   const [month, setMonth] = useState<string>(currentDate.format('MM'))
   const [year, setYear] = useState<string>(currentDate.format('YYYY'))
   const [tietkhi, setTietkhi] = useState<string>('')
-  const [can, setCan] = useState<string>('')
-  const [chi, setChi] = useState<string>('')
+  const [can_year, setCanYear] = useState<string>('')
+  const [chi_year, setChiYear] = useState<string>('')
+  const [can_month, setCanMonth] = useState<string>('')
+  const [chi_month, setChiMonth] = useState<string>('')
+  const [can_day, setCanDay] = useState<string>('')
+  const [chi_day, setChiDay] = useState<string>('')
   const [convertDate, setConvertDate] = useState<DateProps>({
     time: '',
     day: '',
@@ -163,6 +231,13 @@ export default function CalendarSwitch() {
     })
   }
 
+  const convertFromCanChi = () => {
+    const canChiTietKhiYear = `${can_year} ${chi_year}`;
+    debugger;
+    const indexYear = CAN_CHI.findIndex((element: string) => element === canChiTietKhiYear)
+    console.log(indexYear);
+  }
+
   useEffect(() => {
     convertFromSolar()
   }, [])
@@ -174,7 +249,11 @@ export default function CalendarSwitch() {
     } else if (tab === 1) {
       if (!day || !month || !year) return
       convertFromLunar()
+    } else if (tab === 3) {
+      if (!can_year || !chi_year || !can_month || !chi_month || !can_day || !chi_day) return
+      convertFromCanChi()
     }
+
   }
   return (
     <div className="relative flex flex-wrap w-full gap-5">
@@ -290,37 +369,116 @@ export default function CalendarSwitch() {
           <div className="text-sm font-medium text-gray-primary mb-4">
             Lựa chọn can chi
           </div>
-          <div className="flex gap-2.5">
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={CAN}
-              sx={{ width: 150 }}
-              renderInput={(params) => (
-                <TextField variant="filled" {...params} label="Can" />
-              )}
-              value={can}
-              disableClearable
-              onChange={(_, v: string) => {
-                setCan(v)
-              }}
-              popupIcon={<IconDown />}
-            />
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={CHI}
-              sx={{ width: 150 }}
-              renderInput={(params) => (
-                <TextField variant="filled" {...params} label="Chi" />
-              )}
-              value={chi}
-              disableClearable
-              onChange={(_, v: string) => {
-                setChi(v)
-              }}
-              popupIcon={<IconDown />}
-            />
+          <div className="year">
+            <div className="text-sm font-medium text-gray-primary mb-4">
+              Năm
+            </div>
+            <div className="flex gap-2.5">
+              <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={CAN}
+                  sx={{ width: 150 }}
+                  renderInput={(params) => (
+                      <TextField variant="filled" {...params} label="Can" />
+                  )}
+                  value={can_year}
+                  disableClearable
+                  onChange={(_, v: string) => {
+                    setCanYear(v)
+                  }}
+                  popupIcon={<IconDown />}
+              />
+              <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={CHI}
+                  sx={{ width: 150 }}
+                  renderInput={(params) => (
+                      <TextField variant="filled" {...params} label="Chi" />
+                  )}
+                  value={chi_year}
+                  disableClearable
+                  onChange={(_, v: string) => {
+                    setChiYear(v)
+                  }}
+                  popupIcon={<IconDown />}
+              />
+            </div>
+          </div>
+          <div className="month">
+            <div className="text-sm font-medium text-gray-primary mb-4">
+              Tháng
+            </div>
+            <div className="flex gap-2.5">
+              <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={CAN}
+                  sx={{ width: 150 }}
+                  renderInput={(params) => (
+                      <TextField variant="filled" {...params} label="Can" />
+                  )}
+                  value={can_month}
+                  disableClearable
+                  onChange={(_, v: string) => {
+                    setCanMonth(v)
+                  }}
+                  popupIcon={<IconDown />}
+              />
+              <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={CHI}
+                  sx={{ width: 150 }}
+                  renderInput={(params) => (
+                      <TextField variant="filled" {...params} label="Chi" />
+                  )}
+                  value={chi_month}
+                  disableClearable
+                  onChange={(_, v: string) => {
+                    setChiMonth(v)
+                  }}
+                  popupIcon={<IconDown />}
+              />
+            </div>
+          </div>
+          <div className="day">
+            <div className="text-sm font-medium text-gray-primary mb-4">
+              Ngày
+            </div>
+            <div className="flex gap-2.5">
+              <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={CAN}
+                  sx={{ width: 150 }}
+                  renderInput={(params) => (
+                      <TextField variant="filled" {...params} label="Can" />
+                  )}
+                  value={can_day}
+                  disableClearable
+                  onChange={(_, v: string) => {
+                    setCanDay(v)
+                  }}
+                  popupIcon={<IconDown />}
+              />
+              <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={CHI}
+                  sx={{ width: 150 }}
+                  renderInput={(params) => (
+                      <TextField variant="filled" {...params} label="Chi" />
+                  )}
+                  value={chi_day}
+                  disableClearable
+                  onChange={(_, v: string) => {
+                    setChiDay(v)
+                  }}
+                  popupIcon={<IconDown />}
+              />
+            </div>
           </div>
         </TabPanel>
       </div>
