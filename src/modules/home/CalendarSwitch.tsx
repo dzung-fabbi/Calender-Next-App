@@ -13,6 +13,8 @@ import { CAN, CHI, TIETKHI } from '@/utils/constant'
 import {
   addZero,
   convertSolar2Lunar,
+  getCanChi,
+  getLunarDate,
   getSolarDate,
   getTietkhiByLunar,
   removeZero,
@@ -102,68 +104,67 @@ const LIST_TAB = [
 ]
 
 const CAN_CHI = [
-  "Giáp Tý",
-  "Ất Sửu",
-  "Bính Dần",
-  "Đinh Mão",
-  "Mậu Thìn",
-  "Kỷ Tỵ",
-  "Canh Ngọ",
-  "Tân Mùi",
-  "Nhâm Thân",
-  "Quý Dậu",
-  "Giáp Tuất",
-  "Ất Hợi",
-  "Bính Tý",
-  "Đinh Sửu",
-  "Mậu Dần",
-  "Kỷ Mão",
-  "Canh Thìn",
-  "Tân Tỵ",
-  "Nhâm Ngọ",
-  "Quý Mùi",
-  "Giáp Thân",
-  "Ất Dậu",
-  "Bính Tuất",
-  "Đinh Hợi",
-  "Mậu Tý",
-  "Kỷ Sửu",
-  "Canh Dần",
-  "Tân Mão",
-  "Nhâm Thìn",
-  "Quý Tỵ",
-  "Giáp Ngọ",
-  "Ất Mùi",
-  "Bính Thân",
-  "Đinh Dậu",
-  "Mậu Tuất",
-  "Kỷ Hợi",
-  "Canh Tý",
-  "Tân Sửu",
-  "Nhâm Dần",
-  "Quý Mão",
-  "Giáp Thìn",
-  "Ất Tỵ",
-  "Bính Ngọ",
-  "Đinh Mùi",
-  "Mậu Thân",
-  "Kỷ Dậu",
-  "Canh Tuất",
-  "Tân Hợi",
-  "Nhâm Tý",
-  "Quý Sửu",
-  "Giáp Dần",
-  "Ất Mão",
-  "Bính Thìn",
-  "Đinh Tỵ",
-  "Mậu Ngọ",
-  "Kỷ Mùi",
-  "Canh Thân",
-  "Tân Dậu",
-  "Nhâm Tuất",
-  "Quý Hợi",
+  'Giáp Tý',
+  'Ất Sửu',
+  'Bính Dần',
+  'Đinh Mão',
+  'Mậu Thìn',
+  'Kỷ Tỵ',
+  'Canh Ngọ',
+  'Tân Mùi',
+  'Nhâm Thân',
+  'Quý Dậu',
+  'Giáp Tuất',
+  'Ất Hợi',
+  'Bính Tý',
+  'Đinh Sửu',
+  'Mậu Dần',
+  'Kỷ Mão',
+  'Canh Thìn',
+  'Tân Tỵ',
+  'Nhâm Ngọ',
+  'Quý Mùi',
+  'Giáp Thân',
+  'Ất Dậu',
+  'Bính Tuất',
+  'Đinh Hợi',
+  'Mậu Tý',
+  'Kỷ Sửu',
+  'Canh Dần',
+  'Tân Mão',
+  'Nhâm Thìn',
+  'Quý Tỵ',
+  'Giáp Ngọ',
+  'Ất Mùi',
+  'Bính Thân',
+  'Đinh Dậu',
+  'Mậu Tuất',
+  'Kỷ Hợi',
+  'Canh Tý',
+  'Tân Sửu',
+  'Nhâm Dần',
+  'Quý Mão',
+  'Giáp Thìn',
+  'Ất Tỵ',
+  'Bính Ngọ',
+  'Đinh Mùi',
+  'Mậu Thân',
+  'Kỷ Dậu',
+  'Canh Tuất',
+  'Tân Hợi',
+  'Nhâm Tý',
+  'Quý Sửu',
+  'Giáp Dần',
+  'Ất Mão',
+  'Bính Thìn',
+  'Đinh Tỵ',
+  'Mậu Ngọ',
+  'Kỷ Mùi',
+  'Canh Thân',
+  'Tân Dậu',
+  'Nhâm Tuất',
+  'Quý Hợi',
 ]
-
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props
@@ -190,12 +191,13 @@ export default function CalendarSwitch() {
   const [month, setMonth] = useState<string>(currentDate.format('MM'))
   const [year, setYear] = useState<string>(currentDate.format('YYYY'))
   const [tietkhi, setTietkhi] = useState<string>('')
-  const [can_year, setCanYear] = useState<string>('')
-  const [chi_year, setChiYear] = useState<string>('')
-  const [can_month, setCanMonth] = useState<string>('')
-  const [chi_month, setChiMonth] = useState<string>('')
-  const [can_day, setCanDay] = useState<string>('')
-  const [chi_day, setChiDay] = useState<string>('')
+  const [canYear, setCanYear] = useState<string>('')
+  const [chiYear, setChiYear] = useState<string>('')
+  const [canMonth, setCanMonth] = useState<string>('')
+  const [chiMonth, setChiMonth] = useState<string>('')
+  const [canDay, setCanDay] = useState<string>('')
+  const [chiDay, setChiDay] = useState<string>('')
+  const [isDislayError, setIsDislayError] = useState<boolean>(false)
   const [convertDate, setConvertDate] = useState<DateProps>({
     time: '',
     day: '',
@@ -217,7 +219,11 @@ export default function CalendarSwitch() {
       year: value[2] || '',
     })
     setConvertTietkhi(
-      getTietkhiByLunar(removeZero(day), removeZero(month), +year) || ''
+      getTietkhiByLunar(
+        removeZero(value[0]),
+        removeZero(value[1]),
+        +value[2]
+      ) || ''
     )
   }
 
@@ -231,20 +237,82 @@ export default function CalendarSwitch() {
     })
   }
 
+  const findIndexCanChi = (value: any) => {
+    return CAN_CHI.findIndex((element: string) => element === value)
+  }
+
   const convertFromCanChi = () => {
-    const canChiTietKhiYear = `${can_year} ${chi_year}`;
-    const indexYear = CAN_CHI.findIndex((element: string) => element === canChiTietKhiYear)
-    if (indexYear < 0) return
+    const canChiTietKhiYear = `${canYear} ${chiYear}`
+    const indexYear = findIndexCanChi(canChiTietKhiYear)
+    if (indexYear < 0) setIsDislayError(true)
 
-    const canChiTietKhiMonth = `${can_month} ${chi_month}`;
-    const indexcanChiTietKhiMonth = CAN_CHI.findIndex((element: string) => element === canChiTietKhiMonth)
-    if (indexcanChiTietKhiMonth < 0) return
+    const canChiTietKhiMonth = `${canMonth} ${chiMonth}`
+    const indexcanChiTietKhiMonth = findIndexCanChi(canChiTietKhiMonth)
+    if (indexcanChiTietKhiMonth < 0) setIsDislayError(true)
 
-    const canChiTietKhiDay = `${can_day} ${chi_day}`;
-    const indexcanChiTietKhiDay = CAN_CHI.findIndex((element: string) => element === canChiTietKhiDay)
-    if (indexcanChiTietKhiDay < 0) return
+    const canChiTietKhiDay = `${canDay} ${chiDay}`
+    const indexcanChiTietKhiDay = findIndexCanChi(canChiTietKhiDay)
+    if (indexcanChiTietKhiDay < 0) setIsDislayError(true)
 
+    const now = new Date()
+    let currentLunarDate = getLunarDate(
+      +now.getDate(),
+      +now.getMonth() + 1,
+      +now.getFullYear()
+    )
 
+    // process year
+    const canChiNow = getCanChi(currentLunarDate)
+    const canChiYearNow = canChiNow[2]
+    const indexYearNow = findIndexCanChi(canChiYearNow)
+    let rangeYear = indexYear - indexYearNow
+    if (indexYearNow > indexYear) {
+      rangeYear = 59 - indexYearNow + indexYear + 1
+    }
+    const yearCanChi = currentLunarDate.year + rangeYear
+
+    // process month
+    let value = getSolarDate(1, 1, +yearCanChi)
+    currentLunarDate = getLunarDate(+value[0], +value[1], +value[2])
+    let canChiByYear = getCanChi(currentLunarDate)
+
+    const canChiMonthNow = canChiByYear[1]
+
+    const indexcanChiTietKhiMonthByYear = findIndexCanChi(canChiMonthNow)
+
+    let rangeMonth = indexcanChiTietKhiMonth - indexcanChiTietKhiMonthByYear
+    let monthCanChi = 1 + rangeMonth
+    if (indexcanChiTietKhiMonthByYear > indexcanChiTietKhiMonth) {
+      rangeMonth =
+        59 - indexcanChiTietKhiMonthByYear + indexcanChiTietKhiMonth + 1
+      monthCanChi = 1 + rangeMonth
+    }
+    if (monthCanChi > 12) setIsDislayError(true)
+
+    // process day
+    value = getSolarDate(1, monthCanChi, +yearCanChi)
+    currentLunarDate = getLunarDate(+value[0], +value[1], +value[2])
+    canChiByYear = getCanChi(currentLunarDate)
+
+    const canChiDayNow = canChiByYear[0]
+
+    const indexCanChiTietKhiDayNow = findIndexCanChi(canChiDayNow)
+    let rangeDay = indexcanChiTietKhiDay - indexCanChiTietKhiDayNow
+    let dayCanChi = now.getDate() + rangeDay
+    if (indexCanChiTietKhiDayNow > indexcanChiTietKhiDay) {
+      rangeDay = 59 - indexCanChiTietKhiDayNow + indexcanChiTietKhiDay
+      dayCanChi = 1 + rangeDay
+    }
+
+    if (dayCanChi > 31) setIsDislayError(true)
+    const converSolar = getSolarDate(dayCanChi, monthCanChi, +yearCanChi)
+    setConvertTietkhi(
+      getTietkhiByLunar(
+        removeZero(converSolar[0]),
+        removeZero(converSolar[1]),
+        +converSolar[2]
+      ) || ''
+    )
   }
 
   useEffect(() => {
@@ -252,17 +320,18 @@ export default function CalendarSwitch() {
   }, [])
 
   const handleConvert = () => {
+    setIsDislayError(false)
     if (tab === 0) {
-      if (!day || !month || !year) return
+      if (!day || !month || !year) setIsDislayError(true)
       convertFromSolar()
     } else if (tab === 1) {
-      if (!day || !month || !year) return
+      if (!day || !month || !year) setIsDislayError(true)
       convertFromLunar()
     } else if (tab === 3) {
-      if (!can_year || !chi_year || !can_month || !chi_month || !can_day || !chi_day) return
+      if (!canYear || !chiYear || !canMonth || !chiMonth || !canDay || !chiDay)
+        setIsDislayError(true)
       convertFromCanChi()
     }
-
   }
   return (
     <div className="relative flex flex-wrap w-full gap-5">
@@ -384,34 +453,34 @@ export default function CalendarSwitch() {
             </div>
             <div className="flex gap-2.5">
               <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={CAN}
-                  sx={{ width: 150 }}
-                  renderInput={(params) => (
-                      <TextField variant="filled" {...params} label="Can" />
-                  )}
-                  value={can_year}
-                  disableClearable
-                  onChange={(_, v: string) => {
-                    setCanYear(v)
-                  }}
-                  popupIcon={<IconDown />}
+                disablePortal
+                id="combo-box-demo"
+                options={CAN}
+                sx={{ width: 150 }}
+                renderInput={(params) => (
+                  <TextField variant="filled" {...params} label="Can" />
+                )}
+                value={canYear}
+                disableClearable
+                onChange={(_, v: string) => {
+                  setCanYear(v)
+                }}
+                popupIcon={<IconDown />}
               />
               <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={CHI}
-                  sx={{ width: 150 }}
-                  renderInput={(params) => (
-                      <TextField variant="filled" {...params} label="Chi" />
-                  )}
-                  value={chi_year}
-                  disableClearable
-                  onChange={(_, v: string) => {
-                    setChiYear(v)
-                  }}
-                  popupIcon={<IconDown />}
+                disablePortal
+                id="combo-box-demo"
+                options={CHI}
+                sx={{ width: 150 }}
+                renderInput={(params) => (
+                  <TextField variant="filled" {...params} label="Chi" />
+                )}
+                value={chiYear}
+                disableClearable
+                onChange={(_, v: string) => {
+                  setChiYear(v)
+                }}
+                popupIcon={<IconDown />}
               />
             </div>
           </div>
@@ -421,34 +490,34 @@ export default function CalendarSwitch() {
             </div>
             <div className="flex gap-2.5">
               <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={CAN}
-                  sx={{ width: 150 }}
-                  renderInput={(params) => (
-                      <TextField variant="filled" {...params} label="Can" />
-                  )}
-                  value={can_month}
-                  disableClearable
-                  onChange={(_, v: string) => {
-                    setCanMonth(v)
-                  }}
-                  popupIcon={<IconDown />}
+                disablePortal
+                id="combo-box-demo"
+                options={CAN}
+                sx={{ width: 150 }}
+                renderInput={(params) => (
+                  <TextField variant="filled" {...params} label="Can" />
+                )}
+                value={canMonth}
+                disableClearable
+                onChange={(_, v: string) => {
+                  setCanMonth(v)
+                }}
+                popupIcon={<IconDown />}
               />
               <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={CHI}
-                  sx={{ width: 150 }}
-                  renderInput={(params) => (
-                      <TextField variant="filled" {...params} label="Chi" />
-                  )}
-                  value={chi_month}
-                  disableClearable
-                  onChange={(_, v: string) => {
-                    setChiMonth(v)
-                  }}
-                  popupIcon={<IconDown />}
+                disablePortal
+                id="combo-box-demo"
+                options={CHI}
+                sx={{ width: 150 }}
+                renderInput={(params) => (
+                  <TextField variant="filled" {...params} label="Chi" />
+                )}
+                value={chiMonth}
+                disableClearable
+                onChange={(_, v: string) => {
+                  setChiMonth(v)
+                }}
+                popupIcon={<IconDown />}
               />
             </div>
           </div>
@@ -458,34 +527,34 @@ export default function CalendarSwitch() {
             </div>
             <div className="flex gap-2.5">
               <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={CAN}
-                  sx={{ width: 150 }}
-                  renderInput={(params) => (
-                      <TextField variant="filled" {...params} label="Can" />
-                  )}
-                  value={can_day}
-                  disableClearable
-                  onChange={(_, v: string) => {
-                    setCanDay(v)
-                  }}
-                  popupIcon={<IconDown />}
+                disablePortal
+                id="combo-box-demo"
+                options={CAN}
+                sx={{ width: 150 }}
+                renderInput={(params) => (
+                  <TextField variant="filled" {...params} label="Can" />
+                )}
+                value={canDay}
+                disableClearable
+                onChange={(_, v: string) => {
+                  setCanDay(v)
+                }}
+                popupIcon={<IconDown />}
               />
               <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={CHI}
-                  sx={{ width: 150 }}
-                  renderInput={(params) => (
-                      <TextField variant="filled" {...params} label="Chi" />
-                  )}
-                  value={chi_day}
-                  disableClearable
-                  onChange={(_, v: string) => {
-                    setChiDay(v)
-                  }}
-                  popupIcon={<IconDown />}
+                disablePortal
+                id="combo-box-demo"
+                options={CHI}
+                sx={{ width: 150 }}
+                renderInput={(params) => (
+                  <TextField variant="filled" {...params} label="Chi" />
+                )}
+                value={chiDay}
+                disableClearable
+                onChange={(_, v: string) => {
+                  setChiDay(v)
+                }}
+                popupIcon={<IconDown />}
               />
             </div>
           </div>
@@ -516,58 +585,71 @@ export default function CalendarSwitch() {
             })}
           </ul>
         </div>
-        <TabPanel
-          value={tabConvert}
-          index={tabConvert === 0 || tabConvert === 1 ? tabConvert : 0}
-        >
-          <div className="text-sm font-medium text-gray-primary mb-4">
-            {tabConvert === 0 ? 'Ngày dương' : 'Ngày âm'}
+        {isDislayError && (
+          <div
+            className="text-sm font-medium text-gray-primary mb-4"
+            style={{ color: 'red' }}
+          >
+            Không có kết quả tương ứng
           </div>
-          <div className="flex gap-2.5">
-            <Input
-              label="Giờ"
-              value={convertDate.time}
-              containerClass="grow"
-              className="w-full min-w-[150px] bg-[#FFF6F6] border-transparent rounded-md"
-              disabled
-            ></Input>
-            <Input
-              label="Ngày"
-              value={convertDate.day}
-              className="w-[88px] xl:w-24 bg-[#FFF6F6] border-transparent rounded-md"
-              disabled
-            ></Input>
-            <Input
-              label="Tháng"
-              value={convertDate.month}
-              className="w-[88px] xl:w-24 bg-[#FFF6F6] border-transparent rounded-md"
-              disabled
-            ></Input>
-            <Input
-              label="Năm"
-              value={convertDate.year}
-              className="w-[100px] xl:w-28 bg-[#FFF6F6] border-transparent rounded-md"
-              disabled
-            ></Input>
+        )}
+
+        {!isDislayError && (
+          <div>
+            <TabPanel
+              value={tabConvert}
+              index={tabConvert === 0 || tabConvert === 1 ? tabConvert : 0}
+            >
+              <div className="text-sm font-medium text-gray-primary mb-4">
+                {tabConvert === 0 ? 'Ngày dương' : 'Ngày âm'}
+              </div>
+              <div className="flex gap-2.5">
+                <Input
+                  label="Giờ"
+                  value={convertDate.time}
+                  containerClass="grow"
+                  className="w-full min-w-[150px] bg-[#FFF6F6] border-transparent rounded-md"
+                  disabled
+                ></Input>
+                <Input
+                  label="Ngày"
+                  value={convertDate.day}
+                  className="w-[88px] xl:w-24 bg-[#FFF6F6] border-transparent rounded-md"
+                  disabled
+                ></Input>
+                <Input
+                  label="Tháng"
+                  value={convertDate.month}
+                  className="w-[88px] xl:w-24 bg-[#FFF6F6] border-transparent rounded-md"
+                  disabled
+                ></Input>
+                <Input
+                  label="Năm"
+                  value={convertDate.year}
+                  className="w-[100px] xl:w-28 bg-[#FFF6F6] border-transparent rounded-md"
+                  disabled
+                ></Input>
+              </div>
+            </TabPanel>
+            <TabPanel value={tabConvert} index={2}>
+              <div className="text-sm font-medium text-gray-primary mb-4">
+                Tiết khí tương ứng
+              </div>
+              <Input
+                label="Tiết khí"
+                value={convertTietkhi}
+                containerClass="grow"
+                className="w-[150px] bg-[#FFF6F6] border-transparent rounded-md"
+                disabled
+              ></Input>
+            </TabPanel>
+            <TabPanel value={tabConvert} index={3}>
+              <div className="text-sm font-medium text-gray-primary mb-4">
+                Can chi tương ứng
+              </div>
+            </TabPanel>
           </div>
-        </TabPanel>
-        <TabPanel value={tabConvert} index={2}>
-          <div className="text-sm font-medium text-gray-primary mb-4">
-            Tiết khí tương ứng
-          </div>
-          <Input
-            label="Tiết khí"
-            value={convertTietkhi}
-            containerClass="grow"
-            className="w-[150px] bg-[#FFF6F6] border-transparent rounded-md"
-            disabled
-          ></Input>
-        </TabPanel>
-        <TabPanel value={tabConvert} index={3}>
-          <div className="text-sm font-medium text-gray-primary mb-4">
-            Can chi tương ứng
-          </div>
-        </TabPanel>
+        )}
       </div>
 
       <div className="absolute flex items-center justify-center w-8 h-8 -translate-x-1/2 -translate-y-1/2 bg-white border-2 cursor-pointer hover:opacity-90 top-1/2 left-1/2 rounded-lg border-primary/[43] ring-2 ring-primary/[0.32]">

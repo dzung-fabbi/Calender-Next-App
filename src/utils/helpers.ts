@@ -172,7 +172,7 @@ function SunLongitude(value: any) {
  * From the day after March equinox and the 1st major term after March equinox, 0 is returned.
  * After that, return 1, 2, 3 ...
  */
-function getSunLongitude(dayNumber: any, timeZone: any) {
+export function getSunLongitude(dayNumber: any, timeZone: any) {
   return INT((SunLongitude(dayNumber - 0.5 - timeZone / 24) / PI) * 12)
 }
 
@@ -430,10 +430,10 @@ export function getSolarDate(dd: any, mm: any, yyyy: any) {
   const ly = getYearInfo(yyyy)
   let lm = ly[mm - 1]
   // eslint-disable-next-line eqeqeq
-  if (lm.month != mm) {
+  if (lm?.month != mm) {
     lm = ly[mm]
   }
-  const ld = lm.jd + dd - 1
+  const ld = lm?.jd + dd - 1
   return jdn2date(ld)
 }
 
@@ -482,7 +482,7 @@ export function getLunarDate(dd: any, mm: any, yyyy: any) {
   return findLunarDate(jd, ly)
 }
 
-function getCanChi(lunar: any) {
+export function getCanChi(lunar: any) {
   let monthName
   const dayName = `${CAN[(lunar.jd + 9) % 10]} ${CHI[(lunar.jd + 1) % 12]}`
   monthName = `${CAN[(lunar.year * 12 + lunar.month + 3) % 10]} ${
@@ -494,6 +494,7 @@ function getCanChi(lunar: any) {
   const yearName = getYearCanChi(lunar.year)
   return [dayName, monthName, yearName]
 }
+
 
 export function getDayName(lunarDate: any) {
   if (lunarDate.day === 0) {
