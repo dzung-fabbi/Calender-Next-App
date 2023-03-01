@@ -233,9 +233,18 @@ export default function CalendarSwitch() {
 
   const convertFromCanChi = () => {
     const canChiTietKhiYear = `${can_year} ${chi_year}`;
-    debugger;
     const indexYear = CAN_CHI.findIndex((element: string) => element === canChiTietKhiYear)
-    console.log(indexYear);
+    if (indexYear < 0) return
+
+    const canChiTietKhiMonth = `${can_month} ${chi_month}`;
+    const indexcanChiTietKhiMonth = CAN_CHI.findIndex((element: string) => element === canChiTietKhiMonth)
+    if (indexcanChiTietKhiMonth < 0) return
+
+    const canChiTietKhiDay = `${can_day} ${chi_day}`;
+    const indexcanChiTietKhiDay = CAN_CHI.findIndex((element: string) => element === canChiTietKhiDay)
+    if (indexcanChiTietKhiDay < 0) return
+
+
   }
 
   useEffect(() => {
