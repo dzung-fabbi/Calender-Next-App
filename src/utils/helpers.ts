@@ -433,6 +433,7 @@ export function getSolarDate(dd: any, mm: any, yyyy: any) {
   if (lm?.month != mm) {
     lm = ly[mm]
   }
+  // eslint-disable-next-line no-unsafe-optional-chaining
   const ld = lm?.jd + dd - 1
   return jdn2date(ld)
 }
@@ -494,7 +495,6 @@ export function getCanChi(lunar: any) {
   const yearName = getYearCanChi(lunar.year)
   return [dayName, monthName, yearName]
 }
-
 
 export function getDayName(lunarDate: any) {
   if (lunarDate.day === 0) {
