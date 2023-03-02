@@ -6,8 +6,8 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 }
 
 export type ResultResponse<D> = {
-  status: string
-  error: boolean
+  status?: string
+  error?: boolean
   data: D
-  time: Date
+  time?: Date
 }

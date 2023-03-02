@@ -1,5 +1,8 @@
+import dayjs from 'dayjs'
 import * as React from 'react'
+import { useEffect, useState } from 'react'
 
+import homeApi from '@/api/home.api'
 import { BadgeDateStatus } from '@/components/badge'
 import { useStore } from '@/store/useStore'
 import { DAYS, TIETKHI } from '@/utils/constant'
@@ -11,6 +14,21 @@ import {
   getSunLongitude,
 } from '@/utils/helpers'
 
+interface InfoProp {
+  good_stars: string
+  lunar_day: string
+  month: number | string
+  no_should_things: string
+  should_things: string
+  ugly_stars: string
+}
+
+interface TietkhiProp {
+  start_time: string
+  end_time: string
+  tiet_khi: string
+}
+
 export default function CalendarPreview() {
   const currentDate = useStore((state) => state.currentDate)
   const dayOfWeek = currentDate.day()
@@ -20,6 +38,35 @@ export default function CalendarPreview() {
   const currentLunarDate = getLunarDate(+day, +month, +year)
   const dayName = getDayName(currentLunarDate)
   const arrGioHD: any = getGioHoangDao(currentLunarDate.jd)
+  const [info, setInfo] = useState<InfoProp>({
+    good_stars: '',
+    lunar_day: '',
+    month: '',
+    should_things: '',
+    no_should_things: '',
+    ugly_stars: '',
+  })
+  const [tietkhiInfo, setTietkhiInfo] = useState<TietkhiProp>({
+    start_time: '',
+    end_time: '',
+    tiet_khi: '',
+  })
+
+  useEffect(() => {
+    homeApi
+      .getInfo(
+        currentLunarDate.month,
+        (dayName[0] || '').toUpperCase(),
+        `${currentLunarDate.year}-${currentLunarDate.month}-${currentLunarDate.day}`
+      )
+      .then((res) => {
+        setInfo(res.data.hiep_ky)
+        setTietkhiInfo(res.data.tiet_khi)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [currentDate])
 
   return (
     <div>
@@ -85,7 +132,10 @@ export default function CalendarPreview() {
             <li>
               Ngày khởi tiết:{' '}
               <span className="font-semibold text-left">
-                10:41 ngày 07/12/2022
+                {tietkhiInfo.start_time &&
+                  dayjs(tietkhiInfo.start_time).format('HH:mm')}{' '}
+                {tietkhiInfo.start_time &&
+                  `ngày ${dayjs(tietkhiInfo.start_time).format('DD/MM/YYYY')}`}
               </span>
             </li>
           </ul>
@@ -93,7 +143,14 @@ export default function CalendarPreview() {
             <li>
               Ngày chuyển tiết:{' '}
               <span className="font-semibold text-left">
-                04:40 ngày 22/12/2022
+                {tietkhiInfo.end_time &&
+                  dayjs(tietkhiInfo.end_time)
+                    .add(1, 'minutes')
+                    .format('HH:mm')}{' '}
+                {tietkhiInfo.end_time &&
+                  `ngày ${dayjs(tietkhiInfo.end_time)
+                    .add(1, 'minutes')
+                    .format('DD/MM/YYYY')}`}
               </span>
             </li>
           </ul>
@@ -195,19 +252,24 @@ export default function CalendarPreview() {
         </div>
         <div className="flex flex-col p-5">
           <div className="flex items-center mb-4">
-            <div className="rounded-primary h-[43px] w-[6px] bg-primary mr-2"></div>
-            <span className="mr-2 font-semibold text-primary">Sao tốt: </span>
-            <span className="text-sm text-blue-tag">
-              Tứ tướng, Ô phệ, Kính an, Nguyệt không, Giải thần
-            </span>
+            <div className="border-left-infor good flex leading-[16.94px] mr-2 font-semibold text-primary">
+              <div className="pl-3 py-3">
+                Sao tốt:
+                <span className="text-sm text-blue-tag ml-1 font-normal">
+                  {info.good_stars}
+                </span>
+              </div>
+            </div>
           </div>
           <div className="flex items-center">
-            <div className="rounded-primary h-[43px] w-[6px] bg-[#B9CBDC] mr-2"></div>
-            <span className="mr-2 font-semibold">Sao xấu: </span>
-            <span className="text-sm text-blue-tag">
-              Ngũ hư, Đại thời, Đại bại, Hàm trì, Nguyệt hại, Tiểu hao, Thiên
-              lao
-            </span>
+            <div className="border-left-infor ugly flex leading-[16.94px] mr-2 font-semibold">
+              <div className="pl-3 py-3">
+                Sao xấu:
+                <span className="text-sm text-blue-tag ml-1 font-normal">
+                  {info.ugly_stars}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -217,27 +279,23 @@ export default function CalendarPreview() {
         </div>
         <div className="flex flex-col p-5">
           <div className="flex items-center mb-4">
-            <div className="rounded-primary h-[43px] w-[6px] bg-primary mr-2"></div>
-            <span className="mr-2 font-semibold text-primary">Nên: </span>
-            <span className="text-sm text-gray-primary">
-              Cúng tế, tắm gội, chặt cây, săn bắn, cắt may, đuổi bắt, cắt tóc
-              sửa móng
-            </span>
+            <div className="border-left-infor good flex leading-[16.94px] mr-2 font-semibold text-primary">
+              <div className="pl-3 py-3">
+                Nên:
+                <span className="text-sm font-normal text-gray-primary ml-1">
+                  {info.should_things}
+                </span>
+              </div>
+            </div>
           </div>
           <div className="flex items-center">
-            <div className="rounded-primary h-[92px] min-w-[6px] bg-[#B9CBDC] mr-2"></div>
-            <div className="mr-2 font-semibold">
-              Không nên:
-              <span className="text-sm font-normal text-gray-primary">
-                Đội mũ cài trâm, đính hôn, ăn hỏi, cưới gả, thu nạp người, mời
-                thầy chữa bệnh, đan dệt, nấu rượu, mở kho xuất tiền hàng, đánh
-                cá, phá thổ, an táng, cải táng, Họp thân hữu, giải trừ, dựng cột
-                gác xà, nạp tài, chăn nuôi, nạp gia súc, dâng biểu sớ, nhận
-                phong tước vị, lên quan nhậm chức, gặp dân, di chuyển, đắp đê,
-                tu tạo động thổ, sửa kho, xếp đặt buồng đẻ, gieo trồng, cầu phúc
-                cầu tự, khai trương, đi thuyền, xuất hành, kê giường, lợp mái,
-                lập ước, giao dịch
-              </span>
+            <div className="border-left-infor ugly flex leading-[16.94px] mr-2 font-semibold">
+              <div className="pl-3 py-3">
+                Không nên:
+                <span className="text-sm font-normal text-gray-primary ml-1">
+                  {info.no_should_things}
+                </span>
+              </div>
             </div>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import LoadingButton from '@mui/lab/LoadingButton'
 import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
@@ -9,6 +10,7 @@ import { twMerge } from 'tailwind-merge'
 
 import { IconChevronRight, IconDown } from '@/components/icon'
 import { Input } from '@/components/input'
+import { useToggle } from '@/hooks'
 import { CAN, CHI, TIETKHI } from '@/utils/constant'
 import {
   addZero,
@@ -183,8 +185,9 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export default function CalendarSwitch() {
-  const [tab, setTab] = React.useState(0)
-  const [tabConvert, setTabConvert] = React.useState(1)
+  const [tab, setTab] = useState(0)
+  const [isLoading, setLoading] = useToggle()
+  const [tabConvert, setTabConvert] = useState(1)
   const currentDate = dayjs()
   const [time, setTime] = useState<Dayjs | null>(currentDate)
   const [day, setDay] = useState<string>(currentDate.format('DD'))
@@ -213,7 +216,7 @@ export default function CalendarSwitch() {
   const convertFromLunar = () => {
     const value = getSolarDate(removeZero(day), removeZero(month), +year)
     setConvertDate({
-      time: dayjs(time).format('HH:mm A'),
+      time: dayjs(time).format('hh:mm A'),
       day: addZero(value[0]) || '',
       month: addZero(value[1]) || '',
       year: value[2] || '',
@@ -230,7 +233,7 @@ export default function CalendarSwitch() {
   const convertFromSolar = () => {
     const value = convertSolar2Lunar(removeZero(day), removeZero(month), +year)
     setConvertDate({
-      time: dayjs(time).format('HH:mm A'),
+      time: dayjs(time).format('hh:mm A'),
       day: addZero(value[0]) || '',
       month: addZero(value[1]) || '',
       year: value[2] || '',
@@ -320,18 +323,29 @@ export default function CalendarSwitch() {
   }, [])
 
   const handleConvert = () => {
-    setIsDislayError(false)
-    if (tab === 0) {
-      if (!day || !month || !year) setIsDislayError(true)
-      convertFromSolar()
-    } else if (tab === 1) {
-      if (!day || !month || !year) setIsDislayError(true)
-      convertFromLunar()
-    } else if (tab === 3) {
-      if (!canYear || !chiYear || !canMonth || !chiMonth || !canDay || !chiDay)
-        setIsDislayError(true)
-      convertFromCanChi()
-    }
+    setLoading()
+    setTimeout(() => {
+      setLoading()
+      setIsDislayError(false)
+      if (tab === 0) {
+        if (!day || !month || !year) setIsDislayError(true)
+        convertFromSolar()
+      } else if (tab === 1) {
+        if (!day || !month || !year) setIsDislayError(true)
+        convertFromLunar()
+      } else if (tab === 3) {
+        if (
+          !canYear ||
+          !chiYear ||
+          !canMonth ||
+          !chiMonth ||
+          !canDay ||
+          !chiDay
+        )
+          setIsDislayError(true)
+        convertFromCanChi()
+      }
+    }, 300)
   }
   return (
     <div className="relative flex flex-wrap w-full gap-5">
@@ -652,9 +666,18 @@ export default function CalendarSwitch() {
         )}
       </div>
 
-      <div className="absolute flex items-center justify-center w-8 h-8 -translate-x-1/2 -translate-y-1/2 bg-white border-2 cursor-pointer hover:opacity-90 top-1/2 left-1/2 rounded-lg border-primary/[43] ring-2 ring-primary/[0.32]">
-        <button onClick={handleConvert}>
-          <IconChevronRight />
+      <div
+        onClick={handleConvert}
+        className="absolute flex items-center justify-center w-8 h-8 -translate-x-1/2 -translate-y-1/2 bg-white border-2 cursor-pointer hover:opacity-90 top-1/2 left-1/2 rounded-lg border-primary/[43] ring-2 ring-primary/[0.32]"
+      >
+        <button>
+          {isLoading ? (
+            <LoadingButton loading variant="text">
+              Submit
+            </LoadingButton>
+          ) : (
+            <IconChevronRight />
+          )}
         </button>
       </div>
     </div>
