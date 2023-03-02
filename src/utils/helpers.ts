@@ -568,3 +568,8 @@ export function getMonth(mm: any, yy: any) {
   }
   return result
 }
+
+// eslint-disable-next-line @typescript-eslint/no-shadow
+export function getCanHour0(jdn: number) {
+  return CAN[((jdn - 1) * 2) % 10]
+}

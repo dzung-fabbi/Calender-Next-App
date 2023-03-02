@@ -13,7 +13,7 @@ import { CAN, CHI, TIETKHI } from '@/utils/constant'
 import {
   addZero,
   convertSolar2Lunar,
-  getCanChi,
+  getCanChi, getCanHour0,
   getLunarDate,
   getSolarDate,
   getTietkhiByLunar,
@@ -99,7 +99,7 @@ const LIST_TAB = [
   {
     label: 'Can chi',
     tabValue: 3,
-    allow: [2],
+    allow: [0, 1, 2],
   },
 ]
 
@@ -205,6 +205,12 @@ export default function CalendarSwitch() {
     year: '',
   })
   const [convertTietkhi, setConvertTietkhi] = useState<string>('')
+  const [convertCanChi, setConvertCanChi] = useState<DateProps>({
+    time: '',
+    day: '',
+    month: '',
+    year: '',
+  })
 
   const handleChange = (newValue: Dayjs | null) => {
     setTime(newValue)
@@ -225,6 +231,15 @@ export default function CalendarSwitch() {
         +value[2]
       ) || ''
     )
+    const currentLunarDate = getLunarDate(+value[0], +value[1], +value[2])
+    const canChi = getCanChi(currentLunarDate)
+    const canHours = getCanHour0(currentLunarDate.jd)
+    setConvertCanChi({
+      time: `${canHours} ${CHI[0]}`,
+      day: canChi[0] || '',
+      month: canChi[1] || '',
+      year: canChi[2] || '',
+    })
   }
 
   const convertFromSolar = () => {
@@ -234,6 +249,15 @@ export default function CalendarSwitch() {
       day: addZero(value[0]) || '',
       month: addZero(value[1]) || '',
       year: value[2] || '',
+    })
+    const lunarDate = getLunarDate(+day, +month, +year)
+    const canChi = getCanChi(lunarDate)
+    const canHours = getCanHour0(lunarDate.jd)
+    setConvertCanChi({
+      time: `${canHours} ${CHI[0]}`,
+      day: canChi[0] || '',
+      month: canChi[1] || '',
+      year: canChi[2] || '',
     })
   }
 
@@ -646,6 +670,19 @@ export default function CalendarSwitch() {
             <TabPanel value={tabConvert} index={3}>
               <div className="text-sm font-medium text-gray-primary mb-4">
                 Can chi tương ứng
+              </div>
+
+              <div className="text-sm font-small text-gray-primary mb-4">
+                Giờ: {convertCanChi.time}
+              </div>
+              <div className="text-sm font-small text-gray-primary mb-4">
+                Ngày: {convertCanChi.day}
+              </div>
+              <div className="text-sm font-small text-gray-primary mb-4">
+                Tháng: {convertCanChi.month}
+              </div>
+              <div className="text-sm font-small text-gray-primary mb-4">
+                Năm: {convertCanChi.year}
               </div>
             </TabPanel>
           </div>
