@@ -17,6 +17,6 @@ module.exports = withBundleAnalyzer({
   // You can remove `basePath` if you don't need it.
   reactStrictMode: true,
   env: {
-    BASE_URL: process.env.API_ENDPOINT,
+    BASE_URL: process.env.BASE_URL,
   },
 })
