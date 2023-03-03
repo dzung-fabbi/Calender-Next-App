@@ -1,3 +1,3 @@
-import Card from './Card'
+import CardCalendar from './CardCalendar'
 
-export { Card }
+export { CardCalendar }

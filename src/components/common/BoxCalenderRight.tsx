@@ -9,7 +9,7 @@ import { useStore } from '@/store/useStore'
 import { LOWER_DAYS } from '@/utils/constant'
 import { getMonth } from '@/utils/helpers'
 
-import { Card } from '../card'
+import { CardCalendar } from '../card'
 import { IconAkarChevronDown } from '../icon'
 
 const Calendar = ({
@@ -41,7 +41,7 @@ const Calendar = ({
   const endOfPrevMonth = +prevMonth.endOf('month').format('DD')
 
   return (
-    <div className="lvn-lichad-lichmain bg-[#FAFBFA] p-3 rounded-2xl mt-4">
+    <div className="lvn-lichad-lichmain bg-[#FAFBFA] p-1.5 xl:p-3 rounded-2xl mt-4">
       <div className="grid grid-cols-7 gap-2 mb-3">
         <div className="font-semibold text-primary">CN</div>
         <div className="font-semibold">Hai</div>
@@ -85,10 +85,10 @@ const Calendar = ({
               }
               return (
                 <div key={k} className="lvn-lichad-col lvn-lichad-colhide">
-                  <div className="lvn-lichad-dd text-lg font-semibold ">
+                  <div className="text-lg font-semibold lvn-lichad-dd ">
                     <span>{solarDate}</span>
                   </div>
-                  <span className="lvn-lichad-da text-sm text-gray-primary">
+                  <span className="text-sm lvn-lichad-da text-gray-primary">
                     {lunar}
                   </span>
                 </div>
@@ -115,7 +115,7 @@ const Calendar = ({
                   }}
                   title="Xem lịch âm ngày 4 tháng 1 năm 2023"
                 >
-                  <div className="lvn-lichad-dd text-lg font-semibold ">
+                  <div className="text-lg font-semibold lvn-lichad-dd ">
                     <span className="day">{solarDate}</span>
                   </div>
                   <span
@@ -147,9 +147,9 @@ export default function BoxCalenderRight() {
     )} Tháng ${currentDate.format('MM, YYYY')}`
   }, [currentDate])
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <section className="bg-[#F3F4F3] h-[100vh] py-10 px-5 rounded-l-30px min-w-[25.625rem] shrink-0">
-        <Card>
+    <section className="bg-transparent xl:bg-[#F3F4F3] xl:h-[100vh] w-full mx-auto xl:max-w-[25.625rem] min-w-[22rem] py-10 px-5 rounded-30px xl:rounded-r-none">
+      <CardCalendar className="bg-[#D9E8DA] xl:bg-white">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             views={['year', 'month']}
             // minDate={dayjs('2012-03-01')}
@@ -181,31 +181,30 @@ export default function BoxCalenderRight() {
               </div>
             )}
           />
-          <Calendar
-            currentDate={currentDate}
-            setCurrentDate={onChangeCurrentDate}
-          />
-          <p className="mt-4 text-lg font-semibold text-left">Chú thích</p>
-          <div className="flex pl-2">
-            <span className="good-day w-2/5 text-left">Ngày đẹp</span>
-            <span className="ugly-day">Ngày xấu</span>
+        </LocalizationProvider>
+
+        <Calendar
+          currentDate={currentDate}
+          setCurrentDate={onChangeCurrentDate}
+        />
+        <p className="mt-4 text-lg font-semibold text-left">Chú thích</p>
+        <div className="flex pl-2">
+          <span className="w-2/5 text-left good-day">Ngày đẹp</span>
+          <span className="ugly-day">Ngày xấu</span>
+        </div>
+        <p className="my-4 text-lg font-semibold text-left">Ngày này năm xưa</p>
+        <div className="flex pl-2">
+          <img className="mr-2" src="/images/celebrate.png" alt="" />
+          <div className="flex flex-col">
+            <span className="text-sm font-normal text-left text-gray-primary">
+              26/12/1991
+            </span>
+            <span className="font-medium ">
+              Liên bang Liên Xô tuyên bố tan rã
+            </span>
           </div>
-          <p className="my-4 text-lg font-semibold text-left">
-            Ngày này năm xưa
-          </p>
-          <div className="flex pl-2">
-            <img className="mr-2" src="/images/celebrate.png" alt="" />
-            <div className="flex flex-col">
-              <span className="text-sm font-normal text-left text-gray-primary">
-                26/12/1991
-              </span>
-              <span className="font-medium ">
-                Liên bang Liên Xô tuyên bố tan rã
-              </span>
-            </div>
-          </div>
-        </Card>
-      </section>
-    </LocalizationProvider>
+        </div>
+      </CardCalendar>
+    </section>
   )
 }

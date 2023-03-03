@@ -1,11 +1,12 @@
 import dayjs from 'dayjs'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 import homeApi from '@/api/home.api'
 import { BadgeDateStatus } from '@/components/badge'
 import { useStore } from '@/store/useStore'
-import { DAYS, TIETKHI } from '@/utils/constant'
+import { DAYS, LOWER_DAYS, TIETKHI } from '@/utils/constant'
 import {
   addZero,
   getDayName,
@@ -69,27 +70,29 @@ export default function CalendarPreview() {
   }, [currentDate])
 
   return (
-    <div>
+    // eslint-disable-next-line tailwindcss/no-custom-classname
+    <div className="calendar-preview-wrapper">
       <p className="text-xl font-bold">Lịch tháng {month}</p>
-      <section className="flex items-center py-7 rounded-primary bg-datePreview">
-        <div className="w-5/12 flex flex-col gap-y-[6px] relative">
-          <h4 className="font-medium text-[1.625rem] text-center">
+      <section className="grid items-center shadow-lg bg-[#FFF2F1] grid-cols-2 gap-10 px-5 py-4 md:px-10 xl:gap-32 2xl:gap-36 lg:py-7 lg:px-0 rounded-primary lg:bg-datePreview">
+        <div className="hidden lg:flex flex-col gap-y-[6px] text-center">
+          <h4 className="font-medium text-[1.625rem]">
             Tháng {month} năm {year}
           </h4>
-          <h1 className="font-bold text-[8.75rem] text-primary leading-none text-center relative">
-            {day}
-            <div className="absolute left-2/3 top-0 rotate-[-31.24deg]">
-              <BadgeDateStatus />
-            </div>
-          </h1>
+          <div className="mx-auto">
+            <h1 className="font-bold text-[8.75rem] text-primary leading-none relative w-fit">
+              {day}
+              <div className="absolute left-full top-0 rotate-[-31.24deg]">
+                <BadgeDateStatus />
+              </div>
+            </h1>
+          </div>
 
-          <span className="uppercase font-semibold text-[1.625rem] text-center">
+          <span className="uppercase font-semibold text-[1.625rem]">
             {DAYS[dayOfWeek]}
           </span>
         </div>
-        <div className="w-1/6"></div>
-        <div className="flex flex-col flex-1 w-5/12">
-          <div className="flex">
+        <div className="z-10 flex flex-col flex-1 col-span-full lg:col-span-1">
+          <div className="hidden lg:flex">
             <div className="flex flex-col w-2/5">
               <h1 className="font-bold text-[5rem] leading-none text-left text-orange-primary">
                 {addZero(currentLunarDate.day)}
@@ -99,21 +102,30 @@ export default function CalendarPreview() {
                 {currentLunarDate.leap === 1 && 'Nhuận'} (Âm Lịch)
               </span>
             </div>
-            <div className="flex flex-col justify-end flex-1">
-              <span className="font-semibold text-left">Năm {dayName[2]}</span>
-              <span className="font-semibold text-left">Ngày {dayName[0]}</span>
-              <span className="font-semibold text-left">
-                Tháng {dayName[1]}
-              </span>
+            <div className="flex flex-col justify-end flex-1 gap-y-1.5">
+              <span className="font-medium text-left">Năm {dayName[2]}</span>
+              <span className="font-medium text-left">Ngày {dayName[0]}</span>
+              <span className="font-medium text-left">Tháng {dayName[1]}</span>
             </div>
           </div>
+
+          <div className="relative flex flex-col lg:hidden">
+            <span className="font-semibold leading-tight capitalize">
+              {LOWER_DAYS[dayOfWeek]}
+            </span>
+            <span className="text-2xl font-medium leading-tight capitalize text-primary">{`${day} Tháng ${month} `}</span>
+            <span className="font-medium leading-tight capitalize">{`${addZero(
+              currentLunarDate.day
+            )} Tháng ${addZero(currentLunarDate.month)}, ${dayName[2]}`}</span>
+          </div>
+
           <ul className="flex pt-5">
             <li className="w-2/5">
-              Ngày:{' '}
+              Ngày:
               <span className="font-semibold text-left">{dayName[0]}</span>
             </li>
             <li>
-              Tháng:{' '}
+              Tháng:
               <span className="font-semibold text-left">{dayName[1]}</span>
             </li>
           </ul>
@@ -122,7 +134,7 @@ export default function CalendarPreview() {
               Năm: <span className="font-semibold text-left">{dayName[2]}</span>
             </li>
             <li>
-              Tiết:{' '}
+              Tiết:
               <span className="font-semibold text-left">
                 {TIETKHI[getSunLongitude(currentLunarDate.jd + 1, 7.0)]}
               </span>
@@ -156,30 +168,21 @@ export default function CalendarPreview() {
           </ul>
         </div>
       </section>
-      <section className="bg-[#FFFAF9] mt-30px rounded-primary">
-        <div className="bg-primary rounded-t-primary py-[10px] pl-5 text-white">
+      <section className="bg-[#FFFAF9] mt-30px rounded-[20px] lg:rounded-primary">
+        <div className="bg-primary rounded-t-[20px] lg:rounded-t-primary text-lg font-semibold py-2.5 pl-5 text-white">
           Giờ tốt trong ngày
         </div>
-        <div className="px-[30px]">
-          <div className="flex pl-5 border-b border-[#E2E2E2]">
-            {[0, 1, 2].map((e: number) => {
+        <div className="px-6 pb-6 lg:px-30px lg:pb-0">
+          <div className="grid grid-cols-2 gap-x-6 lg:grid-cols-3 lg:gap-0">
+            {[0, 1, 2, 3, 4, 5].map((e: number) => {
               return (
-                <div key={e} className="flex items-center w-1/3 py-4 gap-2.5">
-                  <img src={arrGioHD[e].img} alt="" className="" />
-                  <div className="flex flex-col">
-                    <span className="font-semibold text-left">
-                      {arrGioHD[e].name}
-                    </span>
-                    <span>{arrGioHD[e].time}</span>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-          <div className="flex pl-5">
-            {[3, 4, 5].map((e: number) => {
-              return (
-                <div key={e} className="flex items-center w-1/3 py-4 gap-2.5">
+                <div
+                  key={e}
+                  className={twMerge(
+                    'flex items-center py-4 pb-2 lg:pb-4 gap-2.5 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5',
+                    [3, 4, 5].includes(e) && 'lg:border-b-0'
+                  )}
+                >
                   <img src={arrGioHD[e].img} alt="" className="" />
                   <div className="flex flex-col">
                     <span className="font-semibold text-left">
@@ -193,69 +196,44 @@ export default function CalendarPreview() {
           </div>
         </div>
       </section>
-      <section className="bg-[#F2F7FC] mt-30px rounded-primary">
-        <div className="bg-[#B9CBDC] rounded-t-primary py-[10px] pl-5 text-black">
+      <section className="bg-[#F2F7FC] mt-30px rounded-[20px] lg:rounded-primary">
+        <div className="bg-[#B9CBDC] rounded-t-[20px] lg:rounded-t-primary text-lg font-semibold py-2.5 pl-5">
           Giờ Xấu trong ngày
         </div>
-        <div className="px-[30px]">
-          <div className="flex pl-5 border-b border-[#E2E2E2]">
-            <div className="flex items-center w-1/3 py-4 gap-2.5">
-              <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col">
-                <span className="font-semibold text-left">Tý</span>
-                <span>23:00 - 01:00</span>
-              </div>
-            </div>
-            <div className="flex items-center w-1/3 py-4 gap-2.5">
-              <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col">
-                <span className="font-semibold text-left">Tý</span>
-                <span>23:00 - 01:00</span>
-              </div>
-            </div>
-            <div className="flex items-center w-1/3 py-4 gap-2.5">
-              <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col">
-                <span className="font-semibold text-left">Tý</span>
-                <span>23:00 - 01:00</span>
-              </div>
-            </div>
-          </div>
-          <div className="flex pl-5">
-            <div className="flex items-center w-1/3 py-4 gap-2.5">
-              <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col">
-                <span className="font-semibold text-left">Tý</span>
-                <span>23:00 - 01:00</span>
-              </div>
-            </div>
-            <div className="flex items-center w-1/3 py-4 gap-2.5">
-              <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col">
-                <span className="font-semibold text-left">Tý</span>
-                <span>23:00 - 01:00</span>
-              </div>
-            </div>
-            <div className="flex items-center w-1/3 py-4 gap-2.5">
-              <img src="/images/mouse.png" alt="" />
-              <div className="flex flex-col">
-                <span className="font-semibold text-left">Tý</span>
-                <span>23:00 - 01:00</span>
-              </div>
-            </div>
+        <div className="px-6 pb-6 lg:px-30px lg:pb-0">
+          <div className="grid grid-cols-2 gap-x-6 lg:grid-cols-3 lg:gap-0">
+            {[0, 1, 2, 3, 4, 5].map((e: number) => {
+              return (
+                <div
+                  key={e}
+                  className={twMerge(
+                    'flex items-center py-4 pb-2 lg:pb-4 gap-2.5 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5',
+                    [3, 4, 5].includes(e) && 'lg:border-b-0'
+                  )}
+                >
+                  <img src={arrGioHD[e].img} alt="" className="" />
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-left">
+                      {arrGioHD[e].name}
+                    </span>
+                    <span>{arrGioHD[e].time}</span>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
-      <section className="bg-[#FFFAF9] mt-30px rounded-primary">
-        <div className=" bg-primary rounded-t-primary py-[10px] pl-5 text-white">
+      <section className="bg-[#FFFAF9] mt-30px rounded-[20px] lg:rounded-primary">
+        <div className="bg-primary rounded-t-[20px] lg:rounded-t-primary text-lg font-semibold py-2.5 pl-5 text-white">
           Sao tốt xấu
         </div>
         <div className="flex flex-col p-5">
           <div className="flex items-center mb-4">
             <div className="border-left-infor good flex leading-[16.94px] mr-2 font-semibold text-primary">
-              <div className="pl-3 py-3">
+              <div className="py-3 pl-3">
                 Sao tốt:
-                <span className="text-sm text-blue-tag ml-1 font-normal">
+                <span className="ml-1 text-sm font-normal text-blue-tag">
                   {info.good_stars}
                 </span>
               </div>
@@ -263,9 +241,9 @@ export default function CalendarPreview() {
           </div>
           <div className="flex items-center">
             <div className="border-left-infor ugly flex leading-[16.94px] mr-2 font-semibold">
-              <div className="pl-3 py-3">
+              <div className="py-3 pl-3">
                 Sao xấu:
-                <span className="text-sm text-blue-tag ml-1 font-normal">
+                <span className="ml-1 text-sm font-normal text-blue-tag">
                   {info.ugly_stars}
                 </span>
               </div>
@@ -273,16 +251,16 @@ export default function CalendarPreview() {
           </div>
         </div>
       </section>
-      <section className="bg-[#FFFAF9] mt-30px rounded-primary">
-        <div className="bg-primary rounded-t-primary py-[10px] pl-5 text-white">
+      <section className="bg-[#FFFAF9] mt-30px rounded-[20px] lg:rounded-primary">
+        <div className="bg-primary rounded-t-[20px] lg:rounded-t-primary text-lg font-semibold py-2.5 pl-5 text-white">
           Việc nên - Không nên làm
         </div>
         <div className="flex flex-col p-5">
           <div className="flex items-center mb-4">
             <div className="border-left-infor good flex leading-[16.94px] mr-2 font-semibold text-primary">
-              <div className="pl-3 py-3">
+              <div className="py-3 pl-3">
                 Nên:
-                <span className="text-sm font-normal text-gray-primary ml-1">
+                <span className="ml-1 text-sm font-normal text-gray-primary">
                   {info.should_things}
                 </span>
               </div>
@@ -290,9 +268,9 @@ export default function CalendarPreview() {
           </div>
           <div className="flex items-center">
             <div className="border-left-infor ugly flex leading-[16.94px] mr-2 font-semibold">
-              <div className="pl-3 py-3">
+              <div className="py-3 pl-3">
                 Không nên:
-                <span className="text-sm font-normal text-gray-primary ml-1">
+                <span className="ml-1 text-sm font-normal text-gray-primary">
                   {info.no_should_things}
                 </span>
               </div>

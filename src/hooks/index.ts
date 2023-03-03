@@ -1,6 +1,6 @@
 import { useHover } from './useHover'
 import useOnClickOutside from './useOnClickOutside'
 import { useToggle } from './useToggle'
-import useTranslate from './useTranslate'
+import useWindowSize from './useWindowSize'
 
-export { useHover, useOnClickOutside, useToggle, useTranslate }
+export { useHover, useOnClickOutside, useToggle, useWindowSize }
