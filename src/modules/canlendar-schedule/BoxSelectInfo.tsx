@@ -61,10 +61,10 @@ export default function BoxSelectInfo() {
   const submitForm = (data: FormValue) => alert(data)
   return (
     <form
-      className="flex flex-col p-5 pt-3 border border-primary rounded-primary gap-y-5"
+      className="flex flex-col p-2.5 pb-5 xl:p-5 xl:pt-2.5 border border-primary rounded-primary gap-y-2.5 xl:gap-y-5"
       onSubmit={handleSubmit(submitForm)}
     >
-      <h4 className="font-medium text-gray-primary">
+      <h4 className="my-[5px] font-medium text-gray-primary">
         Lựa chọn thời gian sắp đặt lịch làm việc của bạn!
       </h4>
       <div className="flex gap-[10px] flex-wrap">
@@ -97,7 +97,7 @@ export default function BoxSelectInfo() {
               popupIcon={<IconDown />}
             />
           )}
-        ></Controller>
+        />
 
         <div className="w-full lg:w-[11.25rem] 2xl:w-52">
           <Controller
@@ -113,6 +113,7 @@ export default function BoxSelectInfo() {
                 components={{
                   OpenPickerIcon: IconDown,
                 }}
+                className="w-full"
                 disableFuture
                 value={value}
                 onChange={onChange}
@@ -123,16 +124,11 @@ export default function BoxSelectInfo() {
                     type="date"
                     {...params}
                     error={invalid}
-                    // onBlur={(e) => {
-                    //   if (!isValidDate(e.target.value)) {
-                    //     setFilter({ ...filter, year: dayjs(new Date()) })
-                    //   }
-                    // }}
                   />
                 )}
               />
             )}
-          ></Controller>
+          />
         </div>
         <div className="w-full lg:w-[11.25rem] 2xl:w-52">
           <Controller
@@ -148,6 +144,7 @@ export default function BoxSelectInfo() {
                 components={{
                   OpenPickerIcon: IconCalendar,
                 }}
+                className="w-full"
                 ref={ref}
                 maxDate={watch('endDate')}
                 value={value}
@@ -157,7 +154,7 @@ export default function BoxSelectInfo() {
                 )}
               />
             )}
-          ></Controller>
+          />
         </div>
         <div className="w-full lg:w-[11.25rem] 2xl:w-52">
           <Controller
@@ -173,6 +170,7 @@ export default function BoxSelectInfo() {
                 components={{
                   OpenPickerIcon: IconCalendar,
                 }}
+                className="w-full"
                 ref={ref}
                 minDate={watch('startDate')}
                 value={value}
@@ -182,11 +180,16 @@ export default function BoxSelectInfo() {
                 )}
               />
             )}
-          ></Controller>
+          />
         </div>
       </div>
-      <div className="flex justify-end">
-        <Button primary type="submit" disabled={!isValidForm}>
+      <div className="flex lg:justify-end">
+        <Button
+          className="w-full lg:w-fit"
+          primary
+          type="submit"
+          disabled={!isValidForm}
+        >
           Gửi
         </Button>
       </div>

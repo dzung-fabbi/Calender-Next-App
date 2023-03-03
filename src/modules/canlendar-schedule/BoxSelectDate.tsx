@@ -11,7 +11,7 @@ export default function BoxSelectDate() {
         <h4 className="text-lg font-medium text-gray-primary">Chọn ngày</h4>
 
         {/* button group */}
-        <div className="flex flex-wrap gap-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-4 4xl:grid-cols-6">
           {/* active button */}
           <BadgePrimary className="text-white bg-green-btn">
             12/2/2023

@@ -17,7 +17,7 @@ const SIDEBAR_MENU = [
 export default function Sidebar() {
   const router = useRouter()
   return (
-    <section className="px-2.5 py-7 h-[100vh] w-[16.5rem] transition-all shrink-0 bg-primary rounded-r-30px">
+    <section className="px-2.5 py-7 h-[100vh] w-[16.5rem] transition-all shrink-0 bg-primary rounded-r-30px hidden md:block">
       <div className="flex justify-center">
         <Link href={'/'} passHref legacyBehavior>
           <a>
