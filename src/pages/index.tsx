@@ -21,7 +21,7 @@ const Home: NextPageWithLayout = () => {
   return (
     <>
       <img
-        className="object-cover w-full mb-5 rounded-2xl"
+        className="object-cover w-full mb-5 rounded-2xl hidden md:block"
         src="/images/banner.png"
         alt=""
       />

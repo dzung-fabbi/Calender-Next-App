@@ -1,32 +1,46 @@
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Drawer,
+} from '@mui/material'
+import Avatar from '@mui/material/Avatar'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { twMerge } from 'tailwind-merge'
 
+import { useToggle } from '@/hooks'
 import { useStore } from '@/store/useStore'
 import { MODE_TAB_HEADER } from '@/utils/constant'
 
 import Button from '../button/ButtonPrimary'
+import { CalendarHeader, ConvertCalendar } from '../icon'
 
 const NAVBAR_MENU = [
   {
     label: 'Xem Lịch',
     value: MODE_TAB_HEADER.PREVIEW,
+    icon: <CalendarHeader />,
   },
   {
     label: 'Đổi Lịch',
     value: MODE_TAB_HEADER.CALENDAR_CHANGE,
+    icon: <ConvertCalendar />,
   },
 ]
 function Header() {
   const router = useRouter()
   const tabHeader = useStore((state) => state.tabHeader)
+  const [openDrawer, setOpenDrawer] = useToggle(false)
   const onChangeTab = useStore((state) => state.setTabHeader)
   const handleChangeTabHeader = (newTab: number) => {
     onChangeTab(newTab)
     if (router.pathname !== '/') router.push('/')
   }
   return (
-    <section className="flex justify-between items-center gap-x-5 py-25px border-b border-[#DDE1DD]">
-      <nav className="flex gap-x-5">
+    <section className="flex justify-between items-center gap-x-5 py-[15px] md:py-[25px] border-b border-[#DDE1DD]">
+      <nav className="gap-x-5 hidden md:flex">
         {NAVBAR_MENU.map(({ value, label }) => {
           return (
             <div
@@ -46,7 +60,7 @@ function Header() {
           )
         })}
       </nav>
-      <div className="flex gap-x-4">
+      <div className="gap-x-4 hidden md:flex">
         <Button onClick={() => router.push('/calendar-schedule')} primary>
           Sắp đặt lịch làm việc
         </Button>
@@ -57,6 +71,145 @@ function Header() {
             alt="avatar"
           />
         </div>
+      </div>
+      <div className="w-full md:hidden xs:flex">
+        <button onClick={() => setOpenDrawer()} className="grow">
+          <img src="/images/menu.png" alt="" />
+        </button>
+        <Avatar
+          alt="Remy Sharp"
+          src="https://images.unsplash.com/photo-1603468620905-8de7d86b781e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80"
+        />
+        <Drawer
+          PaperProps={{
+            sx: { width: '100%' },
+          }}
+          anchor="left"
+          open={openDrawer}
+          onClose={() => setOpenDrawer()}
+        >
+          <div className="justify-between flex p-6 w-full border-b border-[#F0F0F0]">
+            <img src="/images/mobile_logo.png" alt="" />
+            <button>
+              <img
+                src="/images/arrow-left.png"
+                alt=""
+                onClick={() => setOpenDrawer()}
+              />
+            </button>
+          </div>
+          <div className="p-6">
+            <Accordion className="rounded-primary" defaultExpanded>
+              <AccordionSummary
+                expandIcon={
+                  <ExpandMoreIcon
+                    fontSize="large"
+                    sx={{
+                      color: router.pathname === '/' ? 'white' : '#000000',
+                    }}
+                  />
+                }
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                className={twMerge(
+                  'rounded-primary',
+                  `${
+                    router.pathname === '/'
+                      ? 'bg-[#FD7770] text-white'
+                      : 'border border-[#F0F0F0]'
+                  }`
+                )}
+              >
+                <Link href={'/'} passHref legacyBehavior>
+                  <a
+                    className={twMerge(
+                      'flex items-center gap-x-[10px] rounded-primary hover:opacity-[0.85] transition-all',
+                      `${router.pathname === '/' && 'bg-[#FD7770]'}`
+                    )}
+                  >
+                    <div>
+                      <img src="/images/top_bar.png" alt="Lich tot xau" />
+                    </div>
+                    <span className="font-medium text-base">Lịch tốt xấu</span>
+                  </a>
+                </Link>
+              </AccordionSummary>
+              <AccordionDetails className="pr-1 pt-2 pl-6">
+                <div className="flex-col flex gap-4 pl-4 pt-4 relative">
+                  {NAVBAR_MENU.map(({ value, label, icon }) => {
+                    return (
+                      <button
+                        key={value}
+                        onClick={() => {
+                          handleChangeTabHeader(value)
+                          setOpenDrawer(false)
+                        }}
+                        className={twMerge(
+                          'rounded-primary flex p-4 items-center relative',
+                          `${
+                            router.pathname === '/' && tabHeader === value
+                              ? 'text-[#292D32] bg-[#ECECEC]'
+                              : 'text-[#B0B0B0]'
+                          }`
+                        )}
+                      >
+                        <div className="mr-3">{icon}</div>
+                        <span className="font-medium text-base">{label}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+                <button
+                  onClick={() => {
+                    router.push('/calendar-schedule')
+                    setOpenDrawer(false)
+                  }}
+                  className="w-[170px] ml-4 mt-4 rounded-primary p-4 border border-[#F0F0F0] text-[#292D32]"
+                >
+                  Sắp đặt lịch làm việc
+                </button>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion className="rounded-primary mt-5">
+              <AccordionSummary
+                expandIcon={
+                  <ExpandMoreIcon
+                    fontSize="large"
+                    sx={{
+                      color:
+                        router.pathname === '/tu-tru' ? 'white' : '#000000',
+                    }}
+                  />
+                }
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                className={twMerge(
+                  'rounded-primary',
+                  `${
+                    router.pathname === '/tu-tru'
+                      ? 'bg-[#FD7770] text-white'
+                      : 'border border-[#F0F0F0]'
+                  }`
+                )}
+              >
+                <Link href={'/tu-tru'} passHref legacyBehavior>
+                  <a
+                    className={twMerge(
+                      'flex items-center gap-x-[10px] rounded-primary hover:opacity-[0.85] transition-all',
+                      `${router.pathname === '/tu-tru' && 'bg-[#FD7770]'}`
+                    )}
+                  >
+                    <div>
+                      <img src="/images/second_bar.png" alt="Lich tot xau" />
+                    </div>
+                    <span className="font-medium text-base">Tứ trụ</span>
+                  </a>
+                </Link>
+              </AccordionSummary>
+              <AccordionDetails className="pr-1 pt-4"></AccordionDetails>
+            </Accordion>
+          </div>
+        </Drawer>
       </div>
     </section>
   )
