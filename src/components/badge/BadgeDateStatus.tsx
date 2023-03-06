@@ -1,9 +1,30 @@
 import * as React from 'react'
+import { twMerge } from 'tailwind-merge'
 
-export default function BadgeDateStatus() {
+interface BadgeDateStatusProps {
+  children: React.ReactNode
+  isBeatifulDay?: boolean
+}
+export default function BadgeDateStatus({
+  children,
+  isBeatifulDay = false,
+}: BadgeDateStatusProps) {
   return (
-    <div className="rounded-primary border-[1.34px] border-[#D8464C] bg-[#FDD5CE] min-h-[50px] min-w-[150px] flex justify-center items-center">
-      <span className="text-lg font-semibold text-[#D63C44]">Ngày Cực Tốt</span>
+    <div
+      className={twMerge(
+        'rounded-xl bg-white border-[1.34px] border-[#F0F0F0] min-h-[2.75rem] min-w-[5.625rem] flex justify-center items-center',
+        isBeatifulDay &&
+          'border-[#D8464C] bg-[#FDD5CE] min-h-[3.125rem] min-w-[9.375rem]'
+      )}
+    >
+      <span
+        className={twMerge(
+          'text-sm text-gray-primary',
+          isBeatifulDay && 'text-lg text-[#D63C44] font-semibold'
+        )}
+      >
+        {children}
+      </span>
     </div>
   )
 }

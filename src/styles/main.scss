@@ -24,7 +24,7 @@ html {
 
 @media screen and (min-width: 376px) and (max-width: 767px) {
   html {
-    font-size: 13px;
+    font-size: 14px;
   }
 }
 
@@ -91,7 +91,7 @@ html {
 
 .MuiInputLabel-root {
   color: #A6B1BE !important;
-  font-size: 18px !important;
+  font-size: 1.125rem !important;
   font-family: 'Inter', 'sans-serif' !important;
 }
 .MuiInputLabel-root:has(~ .Mui-error) {
@@ -99,21 +99,21 @@ html {
 }
 
 .MuiFilledInput-root {
-  font-size: 18px !important;
+  font-size: 1.125rem !important;
   font-weight: 500 !important;
   font-family: 'Inter', 'sans-serif' !important;
-  height: 60px !important;
-  border-radius: 4px;
+  height: 3.75rem !important;
+  border-radius: 10px;
 }
 
 .MuiFormControl-root {
   border: 1px solid #EAECEA !important;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 
-.MuiFormControl-root {
-  border: 1px solid #EAECEA !important;
-  border-radius: 4px;
+.MuiFormControl-root:has(.MuiInputBase-input:read-only) {
+  background-color:#FFF6F6;
+  border: 1px solid #FFF6F6 !important;
 }
 .MuiFormControl-root:has(.Mui-error) {
   border: 1px solid red !important;

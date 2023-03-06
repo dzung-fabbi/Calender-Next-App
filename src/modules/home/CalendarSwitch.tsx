@@ -15,7 +15,8 @@ import { CAN, CHI, TIETKHI } from '@/utils/constant'
 import {
   addZero,
   convertSolar2Lunar,
-  getCanChi, getCanHour0,
+  getCanChi,
+  getCanHour0,
   getLunarDate,
   getSolarDate,
   getTietkhiByLunar,
@@ -372,7 +373,7 @@ export default function CalendarSwitch() {
     }, 300)
   }
   return (
-    <div className="relative flex flex-wrap w-full gap-5">
+    <div className="relative grid grid-cols-1 gap-5 2xl:grid-cols-2">
       <div className="flex flex-col flex-1 px-5 pt-2.5 pb-8  border shadow border-primary rounded-primary gap-y-4">
         <div className="text-sm font-medium text-center border-b border-gray-200 text-gray-secondary">
           <ul className="flex flex-wrap gap-4">
@@ -398,69 +399,72 @@ export default function CalendarSwitch() {
           </ul>
         </div>
         <TabPanel value={tab} index={tab === 0 || tab === 1 ? tab : 0}>
-          <div className="text-sm font-medium text-gray-primary mb-4">
+          <div className="mb-4 text-sm font-medium text-gray-primary">
             Lựa chọn ngày {tab === 0 ? 'dương' : 'âm'}
           </div>
-          <div className="flex gap-2.5">
+          <div className="flex gap-2.5 flex-wrap 4xl:flex-nowrap">
             <TimePicker
               label="Chọn giờ"
               value={time}
+              className="w-40 4xl:w-full"
               onChange={handleChange}
               renderInput={(params) => (
-                <TextField sx={{ width: 150 }} variant="filled" {...params} />
+                <TextField variant="filled" {...params} />
               )}
             />
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={days}
-              sx={{ width: 110 }}
-              renderInput={(params) => (
-                <TextField variant="filled" {...params} label="Ngày" />
-              )}
-              value={day}
-              disableClearable
-              onChange={(_, v: string) => {
-                setDay(v)
-              }}
-              popupIcon={<IconDown />}
-            />
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={months}
-              sx={{ width: 110 }}
-              renderInput={(params) => (
-                <TextField variant="filled" {...params} label="Tháng" />
-              )}
-              value={month}
-              disableClearable
-              onChange={(_, v: string) => {
-                setMonth(v)
-              }}
-              popupIcon={<IconDown />}
-            />
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={Array.from({ length: 400 }, (_, i) =>
-                (i + 1900).toString()
-              )}
-              sx={{ width: 110 }}
-              renderInput={(params) => (
-                <TextField variant="filled" {...params} label="Năm" />
-              )}
-              value={year}
-              disableClearable
-              onChange={(_, v: string) => {
-                setYear(v)
-              }}
-              popupIcon={<IconDown />}
-            />
+            <div className="flex gap-2.5">
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={days}
+                className="w-24"
+                renderInput={(params) => (
+                  <TextField variant="filled" {...params} label="Ngày" />
+                )}
+                value={day}
+                disableClearable
+                onChange={(_, v: string) => {
+                  setDay(v)
+                }}
+                popupIcon={<IconDown />}
+              />
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={months}
+                className="w-24"
+                renderInput={(params) => (
+                  <TextField variant="filled" {...params} label="Tháng" />
+                )}
+                value={month}
+                disableClearable
+                onChange={(_, v: string) => {
+                  setMonth(v)
+                }}
+                popupIcon={<IconDown />}
+              />
+              <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={Array.from({ length: 400 }, (_, i) =>
+                  (i + 1900).toString()
+                )}
+                className="w-28"
+                renderInput={(params) => (
+                  <TextField variant="filled" {...params} label="Năm" />
+                )}
+                value={year}
+                disableClearable
+                onChange={(_, v: string) => {
+                  setYear(v)
+                }}
+                popupIcon={<IconDown />}
+              />
+            </div>
           </div>
         </TabPanel>
         <TabPanel value={tab} index={2}>
-          <div className="text-sm font-medium text-gray-primary mb-4">
+          <div className="mb-4 text-sm font-medium text-gray-primary">
             Lựa chọn tiết khí
           </div>
           <div className="flex gap-2.5">
@@ -482,11 +486,11 @@ export default function CalendarSwitch() {
           </div>
         </TabPanel>
         <TabPanel value={tab} index={3}>
-          <div className="text-sm font-medium text-gray-primary mb-4">
+          <div className="mb-4 text-sm font-medium text-gray-primary">
             Lựa chọn can chi
           </div>
           <div className="year">
-            <div className="text-sm font-medium text-gray-primary mb-4">
+            <div className="mb-4 text-sm font-medium text-gray-primary">
               Năm
             </div>
             <div className="flex gap-2.5">
@@ -523,7 +527,7 @@ export default function CalendarSwitch() {
             </div>
           </div>
           <div className="month">
-            <div className="text-sm font-medium text-gray-primary mb-4">
+            <div className="mb-4 text-sm font-medium text-gray-primary">
               Tháng
             </div>
             <div className="flex gap-2.5">
@@ -560,7 +564,7 @@ export default function CalendarSwitch() {
             </div>
           </div>
           <div className="day">
-            <div className="text-sm font-medium text-gray-primary mb-4">
+            <div className="mb-4 text-sm font-medium text-gray-primary">
               Ngày
             </div>
             <div className="flex gap-2.5">
@@ -625,7 +629,7 @@ export default function CalendarSwitch() {
         </div>
         {isDislayError && (
           <div
-            className="text-sm font-medium text-gray-primary mb-4"
+            className="mb-4 text-sm font-medium text-gray-primary"
             style={{ color: 'red' }}
           >
             Không có kết quả tương ứng
@@ -638,39 +642,48 @@ export default function CalendarSwitch() {
               value={tabConvert}
               index={tabConvert === 0 || tabConvert === 1 ? tabConvert : 0}
             >
-              <div className="text-sm font-medium text-gray-primary mb-4">
+              <div className="mb-4 text-sm font-medium text-gray-primary">
                 {tabConvert === 0 ? 'Ngày dương' : 'Ngày âm'}
               </div>
-              <div className="flex gap-2.5">
-                <Input
-                  label="Giờ"
-                  value={convertDate.time}
-                  containerClass="grow"
-                  className="w-full min-w-[150px] bg-[#FFF6F6] border-transparent rounded-md"
-                  disabled
-                ></Input>
-                <Input
-                  label="Ngày"
-                  value={convertDate.day}
-                  className="w-[88px] xl:w-24 bg-[#FFF6F6] border-transparent rounded-md"
-                  disabled
-                ></Input>
-                <Input
-                  label="Tháng"
-                  value={convertDate.month}
-                  className="w-[88px] xl:w-24 bg-[#FFF6F6] border-transparent rounded-md"
-                  disabled
-                ></Input>
-                <Input
-                  label="Năm"
-                  value={convertDate.year}
-                  className="w-[100px] xl:w-28 bg-[#FFF6F6] border-transparent rounded-md"
-                  disabled
-                ></Input>
+              <div className="flex gap-2.5 flex-wrap 4xl:flex-nowrap">
+                <div className="w-40 4xl:w-full">
+                  <TextField
+                    label="Giờ"
+                    value={convertDate.time}
+                    variant="filled"
+                    inputProps={{ readOnly: true, className: 'w-full' }}
+                  />
+                </div>
+                <div className="flex gap-2.5">
+                  <div className="w-24">
+                    <TextField
+                      label="Ngày"
+                      value={convertDate.day}
+                      variant="filled"
+                      inputProps={{ readOnly: true }}
+                    />
+                  </div>
+                  <div className="w-24">
+                    <TextField
+                      label="Tháng"
+                      value={convertDate.month}
+                      variant="filled"
+                      inputProps={{ readOnly: true }}
+                    />
+                  </div>
+                  <div className="w-28">
+                    <TextField
+                      label="Năm"
+                      value={convertDate.year}
+                      variant="filled"
+                      inputProps={{ readOnly: true }}
+                    />
+                  </div>
+                </div>
               </div>
             </TabPanel>
             <TabPanel value={tabConvert} index={2}>
-              <div className="text-sm font-medium text-gray-primary mb-4">
+              <div className="mb-4 text-sm font-medium text-gray-primary">
                 Tiết khí tương ứng
               </div>
               <Input
@@ -682,20 +695,20 @@ export default function CalendarSwitch() {
               ></Input>
             </TabPanel>
             <TabPanel value={tabConvert} index={3}>
-              <div className="text-sm font-medium text-gray-primary mb-4">
+              <div className="mb-4 text-sm font-medium text-gray-primary">
                 Can chi tương ứng
               </div>
 
-              <div className="text-sm font-small text-gray-primary mb-4">
+              <div className="mb-4 text-sm text-gray-primary">
                 Giờ: {convertCanChi.time}
               </div>
-              <div className="text-sm font-small text-gray-primary mb-4">
+              <div className="mb-4 text-sm text-gray-primary">
                 Ngày: {convertCanChi.day}
               </div>
-              <div className="text-sm font-small text-gray-primary mb-4">
+              <div className="mb-4 text-sm text-gray-primary">
                 Tháng: {convertCanChi.month}
               </div>
-              <div className="text-sm font-small text-gray-primary mb-4">
+              <div className="mb-4 text-sm text-gray-primary">
                 Năm: {convertCanChi.year}
               </div>
             </TabPanel>
@@ -705,7 +718,7 @@ export default function CalendarSwitch() {
 
       <div
         onClick={handleConvert}
-        className="absolute flex items-center justify-center w-8 h-8 -translate-x-1/2 -translate-y-1/2 bg-white border-2 cursor-pointer hover:opacity-90 top-1/2 left-1/2 rounded-lg border-primary/[43] ring-2 ring-primary/[0.32]"
+        className="absolute rotate-90 2xl:rotate-0 flex items-center justify-center w-8 h-8 -translate-x-1/2 -translate-y-1/2 bg-white border-2 cursor-pointer hover:opacity-90 top-1/2 left-1/2 rounded-lg border-primary/[43] ring-2 ring-primary/[0.32]"
       >
         <button>
           {isLoading ? (

@@ -73,7 +73,7 @@ export default function CalendarPreview() {
     // eslint-disable-next-line tailwindcss/no-custom-classname
     <div className="calendar-preview-wrapper">
       <p className="text-xl font-bold">Lịch tháng {month}</p>
-      <section className="grid items-center shadow-lg bg-[#FFF2F1] grid-cols-2 gap-10 px-5 py-4 md:px-10 xl:gap-32 2xl:gap-36 lg:py-7 lg:px-0 rounded-primary lg:bg-datePreview">
+      <section className="grid items-center shadow-lg bg-[#FFF2F1] grid-cols-2 gap-10 px-5 py-4 md:px-10 xl:gap-32 2xl:gap-36 lg:py-7 lg:px-0 rounded-[20px] lg:rounded-primary lg:bg-datePreview">
         <div className="hidden lg:flex flex-col gap-y-[6px] text-center">
           <h4 className="font-medium text-[1.625rem]">
             Tháng {month} năm {year}
@@ -82,7 +82,7 @@ export default function CalendarPreview() {
             <h1 className="font-bold text-[8.75rem] text-primary leading-none relative w-fit">
               {day}
               <div className="absolute left-full top-0 rotate-[-31.24deg]">
-                <BadgeDateStatus />
+                <BadgeDateStatus isBeatifulDay>Ngày Cực Tốt</BadgeDateStatus>
               </div>
             </h1>
           </div>
@@ -109,14 +109,19 @@ export default function CalendarPreview() {
             </div>
           </div>
 
-          <div className="relative flex flex-col lg:hidden">
+          <div className="flex flex-col lg:hidden">
             <span className="font-semibold leading-tight capitalize">
               {LOWER_DAYS[dayOfWeek]}
             </span>
             <span className="text-2xl font-medium leading-tight capitalize text-primary">{`${day} Tháng ${month} `}</span>
-            <span className="font-medium leading-tight capitalize">{`${addZero(
-              currentLunarDate.day
-            )} Tháng ${addZero(currentLunarDate.month)}, ${dayName[2]}`}</span>
+            <span className="relative font-medium leading-tight capitalize w-fit">
+              {`${addZero(currentLunarDate.day)} Tháng ${addZero(
+                currentLunarDate.month
+              )}, ${dayName[2]}`}
+              <div className="absolute left-full translate-x-4 -top-5 rotate-[-27.42deg]">
+                <BadgeDateStatus>Ngày Xấu</BadgeDateStatus>
+              </div>
+            </span>
           </div>
 
           <ul className="flex pt-5">
