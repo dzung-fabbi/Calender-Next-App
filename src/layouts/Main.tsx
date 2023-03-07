@@ -35,9 +35,10 @@ const Main = (props: IMainProps) => {
         <div className="flex flex-wrap xl:flex-nowrap grow">
           <div className="p-4 pt-0 xl:p-30px xl:pt-0 grow">
             <Header />
+            <BoxCalenderRight className="xl:hidden" />
             <div className="mt-6 xl:mb-20">{props.children}</div>
           </div>
-          <BoxCalenderRight />
+          <BoxCalenderRight className="xs:hidden xl:block" />
         </div>
       </div>
     </div>
