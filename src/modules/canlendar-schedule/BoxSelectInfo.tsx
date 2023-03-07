@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Autocomplete, TextField } from '@mui/material'
-import { DesktopDatePicker } from '@mui/x-date-pickers'
+import { DatePicker } from '@mui/x-date-pickers'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import { Controller, useForm } from 'react-hook-form'
@@ -107,7 +107,7 @@ export default function BoxSelectInfo() {
               field: { onChange, value, ref },
               fieldState: { invalid },
             }) => (
-              <DesktopDatePicker
+              <DatePicker
                 label="Năm sinh"
                 inputFormat="DD/MM/YYYY"
                 components={{
@@ -121,7 +121,7 @@ export default function BoxSelectInfo() {
                 renderInput={(params) => (
                   <TextField
                     variant="filled"
-                    type="date"
+                    // type="date"
                     {...params}
                     error={invalid}
                   />
@@ -138,7 +138,7 @@ export default function BoxSelectInfo() {
               field: { onChange, value, ref },
               fieldState: { invalid },
             }) => (
-              <DesktopDatePicker
+              <DatePicker
                 label="Ngày bắt đầu"
                 inputFormat="DD/MM/YYYY"
                 components={{
@@ -164,7 +164,7 @@ export default function BoxSelectInfo() {
               field: { onChange, value, ref },
               fieldState: { invalid },
             }) => (
-              <DesktopDatePicker
+              <DatePicker
                 label="Ngày kết thúc"
                 inputFormat="DD/MM/YYYY"
                 components={{

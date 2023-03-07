@@ -89,6 +89,7 @@ html {
   margin: 0 auto;
 }
 
+/* Custom Input Material UI */
 .MuiInputLabel-root {
   color: #A6B1BE !important;
   font-size: 1.125rem !important;
@@ -102,19 +103,16 @@ html {
   font-size: 1.125rem !important;
   font-weight: 500 !important;
   font-family: 'Inter', 'sans-serif' !important;
-  height: 3.75rem !important;
-  border-radius: 10px;
+  height: 60px !important;
+  border-radius: 10px !important;
 }
 
-.MuiFormControl-root {
-  border: 1px solid #EAECEA !important;
-  border-radius: 10px;
-}
-
-.MuiFormControl-root:has(.MuiInputBase-input:read-only) {
+// Input readonly : 
+.MuiFilledInput-root:has(.MuiInputBase-input:read-only) {
   background-color:#FFF6F6;
-  border: 1px solid #FFF6F6 !important;
 }
+
+// Input error
 .MuiFormControl-root:has(.Mui-error) {
   border: 1px solid red !important;
 }
@@ -127,6 +125,11 @@ html {
 .MuiInputBase-root.MuiFilledInput-root::after {
   border-bottom: unset !important;
 }
+
+.MuiAutocomplete-hasPopupIcon.css-l3ln04-MuiAutocomplete-root .MuiFilledInput-root {
+  padding-right: 0 !important;
+}
+/* End custom input */
 
 .hidden-input-calendar {
   input {

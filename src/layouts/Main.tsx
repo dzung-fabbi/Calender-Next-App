@@ -32,7 +32,7 @@ const Main = (props: IMainProps) => {
 
       <div className="flex w-full mx-auto xs:flex-wrap md:flex-nowrap">
         {!isMobile && <Sidebar />}
-        <div className="flex flex-wrap xl:flex-nowrap grow">
+        <div className="flex flex-row flex-wrap xl:flex-nowrap grow">
           <div className="p-4 pt-0 xl:p-30px xl:pt-0 grow">
             <Header />
             <div className="mt-6 xl:mb-20">{props.children}</div>
