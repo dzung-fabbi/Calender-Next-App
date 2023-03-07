@@ -3,6 +3,7 @@ import { Autocomplete, TextField } from '@mui/material'
 import { DesktopDatePicker } from '@mui/x-date-pickers'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
+import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -10,15 +11,64 @@ import { Button } from '@/components/button'
 import { IconCalendar, IconDown } from '@/components/icon'
 
 const LABEL_WORK = [
-  { label: 'The Shawshank Redemption', value: 1 },
-  { label: 'The Godfather', value: 2 },
-  { label: 'The Godfather: Part II', value: 3 },
-  { label: 'The Dark Knight', value: 4 },
-  { label: '12 Angry Men', value: 5 },
-  { label: "Schindler's List", value: 6 },
-  { label: 'Pulp Fiction', value: 7 },
+  {
+    label: 'Việc liên quan đến sản xuất',
+    value: 1,
+    work: ['Đặt cối đá', 'Rèn đúc', 'Nấu rượu', 'Đan dệt'],
+  },
+  {
+    label: 'Việc liên quan đến kinh doanh ',
+    value: 2,
+    work: [
+      'Khai trương',
+      'Lập ước giao dịch ',
+      'Nạp tài',
+      'Mở kho xuất tiền hàng',
+    ],
+  },
+  {
+    label: 'Việc liên quan đến trồng trọt, chăn nuôi , săn bắt',
+    value: 3,
+    work: [
+      'Gieo trồng',
+      'Nạp gia súc , chăn nuôi',
+      'Săn bắt',
+      'Săn bắn',
+      'Đánh cá',
+    ],
+  },
+  {
+    label: 'Việc xây dựng một ngôi nhà mới',
+    value: 4,
+    work: [
+      'Động thổ',
+      'Dựng cột gác xà',
+      'Tu tạo',
+      'Tu sức viên  tường',
+      'Tu thương khố',
+    ],
+  },
+  {
+    label: 'Việc liên quan đến một công trình , một ngôi nhà',
+    value: 5,
+    work: [
+      'Phạt mộc',
+      'Lấp hang hố ( tắc  nguyệt )',
+      'Quét dọn',
+      'Dỡ nhà phá tường',
+      'Đào giếng',
+      'Sửa đường',
+      'Khơi mương , đắp đê',
+    ],
+  },
+  {
+    label: 'Việc liên quan đến chôn cất',
+    value: 6,
+    work: ['Phá thổ', 'An táng', 'Cải táng'],
+  },
 ]
 interface FormValue {
+  mainWork: string | null
   work: string | null
   year: Dayjs | null
   startDate: Dayjs | null
@@ -26,6 +76,7 @@ interface FormValue {
 }
 export default function BoxSelectInfo() {
   const schema = yup.object().shape({
+    mainWork: yup.string().nullable().required('Please enter your work'),
     work: yup.string().nullable().required('Please enter your work'),
     year: yup.date().nullable().required('Please enter your year'),
     startDate: yup
@@ -41,6 +92,7 @@ export default function BoxSelectInfo() {
       .required('Please enter your end date')
       .min(yup.ref('startDate')),
   })
+  const [workMain, setWorkMain] = useState('Việc liên quan đến sản xuất')
   const {
     handleSubmit,
     control,
@@ -49,7 +101,8 @@ export default function BoxSelectInfo() {
   } = useForm<FormValue>({
     resolver: yupResolver(schema),
     defaultValues: {
-      work: LABEL_WORK[0]?.label || 'abc',
+      mainWork: workMain || 'abc',
+      work: LABEL_WORK.find((el) => el.label === workMain)?.work[0] || '',
       year: dayjs('1998-08-18'),
       startDate: dayjs('2022-08-18'),
       endDate: dayjs('2022-08-18'),
@@ -69,7 +122,7 @@ export default function BoxSelectInfo() {
       </h4>
       <div className="flex gap-[10px] flex-wrap">
         <Controller
-          name="work"
+          name="mainWork"
           control={control}
           render={({
             field: { onChange, value, ref },
@@ -79,13 +132,50 @@ export default function BoxSelectInfo() {
               disablePortal
               id="work-id"
               options={LABEL_WORK.map((e) => e.label)}
-              sx={{ flexGrow: 1, minWidth: '300px' }}
+              sx={{ flexGrow: 1, minWidth: '100px' }}
               ref={ref}
               renderInput={(params) => (
                 <TextField
                   variant="filled"
                   {...params}
-                  label="Việc liên quan đến Xã hội, tập thể"
+                  label="Chọn công việc"
+                  error={invalid}
+                />
+              )}
+              value={value}
+              clearIcon={null}
+              onChange={(_, v) => {
+                onChange(v)
+                // @ts-ignore
+                setWorkMain(v)
+              }}
+              popupIcon={<IconDown />}
+            />
+          )}
+        />
+
+        <Controller
+          name="work"
+          control={control}
+          render={({
+            field: { onChange, value, ref },
+            fieldState: { invalid },
+          }) => (
+            <Autocomplete
+              disablePortal
+              id="work-id"
+              options={
+                LABEL_WORK.find((el) => el.label === workMain)?.work.map(
+                  (e) => e
+                ) || []
+              }
+              sx={{ flexGrow: 1, minWidth: '100px' }}
+              ref={ref}
+              renderInput={(params) => (
+                <TextField
+                  variant="filled"
+                  {...params}
+                  label={LABEL_WORK.find((el) => el.label === workMain)?.label}
                   error={invalid}
                 />
               )}

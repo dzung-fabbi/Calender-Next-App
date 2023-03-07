@@ -11,7 +11,7 @@ import { twMerge } from 'tailwind-merge'
 import { IconChevronRight, IconDown } from '@/components/icon'
 import { Input } from '@/components/input'
 import { useToggle } from '@/hooks'
-import { CAN, CHI, TIETKHI } from '@/utils/constant'
+import { CAN, CHI, HOURS, TIETKHI } from '@/utils/constant'
 import {
   addZero,
   convertSolar2Lunar,
@@ -238,8 +238,11 @@ export default function CalendarSwitch() {
     const currentLunarDate = getLunarDate(+value[0], +value[1], +value[2])
     const canChi = getCanChi(currentLunarDate)
     const canHours = getCanHour0(currentLunarDate.jd)
+    const chiHours = HOURS.find(
+      (el) => (time?.hour() || 0) >= el.min && (time?.hour() || 0) <= el.max
+    )?.chi
     setConvertCanChi({
-      time: `${canHours} ${CHI[0]}`,
+      time: `${canHours} ${chiHours}`,
       day: canChi[0] || '',
       month: canChi[1] || '',
       year: canChi[2] || '',
@@ -257,8 +260,11 @@ export default function CalendarSwitch() {
     const lunarDate = getLunarDate(+day, +month, +year)
     const canChi = getCanChi(lunarDate)
     const canHours = getCanHour0(lunarDate.jd)
+    const chiHours = HOURS.find(
+      (el) => (time?.hour() || 0) >= el.min && (time?.hour() || 0) <= el.max
+    )?.chi
     setConvertCanChi({
-      time: `${canHours} ${CHI[0]}`,
+      time: `${canHours} ${chiHours}`,
       day: canChi[0] || '',
       month: canChi[1] || '',
       year: canChi[2] || '',
