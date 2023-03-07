@@ -522,6 +522,35 @@ export function getGioHoangDao(jd: any) {
   return array
 }
 
+const TIME_HD = [
+  '23:00 - 01:00',
+  '01:00 - 03:00',
+  '03:00 - 05:00',
+  '05:00 - 07:00',
+  '07:00 - 09:00',
+  '09:00 - 11:00',
+  '11:00 - 13:00',
+  '13:00 - 15:00',
+  '15:00 - 17:00',
+  '17:00 - 19:00',
+  '19:00 - 21:00',
+  '21:00 - 23:00',
+]
+
+export function getTimeInDay() {
+  const array = []
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < 12; i++) {
+    // eslint-disable-next-line eqeqeq
+    array.push({
+      name: CHI[i],
+      img: ICON_CHI[i],
+      time: TIME_HD[i],
+    })
+  }
+  return array
+}
+
 export function getMonth(mm: any, yy: any) {
   let ly1
   let ly2

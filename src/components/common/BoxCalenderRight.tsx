@@ -4,6 +4,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import type { Dayjs } from 'dayjs'
 import { useMemo, useState } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 import { useStore } from '@/store/useStore'
 import { LOWER_DAYS } from '@/utils/constant'
@@ -85,10 +86,10 @@ const Calendar = ({
               }
               return (
                 <div key={k} className="lvn-lichad-col lvn-lichad-colhide">
-                  <div className="text-lg font-semibold lvn-lichad-dd ">
+                  <div className="lvn-lichad-dd text-lg font-semibold ">
                     <span>{solarDate}</span>
                   </div>
-                  <span className="text-sm lvn-lichad-da text-gray-primary">
+                  <span className="lvn-lichad-da text-sm text-gray-primary">
                     {lunar}
                   </span>
                 </div>
@@ -115,7 +116,7 @@ const Calendar = ({
                   }}
                   title="Xem lịch âm ngày 4 tháng 1 năm 2023"
                 >
-                  <div className="text-lg font-semibold lvn-lichad-dd ">
+                  <div className="lvn-lichad-dd text-lg font-semibold ">
                     <span className="day">{solarDate}</span>
                   </div>
                   <span
@@ -137,7 +138,12 @@ const Calendar = ({
   )
 }
 
-export default function BoxCalenderRight() {
+export default function BoxCalenderRight({
+  className,
+}: {
+  className?: string
+}) {
+  const tabHeader = useStore((state) => state.tabHeader)
   const currentDate = useStore((state) => state.currentDate)
   const onChangeCurrentDate = useStore((state) => state.setCurrentDate)
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
@@ -147,7 +153,13 @@ export default function BoxCalenderRight() {
     )} Tháng ${currentDate.format('MM, YYYY')}`
   }, [currentDate])
   return (
-    <section className="bg-transparent xl:bg-[#F3F4F3] xl:h-[100vh] w-full mx-auto xl:max-w-[25.625rem] min-w-[22rem] py-10 px-5 rounded-30px xl:rounded-r-none">
+    <section
+      className={twMerge(
+        'bg-transparent xl:bg-[#F3F4F3] xl:h-[100vh] w-full mx-auto xl:max-w-[25.625rem] min-w-[22rem] xs:pt-4 xl:py-10 xl:px-5 rounded-30px xl:rounded-r-none',
+        tabHeader === 2 && 'xs:hidden',
+        className
+      )}
+    >
       <CardCalendar className="bg-[#D9E8DA] xl:bg-white">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
@@ -189,20 +201,8 @@ export default function BoxCalenderRight() {
         />
         <p className="mt-4 text-lg font-semibold text-left">Chú thích</p>
         <div className="flex pl-2">
-          <span className="w-2/5 text-left good-day">Ngày đẹp</span>
+          <span className="good-day w-2/5 text-left">Ngày đẹp</span>
           <span className="ugly-day">Ngày xấu</span>
-        </div>
-        <p className="my-4 text-lg font-semibold text-left">Ngày này năm xưa</p>
-        <div className="flex pl-2">
-          <img className="mr-2" src="/images/celebrate.png" alt="" />
-          <div className="flex flex-col">
-            <span className="text-sm font-normal text-left text-gray-primary">
-              26/12/1991
-            </span>
-            <span className="font-medium ">
-              Liên bang Liên Xô tuyên bố tan rã
-            </span>
-          </div>
         </div>
       </CardCalendar>
     </section>

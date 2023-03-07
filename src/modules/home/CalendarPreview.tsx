@@ -5,14 +5,17 @@ import { twMerge } from 'tailwind-merge'
 
 import homeApi from '@/api/home.api'
 import { BadgeDateStatus } from '@/components/badge'
+import { Button } from '@/components/button'
+import { ModalInformation } from '@/components/modal'
+import { useToggle } from '@/hooks'
 import { useStore } from '@/store/useStore'
 import { DAYS, LOWER_DAYS, TIETKHI } from '@/utils/constant'
 import {
   addZero,
   getDayName,
-  getGioHoangDao,
   getLunarDate,
   getSunLongitude,
+  getTimeInDay,
 } from '@/utils/helpers'
 
 interface InfoProp {
@@ -30,6 +33,21 @@ interface TietkhiProp {
   tiet_khi: string
 }
 
+const initInfo = {
+  good_stars: '',
+  lunar_day: '',
+  month: '',
+  should_things: '',
+  no_should_things: '',
+  ugly_stars: '',
+}
+
+const initTietkhi = {
+  start_time: '',
+  end_time: '',
+  tiet_khi: '',
+}
+
 export default function CalendarPreview() {
   const currentDate = useStore((state) => state.currentDate)
   const dayOfWeek = currentDate.day()
@@ -38,36 +56,47 @@ export default function CalendarPreview() {
   const year = currentDate.format('YYYY')
   const currentLunarDate = getLunarDate(+day, +month, +year)
   const dayName = getDayName(currentLunarDate)
-  const arrGioHD: any = getGioHoangDao(currentLunarDate.jd)
-  const [info, setInfo] = useState<InfoProp>({
-    good_stars: '',
-    lunar_day: '',
-    month: '',
-    should_things: '',
-    no_should_things: '',
-    ugly_stars: '',
+  const arrGioHD: any = getTimeInDay()
+  const [info, setInfo] = useState<InfoProp>(initInfo)
+  const [tietkhiInfo, setTietkhiInfo] = useState<TietkhiProp>(initTietkhi)
+  const [isOpen, toggleModal] = useToggle()
+  const [chooseTime, setChooseTime] = useState<{
+    name: string
+    index: number
+  }>({
+    name: '',
+    index: -1,
   })
-  const [tietkhiInfo, setTietkhiInfo] = useState<TietkhiProp>({
-    start_time: '',
-    end_time: '',
-    tiet_khi: '',
-  })
+  const [dataHourInDays, setDataHourInDays] = useState<any>({})
 
   useEffect(() => {
     homeApi
       .getInfo(
         currentLunarDate.month,
         (dayName[0] || '').toUpperCase(),
-        `${currentLunarDate.year}-${currentLunarDate.month}-${currentLunarDate.day}`
+        dayjs(
+          `${currentLunarDate.year}-${currentLunarDate.month}-${currentLunarDate.day}`
+        ).format('YYYY-MM-DD')
       )
       .then((res) => {
         setInfo(res.data.hiep_ky)
         setTietkhiInfo(res.data.tiet_khi)
+        setDataHourInDays(res.data.hour_in_days)
       })
-      .catch((err) => {
-        console.log(err)
+      .catch(() => {
+        setInfo(initInfo)
+        setTietkhiInfo(initTietkhi)
+        setDataHourInDays({})
       })
   }, [currentDate])
+
+  const handleClickTime = (time: string, index: number) => {
+    setChooseTime({
+      name: time,
+      index,
+    })
+    toggleModal()
+  }
 
   return (
     // eslint-disable-next-line tailwindcss/no-custom-classname
@@ -175,46 +204,19 @@ export default function CalendarPreview() {
       </section>
       <section className="bg-[#FFFAF9] mt-30px rounded-[20px] lg:rounded-primary">
         <div className="bg-primary rounded-t-[20px] lg:rounded-t-primary text-lg font-semibold py-2.5 pl-5 text-white">
-          Giờ tốt trong ngày
+          Giờ trong ngày
         </div>
         <div className="px-6 pb-6 lg:px-30px lg:pb-0">
           <div className="grid grid-cols-2 gap-x-6 lg:grid-cols-3 lg:gap-0">
-            {[0, 1, 2, 3, 4, 5].map((e: number) => {
+            {Array.from(Array(12).keys()).map((e: number, index: number) => {
               return (
                 <div
                   key={e}
                   className={twMerge(
-                    'flex items-center py-4 pb-2 lg:pb-4 gap-2.5 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5',
-                    [3, 4, 5].includes(e) && 'lg:border-b-0'
+                    'flex items-center py-4 pb-2 lg:pb-4 gap-2.5 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5 cursor-pointer',
+                    [9, 10, 11].includes(e) && 'lg:border-b-0'
                   )}
-                >
-                  <img src={arrGioHD[e].img} alt="" className="" />
-                  <div className="flex flex-col">
-                    <span className="font-semibold text-left">
-                      {arrGioHD[e].name}
-                    </span>
-                    <span>{arrGioHD[e].time}</span>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-      <section className="bg-[#F2F7FC] mt-30px rounded-[20px] lg:rounded-primary">
-        <div className="bg-[#B9CBDC] rounded-t-[20px] lg:rounded-t-primary text-lg font-semibold py-2.5 pl-5">
-          Giờ Xấu trong ngày
-        </div>
-        <div className="px-6 pb-6 lg:px-30px lg:pb-0">
-          <div className="grid grid-cols-2 gap-x-6 lg:grid-cols-3 lg:gap-0">
-            {[0, 1, 2, 3, 4, 5].map((e: number) => {
-              return (
-                <div
-                  key={e}
-                  className={twMerge(
-                    'flex items-center py-4 pb-2 lg:pb-4 gap-2.5 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5',
-                    [3, 4, 5].includes(e) && 'lg:border-b-0'
-                  )}
+                  onClick={() => handleClickTime(arrGioHD[e].name, index)}
                 >
                   <img src={arrGioHD[e].img} alt="" className="" />
                   <div className="flex flex-col">
@@ -283,6 +285,19 @@ export default function CalendarPreview() {
           </div>
         </div>
       </section>
+      <ModalInformation
+        isOpen={isOpen}
+        toggleModal={toggleModal}
+        titleModal={`Giờ ${chooseTime.name}`}
+      >
+        {dataHourInDays[`hour_${chooseTime.index + 1}`] &&
+          dataHourInDays[`hour_${chooseTime.index + 1}`].replaceAll('\n', ', ')}
+        <div className="flex items-center justify-end mt-5 gap-x-4">
+          <Button primary onClick={toggleModal} className="h-[3.5rem]">
+            OK
+          </Button>
+        </div>
+      </ModalInformation>
     </div>
   )
 }
