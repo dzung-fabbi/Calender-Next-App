@@ -137,6 +137,69 @@ export const CHI = [
   'Hợi',
 ]
 
+export const HOURS = [
+  {
+    min: 0,
+    max: 2,
+    chi: 'Tý',
+  },
+  {
+    min: 2,
+    max: 4,
+    chi: 'Sửu',
+  },
+  {
+    min: 4,
+    max: 6,
+    chi: 'Dần',
+  },
+  {
+    min: 6,
+    max: 8,
+    chi: 'Mão',
+  },
+  {
+    min: 8,
+    max: 10,
+    chi: 'Thìn',
+  },
+  {
+    min: 10,
+    max: 12,
+    chi: 'Tị',
+  },
+  {
+    min: 12,
+    max: 14,
+    chi: 'Ngọ',
+  },
+  {
+    min: 14,
+    max: 16,
+    chi: 'Mùi',
+  },
+  {
+    min: 16,
+    max: 18,
+    chi: 'Thân',
+  },
+  {
+    min: 18,
+    max: 20,
+    chi: 'Dậu',
+  },
+  {
+    min: 20,
+    max: 22,
+    chi: 'Tuất',
+  },
+  {
+    min: 22,
+    max: 24,
+    chi: 'Hợi',
+  },
+]
+
 export const ICON_CHI = [
   '/images/chi/ty.png',
   '/images/chi/suu.png',
