@@ -181,6 +181,84 @@ export const GIO_HD = [
   '010010110011',
 ]
 
+export const DIRECTIONS: any = {
+  Nhâm: 'Bắc',
+  Tý: 'Bắc',
+  Quý: 'Bắc',
+  Sửu: 'Đông Bắc',
+  Cấn: 'Đông Bắc',
+  Dần: 'Đông Bắc',
+  Giáp: 'Đông',
+  Mão: 'Đông',
+  Ất: 'Đông',
+  Thìn: 'Đông Nam',
+  Tốn: 'Đông Nam',
+  Tỵ: 'Đông Nam',
+  Bính: 'Nam',
+  Ngọ: 'Nam',
+  Đinh: 'Nam',
+  Mùi: 'Tây Nam',
+  Khôn: 'Tây Nam',
+  Thân: 'Tây Nam',
+  Canh: 'Tây',
+  Dậu: 'Tây',
+  Tân: 'Tây',
+  Tuất: 'Tây Bắc',
+  Càn: 'Tây Bắc',
+  Hợi: 'Tây Bắc',
+}
+
+export const TIME_DATA: any = {
+  Tý: {
+    img: '/images/chi/ty.png',
+    time: '23:00 - 01:00',
+  },
+  Sửu: {
+    img: '/images/chi/suu.png',
+    time: '01:00 - 03:00',
+  },
+  Dần: {
+    img: '/images/chi/dan.png',
+    time: '03:00 - 05:00',
+  },
+  Mão: {
+    img: '/images/chi/mao.png',
+    time: '05:00 - 07:00',
+  },
+  Thìn: {
+    img: '/images/chi/thin.png',
+    time: '07:00 - 09:00',
+  },
+  Tỵ: {
+    img: '/images/chi/ti.png',
+    time: '09:00 - 11:00',
+  },
+  Ngọ: {
+    img: '/images/chi/ngo.png',
+    time: '11:00 - 13:00',
+  },
+  Mùi: {
+    img: '/images/chi/mui.png',
+    time: '13:00 - 15:00',
+  },
+  Thân: {
+    img: '/images/chi/than.png',
+    time: '15:00 - 17:00',
+  },
+  Dậu: {
+    img: '/images/chi/dau.png',
+    time: '17:00 - 19:00',
+  },
+  Tuất: {
+    img: '/images/chi/tuat.png',
+    time: '19:00 - 21:00',
+  },
+  Hợi: {
+    img: '/images/chi/hoi.png',
+    time: '21:00 - 23:00',
+  },
+}
+
 export const MODE_TAB_HEADER = {
   PREVIEW: 1,
   CALENDAR_CHANGE: 2,

@@ -9,7 +9,14 @@ import { Button } from '@/components/button'
 import { ModalInformation } from '@/components/modal'
 import { useToggle } from '@/hooks'
 import { useStore } from '@/store/useStore'
-import { DAYS, LOWER_DAYS, TIETKHI } from '@/utils/constant'
+import {
+  CAN,
+  DAYS,
+  DIRECTIONS,
+  LOWER_DAYS,
+  TIETKHI,
+  TIME_DATA,
+} from '@/utils/constant'
 import {
   addZero,
   getDayName,
@@ -60,14 +67,30 @@ export default function CalendarPreview() {
   const [info, setInfo] = useState<InfoProp>(initInfo)
   const [tietkhiInfo, setTietkhiInfo] = useState<TietkhiProp>(initTietkhi)
   const [isOpen, toggleModal] = useToggle()
+  const [isOpenTuDai, toggleModalTuDai] = useToggle()
   const [chooseTime, setChooseTime] = useState<{
     name: string
     index: number
+    quy_nhan: string
+    am_duong: string
   }>({
     name: '',
     index: -1,
+    quy_nhan: '',
+    am_duong: '',
+  })
+  const [chooseTimeTuDai, setChooseTimeTuDai] = useState<{
+    name: string
+    index: number
+    data: ''
+  }>({
+    name: '',
+    index: -1,
+    data: '',
   })
   const [dataHourInDays, setDataHourInDays] = useState<any>({})
+  const [dataQuyNhan, setDataQuyNhan] = useState<any>([])
+  const [dataTuDai, setDataTuDai] = useState<any>([])
 
   useEffect(() => {
     homeApi
@@ -76,26 +99,49 @@ export default function CalendarPreview() {
         (dayName[0] || '').toUpperCase(),
         dayjs(
           `${currentLunarDate.year}-${currentLunarDate.month}-${currentLunarDate.day}`
-        ).format('YYYY-MM-DD')
+        ).format('YYYY-MM-DD'),
+        TIETKHI[getSunLongitude(currentLunarDate.jd + 1, 7.0)] || ''
       )
       .then((res) => {
         setInfo(res.data.hiep_ky)
         setTietkhiInfo(res.data.tiet_khi)
         setDataHourInDays(res.data.hour_in_days)
+        setDataQuyNhan(res.data.quy_nhan)
+        setDataTuDai(res.data.tu_dai)
       })
       .catch(() => {
         setInfo(initInfo)
         setTietkhiInfo(initTietkhi)
         setDataHourInDays({})
+        setDataQuyNhan([])
+        setDataTuDai([])
       })
   }, [currentDate])
 
   const handleClickTime = (time: string, index: number) => {
+    const quynhan = dataQuyNhan.filter(
+      (e: { hour: string }) => e.hour.trim() === time
+    )
     setChooseTime({
       name: time,
       index,
+      quy_nhan: quynhan.length > 0 && quynhan[0].quy_nhan,
+      am_duong: quynhan.length > 0 && quynhan[0].am_duong,
     })
     toggleModal()
+  }
+
+  const handleClickTimeTuDai = (time: string, index: number) => {
+    setChooseTimeTuDai({
+      name: time,
+      index,
+      data: dataTuDai[index][
+        `can_ngay_${
+          CAN.indexOf((dayName[0] && dayName[0].split(' ')[0]) || '') + 1
+        }`
+      ],
+    })
+    toggleModalTuDai()
   }
 
   return (
@@ -208,7 +254,7 @@ export default function CalendarPreview() {
         </div>
         <div className="px-6 pb-6 lg:px-30px lg:pb-0">
           <div className="grid grid-cols-2 gap-x-6 lg:grid-cols-3 lg:gap-0">
-            {Array.from(Array(12).keys()).map((e: number, index: number) => {
+            {Array.from(Array(12).keys()).map((e: number) => {
               return (
                 <div
                   key={e}
@@ -216,7 +262,7 @@ export default function CalendarPreview() {
                     'flex items-center py-4 pb-2 lg:pb-4 gap-2.5 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5 cursor-pointer',
                     [9, 10, 11].includes(e) && 'lg:border-b-0'
                   )}
-                  onClick={() => handleClickTime(arrGioHD[e].name, index)}
+                  onClick={() => handleClickTime(arrGioHD[e].name, e)}
                 >
                   <img src={arrGioHD[e].img} alt="" className="" />
                   <div className="flex flex-col">
@@ -231,6 +277,41 @@ export default function CalendarPreview() {
           </div>
         </div>
       </section>
+      {dataTuDai.length ? (
+        <section className="bg-[#FFFAF9] mt-30px rounded-[20px] lg:rounded-primary">
+          <div className="bg-primary rounded-t-[20px] lg:rounded-t-primary text-lg font-semibold py-2.5 pl-5 text-white">
+            Tứ đại cát thời
+          </div>
+          <div className="px-6 pb-6 lg:px-30px lg:pb-0">
+            <div className="grid grid-cols-2 gap-x-6 lg:gap-0">
+              {Array.from(Array(4).keys()).map((e: number) => {
+                return (
+                  <div
+                    key={e}
+                    className={twMerge(
+                      'flex items-center py-4 pb-2 lg:pb-4 gap-2.5 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5 cursor-pointer',
+                      [9, 10, 11].includes(e) && 'lg:border-b-0'
+                    )}
+                    onClick={() => handleClickTimeTuDai(dataTuDai[e].hour, e)}
+                  >
+                    <img
+                      src={TIME_DATA[dataTuDai[e].hour].img}
+                      alt=""
+                      className=""
+                    />
+                    <div className="flex flex-col">
+                      <span className="font-semibold text-left">
+                        {dataTuDai[e].hour}
+                      </span>
+                      <span>{TIME_DATA[dataTuDai[e].hour].time}</span>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+      ) : null}
       <section className="bg-[#FFFAF9] mt-30px rounded-[20px] lg:rounded-primary">
         <div className="bg-primary rounded-t-[20px] lg:rounded-t-primary text-lg font-semibold py-2.5 pl-5 text-white">
           Sao tốt xấu
@@ -290,10 +371,37 @@ export default function CalendarPreview() {
         toggleModal={toggleModal}
         titleModal={`Giờ ${chooseTime.name}`}
       >
-        {dataHourInDays[`hour_${chooseTime.index + 1}`] &&
-          dataHourInDays[`hour_${chooseTime.index + 1}`].replaceAll('\n', ', ')}
+        <div>
+          Sao:{' '}
+          {dataHourInDays[`hour_${chooseTime.index + 1}`] &&
+            dataHourInDays[`hour_${chooseTime.index + 1}`].replaceAll(
+              '\n',
+              ', '
+            )}
+        </div>
+        <div>
+          Âm dương quý nhân:{' '}
+          {chooseTime.quy_nhan &&
+            `${chooseTime.am_duong} - ${chooseTime.quy_nhan}`}
+        </div>
+        <div>
+          Hướng: {chooseTime.quy_nhan && DIRECTIONS[chooseTime.quy_nhan]}
+        </div>
+
         <div className="flex items-center justify-end mt-5 gap-x-4">
           <Button primary onClick={toggleModal} className="h-[3.5rem]">
+            OK
+          </Button>
+        </div>
+      </ModalInformation>
+      <ModalInformation
+        isOpen={isOpenTuDai}
+        toggleModal={toggleModalTuDai}
+        titleModal={`Giờ ${chooseTimeTuDai.name}`}
+      >
+        <div>{chooseTimeTuDai.data}</div>
+        <div className="flex items-center justify-end mt-5 gap-x-4">
+          <Button primary onClick={toggleModalTuDai} className="h-[3.5rem]">
             OK
           </Button>
         </div>
