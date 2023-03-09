@@ -202,3 +202,11 @@ html {
   background: #FD7770 !important;
   color: white !important;
 }
+
+.MuiPaper-root {
+  margin-top: 10px;
+}
+.MuiPaper-root .Mui-selected {
+  background-color: #D9E8DA !important;
+  color: #000;
+}

@@ -1,5 +1,4 @@
 /* eslint-disable tailwindcss/no-custom-classname */
-import type { SxProps } from '@mui/material'
 import { TextField } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { vi } from 'date-fns/locale'
@@ -14,21 +13,6 @@ import CustomDateAdapter, { getMonth } from '@/utils/helpers'
 import { CardCalendar } from '../card'
 import { IconAkarChevronDown } from '../icon'
 
-const popperSx: SxProps = {
-  '& .MuiPaper-root': {
-    marginTop: 1,
-    borderRadius: '10px',
-  },
-  '& .PrivatePickersSlideTransition-root': {},
-  '& .MuiPickersDay-dayWithMargin': {
-    color: 'rgb(229,228,226)',
-    backgroundColor: 'rgba(50, 136, 153)',
-  },
-  '& .Mui-selected': {
-    backgroundColor: '#D9E8DA !important',
-    color: '#000 !important',
-  },
-}
 const Calendar = ({
   currentDate,
   setCurrentDate,
@@ -189,7 +173,6 @@ export default function BoxCalenderRight({
             // maxDate={dayjs('2023-06-01')}
             value={currentDate}
             PopperProps={{
-              sx: popperSx,
               placement: 'bottom-start',
             }}
             onChange={(newValue: Dayjs | null) => {
@@ -197,6 +180,7 @@ export default function BoxCalenderRight({
             }}
             open={isOpenCalendar}
             onClose={() => setIsOpenCalendar(false)}
+            openTo="year"
             renderInput={(params) => (
               <div
                 className="flex items-center cursor-pointer hover:opacity-80 w-fit"
