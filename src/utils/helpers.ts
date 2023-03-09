@@ -1,3 +1,5 @@
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
 import {
   CAN,
   CHI,
@@ -601,4 +603,24 @@ export function getMonth(mm: any, yy: any) {
 // eslint-disable-next-line @typescript-eslint/no-shadow
 export function getCanHour0(jdn: number) {
   return CAN[((jdn - 1) * 2) % 10]
+}
+
+export default function CustomDateAdapter(options: any) {
+  const adapter = new AdapterDayjs(options)
+
+  const constructUpperObject = (text: string) => ({ toUpperCase: () => text })
+  const constructDayObject = (day: string) => ({
+    charAt: () => constructUpperObject(day),
+  })
+
+  return {
+    ...adapter,
+    getWeekdays() {
+      // Feel free to replace this with your custom value
+      const customWeekdays = ['CN', 'Hai', 'Ba', 'Bốn', 'Năm', 'Sáu', 'Bảy']
+      // const customWeekdays = adapter.getWeekdays()
+
+      return customWeekdays.map((day) => constructDayObject(day))
+    },
+  }
 }

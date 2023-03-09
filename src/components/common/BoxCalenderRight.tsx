@@ -1,18 +1,34 @@
 /* eslint-disable tailwindcss/no-custom-classname */
+import type { SxProps } from '@mui/material'
 import { TextField } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { vi } from 'date-fns/locale'
 import type { Dayjs } from 'dayjs'
 import { useMemo, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { useStore } from '@/store/useStore'
 import { LOWER_DAYS } from '@/utils/constant'
-import { getMonth } from '@/utils/helpers'
+import CustomDateAdapter, { getMonth } from '@/utils/helpers'
 
 import { CardCalendar } from '../card'
 import { IconAkarChevronDown } from '../icon'
 
+const popperSx: SxProps = {
+  '& .MuiPaper-root': {
+    marginTop: 1,
+    borderRadius: '10px',
+  },
+  '& .PrivatePickersSlideTransition-root': {},
+  '& .MuiPickersDay-dayWithMargin': {
+    color: 'rgb(229,228,226)',
+    backgroundColor: 'rgba(50, 136, 153)',
+  },
+  '& .Mui-selected': {
+    backgroundColor: '#D9E8DA !important',
+    color: '#000 !important',
+  },
+}
 const Calendar = ({
   currentDate,
   setCurrentDate,
@@ -161,17 +177,23 @@ export default function BoxCalenderRight({
       )}
     >
       <CardCalendar className="bg-[#D9E8DA] xl:bg-white">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <LocalizationProvider
+          adapterLocale={vi}
+          // @ts-ignore
+          dateAdapter={CustomDateAdapter}
+          dateFormats={{ monthShort: 'T.M', monthAndYear: 'MM/YYYY' }}
+        >
           <DatePicker
             views={['year', 'month']}
             // minDate={dayjs('2012-03-01')}
             // maxDate={dayjs('2023-06-01')}
             value={currentDate}
+            PopperProps={{
+              sx: popperSx,
+              placement: 'bottom-start',
+            }}
             onChange={(newValue: Dayjs | null) => {
               onChangeCurrentDate(newValue || currentDate)
-            }}
-            PopperProps={{
-              placement: 'bottom-start',
             }}
             open={isOpenCalendar}
             onClose={() => setIsOpenCalendar(false)}
