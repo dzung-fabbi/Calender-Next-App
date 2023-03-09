@@ -114,7 +114,8 @@ html {
 
 // Input error
 .MuiFormControl-root:has(.Mui-error) {
-  border: 1px solid red !important;
+  border: 1px solid #F87272 !important;
+  border-radius: 10px;
 }
 
 .MuiInputBase-root.MuiFilledInput-root:before {

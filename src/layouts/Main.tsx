@@ -27,7 +27,7 @@ const Main = (props: IMainProps) => {
   }, [windowSize])
 
   return (
-    <div className="w-full">
+    <main className="w-full">
       {props.meta}
 
       <div className="flex w-full mx-auto xs:flex-wrap md:flex-nowrap">
@@ -41,7 +41,7 @@ const Main = (props: IMainProps) => {
           <BoxCalenderRight className="xs:hidden xl:block" />
         </div>
       </div>
-    </div>
+    </main>
   )
 }
 
