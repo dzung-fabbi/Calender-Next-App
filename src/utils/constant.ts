@@ -325,6 +325,7 @@ export const TIME_DATA: any = {
 export const MODE_TAB_HEADER = {
   PREVIEW: 1,
   CALENDAR_CHANGE: 2,
+  THAN_SAT: 3,
 }
 export const DATE_FORMAT = 'DD/MM/YYYY'
 export const isValidDate = (date: string) =>

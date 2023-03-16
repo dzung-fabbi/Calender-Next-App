@@ -28,6 +28,11 @@ const NAVBAR_MENU = [
     value: MODE_TAB_HEADER.CALENDAR_CHANGE,
     icon: <ConvertCalendar />,
   },
+  {
+    label: 'Thần Sát',
+    value: MODE_TAB_HEADER.THAN_SAT,
+    icon: <ConvertCalendar />,
+  },
 ]
 function Header() {
   const router = useRouter()
@@ -40,7 +45,7 @@ function Header() {
   }
   return (
     <section className="flex justify-between items-center gap-x-5 py-[15px] md:py-[25px] border-b border-[#DDE1DD]">
-      <nav className="gap-x-5 hidden md:flex">
+      <nav className="hidden gap-x-5 md:flex">
         {NAVBAR_MENU.map(({ value, label }) => {
           return (
             <div
@@ -60,7 +65,7 @@ function Header() {
           )
         })}
       </nav>
-      <div className="gap-x-4 hidden md:flex">
+      <div className="hidden gap-x-4 md:flex">
         <Button onClick={() => router.push('/calendar-schedule')} primary>
           Sắp đặt lịch làm việc
         </Button>
@@ -130,12 +135,12 @@ function Header() {
                     <div>
                       <img src="/images/top_bar.png" alt="Lich tot xau" />
                     </div>
-                    <span className="font-medium text-base">Lịch tốt xấu</span>
+                    <span className="text-base font-medium">Lịch tốt xấu</span>
                   </a>
                 </Link>
               </AccordionSummary>
-              <AccordionDetails className="pr-1 pt-2 pl-6">
-                <div className="flex-col flex gap-4 pl-4 pt-4 relative">
+              <AccordionDetails className="pt-2 pl-6 pr-1">
+                <div className="relative flex flex-col gap-4 pt-4 pl-4">
                   {NAVBAR_MENU.map(({ value, label, icon }) => {
                     return (
                       <button
@@ -154,7 +159,7 @@ function Header() {
                         )}
                       >
                         <div className="mr-3">{icon}</div>
-                        <span className="font-medium text-base">{label}</span>
+                        <span className="text-base font-medium">{label}</span>
                       </button>
                     )
                   })}
@@ -170,7 +175,7 @@ function Header() {
                 </button>
               </AccordionDetails>
             </Accordion>
-            <Accordion className="rounded-primary mt-5">
+            <Accordion className="mt-5 rounded-primary">
               <AccordionSummary
                 expandIcon={
                   <ExpandMoreIcon
@@ -202,11 +207,11 @@ function Header() {
                     <div>
                       <img src="/images/second_bar.png" alt="Lich tot xau" />
                     </div>
-                    <span className="font-medium text-base">Tứ trụ</span>
+                    <span className="text-base font-medium">Tứ trụ</span>
                   </a>
                 </Link>
               </AccordionSummary>
-              <AccordionDetails className="pr-1 pt-4"></AccordionDetails>
+              <AccordionDetails className="pt-4 pr-1"></AccordionDetails>
             </Accordion>
           </div>
         </Drawer>
