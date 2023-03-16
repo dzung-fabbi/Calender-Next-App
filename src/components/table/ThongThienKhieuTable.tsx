@@ -16,7 +16,7 @@ interface ThongThienKhieuTableProps {
 export default function ThongThienKhieuTable({
   data,
 }: ThongThienKhieuTableProps) {
-  return (
+  return data ? (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
         <TableHead>
@@ -35,5 +35,5 @@ export default function ThongThienKhieuTable({
         </TableBody>
       </Table>
     </TableContainer>
-  )
+  ) : null
 }

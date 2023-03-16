@@ -29,7 +29,7 @@ export default function TamNguyenTuBachTable({
     ({ nguyen, bach_1, bach_6, bach_8, tu_9 }) =>
       createData(nguyen, bach_1, bach_6, bach_8, tu_9)
   )
-  return (
+  return data ? (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
         <TableHead>
@@ -59,5 +59,5 @@ export default function TamNguyenTuBachTable({
         </TableBody>
       </Table>
     </TableContainer>
-  )
+  ) : null
 }

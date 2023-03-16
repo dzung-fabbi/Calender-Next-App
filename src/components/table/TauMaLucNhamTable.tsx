@@ -14,7 +14,7 @@ interface TauMaLucNhamTableProps {
 }
 
 export default function TauMaLucNhamTable({ data }: TauMaLucNhamTableProps) {
-  return (
+  return data ? (
     <TableContainer component={Paper}>
       <Table aria-label="tau ma luc nham">
         <TableHead>
@@ -41,5 +41,5 @@ export default function TauMaLucNhamTable({ data }: TauMaLucNhamTableProps) {
         </TableBody>
       </Table>
     </TableContainer>
-  )
+  ) : null
 }

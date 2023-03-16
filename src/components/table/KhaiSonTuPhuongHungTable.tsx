@@ -16,7 +16,7 @@ interface KhaiSonTuPhuongHungTableProps {
 export default function KhaiSonTuPhuongHungTable({
   data,
 }: KhaiSonTuPhuongHungTableProps) {
-  return (
+  return data ? (
     <TableContainer component={Paper}>
       <Table aria-label="tau ma luc nham">
         <TableHead>
@@ -41,5 +41,5 @@ export default function KhaiSonTuPhuongHungTable({
         </TableBody>
       </Table>
     </TableContainer>
-  )
+  ) : null
 }

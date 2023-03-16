@@ -16,7 +16,7 @@ interface CaiSonHoangDaoTableProps {
 export default function CaiSonHoangDaoTable({
   data,
 }: CaiSonHoangDaoTableProps) {
-  return (
+  return data ? (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
         <TableHead>
@@ -39,5 +39,5 @@ export default function CaiSonHoangDaoTable({
         </TableBody>
       </Table>
     </TableContainer>
-  )
+  ) : null
 }
