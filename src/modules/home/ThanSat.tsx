@@ -13,13 +13,22 @@ import {
 } from '@/components/table'
 import KhaiSonHungTable from '@/components/table/KhaiSonHungTable'
 import type { ThanSatFormValue } from '@/models'
+import { useStore } from '@/store/useStore'
+import { getDayName, getLunarDate } from '@/utils/helpers'
 
 function ThanSat() {
+  const currentDate = useStore((state) => state.currentDate)
+  const day = currentDate.format('DD')
+  const month = currentDate.format('MM')
+  const year = currentDate.format('YYYY')
+  const currentLunarDate = getLunarDate(+day, +month, +year)
+  const dayName = getDayName(currentLunarDate)
+
   const [thanSatInfo, setThanSatInfo] = useState<ThanSatFormValue>()
   useEffect(() => {
     ;(async () => {
       try {
-        const responseData = await homeApi.getThanSatInfo('quy mao')
+        const responseData = await homeApi.getThanSatInfo(dayName[2] || '')
         setThanSatInfo(responseData)
       } catch (error) {
         // eslint-disable-next-line no-console
