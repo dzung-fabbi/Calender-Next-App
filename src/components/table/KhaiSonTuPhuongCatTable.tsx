@@ -28,7 +28,7 @@ export default function KhaiSonTuPhuongCatTable({
         <TableHead>
           <TableRow>
             <TableCell>Tên sao</TableCell>
-            <TableCell align="right">Phương hướng</TableCell>
+            <TableCell>Phương hướng</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -40,7 +40,7 @@ export default function KhaiSonTuPhuongCatTable({
               <TableCell component="th" scope="row">
                 {row.star_name}
               </TableCell>
-              <TableCell align="right">{row.direction}</TableCell>
+              <TableCell>{row.direction}</TableCell>
             </TableRow>
           ))}
         </TableBody>

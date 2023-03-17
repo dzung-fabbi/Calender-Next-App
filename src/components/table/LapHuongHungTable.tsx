@@ -20,7 +20,7 @@ export default function LapHuongHungTable({ data }: LapHuongHungTableProps) {
         <TableHead>
           <TableRow>
             <TableCell>Tuần sơn La hầu</TableCell>
-            <TableCell align="right">Bệnh phù</TableCell>
+            <TableCell>Bệnh phù</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -28,7 +28,7 @@ export default function LapHuongHungTable({ data }: LapHuongHungTableProps) {
             <TableCell component="th" scope="row">
               {data.tuan_son_la_hau}
             </TableCell>
-            <TableCell align="right">{data.benh_phu}</TableCell>
+            <TableCell>{data.benh_phu}</TableCell>
           </TableRow>
         </TableBody>
       </Table>
