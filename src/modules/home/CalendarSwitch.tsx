@@ -15,7 +15,6 @@ import { useToggle } from '@/hooks'
 import { CAN, CHI, HOURS, TIETKHI } from '@/utils/constant'
 import {
   addZero,
-  convertSolar2Lunar,
   getCanChi,
   getCanHour0,
   getLunarDate,
@@ -274,14 +273,14 @@ export default function CalendarSwitch() {
   }
 
   const convertFromSolar = () => {
-    const value = convertSolar2Lunar(removeZero(day), removeZero(month), +year)
+    const lunarDate = getLunarDate(+day, +month, +year)
     setConvertDate({
       time: dayjs(time).format('hh:mm A'),
-      day: addZero(value[0]) || '',
-      month: addZero(value[1]) || '',
-      year: value[2] || '',
+      day: addZero(lunarDate.day) || '',
+      month: addZero(lunarDate.month) || '',
+      year: lunarDate.year || '',
     })
-    const lunarDate = getLunarDate(+day, +month, +year)
+
     const canChi = getCanChi(lunarDate)
     const canHours = getCanHour0(lunarDate.jd)
     const chiHours = HOURS.find(
