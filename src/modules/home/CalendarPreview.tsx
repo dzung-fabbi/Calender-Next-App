@@ -379,15 +379,12 @@ export default function CalendarPreview() {
               ', '
             )}
         </div>
-        <div>
-          Âm dương quý nhân:{' '}
-          {chooseTime.quy_nhan &&
-            `${chooseTime.am_duong} - ${chooseTime.quy_nhan}`}
-        </div>
-        <div>
-          Hướng: {chooseTime.quy_nhan && DIRECTIONS[chooseTime.quy_nhan]}
-        </div>
-
+        {chooseTime.quy_nhan ? (
+          <>
+            <div>{`${chooseTime.am_duong} : ${chooseTime.quy_nhan}`}</div>
+            <div>Hướng: {DIRECTIONS[chooseTime.quy_nhan]}</div>
+          </>
+        ) : null}
         <div className="flex items-center justify-end mt-5 gap-x-4">
           <Button primary onClick={toggleModal} className="h-[3.5rem]">
             OK
