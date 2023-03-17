@@ -14,7 +14,7 @@ interface TuPhuongHungTableProps {
 }
 
 export default function TuPhuongHungTable({ data }: TuPhuongHungTableProps) {
-  return data ? (
+  return (
     <TableContainer component={Paper}>
       <Table aria-label="tau ma luc nham">
         <TableHead>
@@ -67,5 +67,5 @@ export default function TuPhuongHungTable({ data }: TuPhuongHungTableProps) {
         </TableBody>
       </Table>
     </TableContainer>
-  ) : null
+  )
 }

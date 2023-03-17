@@ -14,9 +14,9 @@ interface LapHuongHungTableProps {
 }
 
 export default function LapHuongHungTable({ data }: LapHuongHungTableProps) {
-  return data ? (
+  return (
     <TableContainer component={Paper}>
-      <Table aria-label="simple table">
+      <Table aria-label="table">
         <TableHead>
           <TableRow>
             <TableCell>Tuần sơn La hầu</TableCell>
@@ -33,5 +33,5 @@ export default function LapHuongHungTable({ data }: LapHuongHungTableProps) {
         </TableBody>
       </Table>
     </TableContainer>
-  ) : null
+  )
 }

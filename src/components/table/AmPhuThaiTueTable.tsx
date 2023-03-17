@@ -7,20 +7,19 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import * as React from 'react'
 
-import type { KhaiSonHung } from '@/models'
+import type { AmPhuThaiTue } from '@/models'
 
-interface KhaiSonHungTableProps {
-  data: KhaiSonHung
+interface AmPhuThaiTueTableProps {
+  data: AmPhuThaiTue
 }
 
-export default function KhaiSonHungTable({ data }: KhaiSonHungTableProps) {
-  return data ? (
+export default function AmPhuThaiTueTable({ data }: AmPhuThaiTueTableProps) {
+  return (
     <TableContainer component={Paper}>
-      <Table aria-label="tau ma luc nham">
+      <Table aria-label="am phu thai tue">
         <TableHead>
           <TableRow>
-            <TableCell>Niên khắc sơn gia</TableCell>
-            <TableCell align="right">Âm phủ Thái tuế</TableCell>
+            <TableCell>Âm phủ Thái tuế</TableCell>
             <TableCell align="right">lục hại</TableCell>
             <TableCell align="right">Tử phù</TableCell>
             <TableCell align="right">Cứu thoái</TableCell>
@@ -29,9 +28,8 @@ export default function KhaiSonHungTable({ data }: KhaiSonHungTableProps) {
         <TableBody>
           <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell component="th" scope="row">
-              {data.nien_khac_son_gia}
+              {data.am_phu_thai_tue}
             </TableCell>
-            <TableCell align="right">{data.am_phu_thai_tue}</TableCell>
             <TableCell align="right">{data.luc_hai}</TableCell>
             <TableCell align="right">{data.tu_phu}</TableCell>
             <TableCell align="right">{data.cuu_thoai}</TableCell>
@@ -39,5 +37,5 @@ export default function KhaiSonHungTable({ data }: KhaiSonHungTableProps) {
         </TableBody>
       </Table>
     </TableContainer>
-  ) : null
+  )
 }
