@@ -22,9 +22,9 @@ export default function KhaiSonTuPhuongCatTable({
   const rows: KhaiSonTuPhuongCat[] = data.map(({ star_name, direction }) =>
     createData(star_name, direction)
   )
-  return data ? (
+  return (
     <TableContainer component={Paper}>
-      <Table aria-label="simple table">
+      <Table aria-label="table">
         <TableHead>
           <TableRow>
             <TableCell>Tên sao</TableCell>
@@ -46,5 +46,5 @@ export default function KhaiSonTuPhuongCatTable({
         </TableBody>
       </Table>
     </TableContainer>
-  ) : null
+  )
 }
