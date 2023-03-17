@@ -155,7 +155,7 @@ export default function BoxCalenderRight({
   return (
     <section
       className={twMerge(
-        'bg-transparent xl:bg-[#F3F4F3] xl:h-[100vh] w-full mx-auto xl:max-w-[25.625rem] min-w-[22rem] xs:pt-4 xl:py-10 xl:px-5 rounded-30px xl:rounded-r-none',
+        'bg-transparent xl:bg-[#F3F4F3] xl:h-[100vh] w-full mx-auto xl:max-w-[25.625rem] xl:min-w-[25.625rem] min-w-[22rem] xs:pt-4 xl:py-10 xl:px-5 rounded-30px xl:rounded-r-none',
         tabHeader === 2 && 'xs:hidden',
         className
       )}
