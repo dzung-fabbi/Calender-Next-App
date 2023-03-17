@@ -8,6 +8,8 @@ import TableRow from '@mui/material/TableRow'
 import * as React from 'react'
 
 import type { KhaiSonHungThang } from '@/models'
+import { useStore } from '@/store/useStore'
+import { MONTH_PROPERTY } from '@/utils/constant'
 
 /**
  * Table For
@@ -22,24 +24,18 @@ function createData(item: KhaiSonHungThang) {
   return item
 }
 
-const TABLE_HEAD = [
-  'Tên sao \\ Tháng',
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '10',
-  '11',
-  '12',
-]
-
 export default function TableMonth({ data }: Props) {
+  const currentDate = useStore((state) => state.currentDate)
+  const month = currentDate.format('M')
   const rows: KhaiSonHungThang[] = data.map((item) => createData(item))
+  const TABLE_HEAD = ['Tên sao', `Tháng ${month}`]
+
+  const getDataByMonth = (monthSelected: number, rowData: KhaiSonHungThang) => {
+    type K = keyof KhaiSonHungThang
+    const property =
+      MONTH_PROPERTY[monthSelected as keyof typeof MONTH_PROPERTY]
+    return rowData[property as K]
+  }
   return (
     <TableContainer component={Paper}>
       <Table aria-label="table common">
@@ -61,18 +57,9 @@ export default function TableMonth({ data }: Props) {
               <TableCell component="th" scope="row">
                 {row.star_name}
               </TableCell>
-              <TableCell align="right">{row.month_1}</TableCell>
-              <TableCell align="right">{row.month_2}</TableCell>
-              <TableCell align="right">{row.month_3}</TableCell>
-              <TableCell align="right">{row.month_4}</TableCell>
-              <TableCell align="right">{row.month_5}</TableCell>
-              <TableCell align="right">{row.month_6}</TableCell>
-              <TableCell align="right">{row.month_7}</TableCell>
-              <TableCell align="right">{row.month_8}</TableCell>
-              <TableCell align="right">{row.month_9}</TableCell>
-              <TableCell align="right">{row.month_10}</TableCell>
-              <TableCell align="right">{row.month_11}</TableCell>
-              <TableCell align="right">{row.month_12}</TableCell>
+              <TableCell align="right">
+                {getDataByMonth(Number(month), row)}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
