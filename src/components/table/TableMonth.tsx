@@ -42,7 +42,7 @@ export default function TableMonth({ data }: Props) {
         <TableHead>
           <TableRow>
             {TABLE_HEAD.map((title, idx) => (
-              <TableCell align={idx !== 0 ? 'right' : 'left'} key={idx}>
+              <TableCell key={idx}>
                 {title}
               </TableCell>
             ))}
@@ -57,7 +57,7 @@ export default function TableMonth({ data }: Props) {
               <TableCell component="th" scope="row">
                 {row.star_name}
               </TableCell>
-              <TableCell align="right">
+              <TableCell>
                 {getDataByMonth(Number(month), row)}
               </TableCell>
             </TableRow>

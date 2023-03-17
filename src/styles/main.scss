@@ -215,3 +215,8 @@ html {
 .MuiTableHead-root  tr th {
   font-weight:700;
 }
+@media (min-width: 1280px) {
+  .div-content {
+    max-width: calc(100vw - 410px - 17.5rem);
+  }
+}
