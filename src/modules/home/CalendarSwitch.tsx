@@ -8,6 +8,7 @@ import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
+import getDateByTietKhi from '@/api/calendar-switch.api'
 import { IconChevronRight, IconDown } from '@/components/icon'
 import { Input } from '@/components/input'
 import { useToggle } from '@/hooks'
@@ -215,7 +216,30 @@ export default function CalendarSwitch() {
     month: '',
     year: '',
   })
-
+  const [convertFromDate, setConvertFromDate] = useState<DateProps>({
+    time: '',
+    day: '',
+    month: '',
+    year: '',
+  })
+  const [convertToDate, setConvertToDate] = useState<DateProps>({
+    time: '',
+    day: '',
+    month: '',
+    year: '',
+  })
+  const [fromCanChi, setFromCanChi] = useState<DateProps>({
+    time: '',
+    day: '',
+    month: '',
+    year: '',
+  })
+  const [toCanChi, setToCanChi] = useState<DateProps>({
+    time: '',
+    day: '',
+    month: '',
+    year: '',
+  })
   const handleChange = (newValue: Dayjs | null) => {
     setTime(newValue)
   }
@@ -353,6 +377,70 @@ export default function CalendarSwitch() {
     convertFromSolar()
   }, [])
 
+  const convertFromTietKhi = () => {
+    getDateByTietKhi
+      .getInfo(tietkhi)
+      .then((res) => {
+        const startTime = new Date(res.data.start_time)
+        const endTime = new Date(res.data.end_time)
+        const lunarDateStartTime = getLunarDate(
+          +startTime.getDate(),
+          +(startTime.getMonth() + 1),
+          +startTime.getFullYear()
+        )
+        const lunarDateEndTime = getLunarDate(
+          +endTime.getDate(),
+          +(endTime.getMonth() + 1),
+          +endTime.getFullYear()
+        )
+        // convert lunar date
+        setConvertFromDate({
+          time: dayjs(startTime.getTime()).format('hh:mm A'),
+          day: addZero(lunarDateStartTime.day) || '',
+          month: addZero(lunarDateStartTime.month) || '',
+          year: lunarDateStartTime.year || '',
+        })
+        setConvertToDate({
+          time: dayjs(endTime.getTime()).format('hh:mm A'),
+          day: addZero(lunarDateEndTime.day) || '',
+          month: addZero(lunarDateEndTime.month) || '',
+          year: lunarDateEndTime.year || '',
+        })
+        // convert can chi
+        const canChiStartDate = getCanChi(lunarDateStartTime)
+        const canHoursStart = getCanHour0(lunarDateStartTime.jd)
+        const chiHoursStart = HOURS.find(
+          (el) =>
+            (startTime?.getHours() || 0) >= el.min &&
+            (startTime?.getHours() || 0) <= el.max
+        )?.chi
+
+        setFromCanChi({
+          time: `${canHoursStart} ${chiHoursStart}`,
+          day: canChiStartDate[0] || '',
+          month: canChiStartDate[1] || '',
+          year: canChiStartDate[2] || '',
+        })
+
+        const canChiEndDate = getCanChi(lunarDateEndTime)
+        const canHoursEnd = getCanHour0(lunarDateEndTime.jd)
+        const chiHoursEnd = HOURS.find(
+          (el) =>
+            (endTime?.getHours() || 0) >= el.min &&
+            (endTime?.getHours() || 0) <= el.max
+        )?.chi
+        setToCanChi({
+          time: `${canHoursEnd} ${chiHoursEnd}`,
+          day: canChiEndDate[0] || '',
+          month: canChiEndDate[1] || '',
+          year: canChiEndDate[2] || '',
+        })
+      })
+      .catch(() => {
+        setIsDislayError(true)
+      })
+  }
+
   const handleConvert = () => {
     setLoading()
     setTimeout(() => {
@@ -364,6 +452,9 @@ export default function CalendarSwitch() {
       } else if (tab === 1) {
         if (!day || !month || !year) setIsDislayError(true)
         convertFromLunar()
+      } else if (tab === 2) {
+        if (!tietkhi) setIsDislayError(true)
+        convertFromTietKhi()
       } else if (tab === 3) {
         if (
           !canYear ||
@@ -667,42 +758,125 @@ export default function CalendarSwitch() {
               <div className="mb-4 text-sm font-medium text-gray-primary">
                 {tabConvert === 0 ? 'Ngày dương' : 'Ngày âm'}
               </div>
-              <div className="flex gap-2.5 flex-wrap 4xl:flex-nowrap">
-                <div className="w-40 4xl:w-full">
-                  <TextField
-                    label="Giờ"
-                    value={convertDate.time}
-                    variant="filled"
-                    inputProps={{ readOnly: true, className: 'w-full' }}
-                  />
+              {tab === 2 ? (
+                <div>
+                  <div className="from-date flex gap-2.5 flex-wrap 4xl:flex-nowrap mb-4">
+                    <div className="mb-4 text-sm font-medium text-gray-primary">
+                      Từ ngày
+                    </div>
+                    <div className="w-40 4xl:w-full">
+                      <TextField
+                        label="Giờ"
+                        value={convertFromDate.time}
+                        variant="filled"
+                        inputProps={{ readOnly: true, className: 'w-full' }}
+                      />
+                    </div>
+                    <div className="flex gap-2.5">
+                      <div className="w-24">
+                        <TextField
+                          label="Ngày"
+                          value={convertFromDate.day}
+                          variant="filled"
+                          inputProps={{ readOnly: true }}
+                        />
+                      </div>
+                      <div className="w-24">
+                        <TextField
+                          label="Tháng"
+                          value={convertFromDate.month}
+                          variant="filled"
+                          inputProps={{ readOnly: true }}
+                        />
+                      </div>
+                      <div className="w-28">
+                        <TextField
+                          label="Năm"
+                          value={convertFromDate.year}
+                          variant="filled"
+                          inputProps={{ readOnly: true }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="to-date flex gap-2.5 flex-wrap 4xl:flex-nowrap">
+                    <div className="mb-4 text-sm font-medium text-gray-primary">
+                      Đến ngày
+                    </div>
+                    <div className="w-40 4xl:w-full">
+                      <TextField
+                        label="Giờ"
+                        value={convertToDate.time}
+                        variant="filled"
+                        inputProps={{ readOnly: true, className: 'w-full' }}
+                      />
+                    </div>
+                    <div className="flex gap-2.5">
+                      <div className="w-24">
+                        <TextField
+                          label="Ngày"
+                          value={convertToDate.day}
+                          variant="filled"
+                          inputProps={{ readOnly: true }}
+                        />
+                      </div>
+                      <div className="w-24">
+                        <TextField
+                          label="Tháng"
+                          value={convertToDate.month}
+                          variant="filled"
+                          inputProps={{ readOnly: true }}
+                        />
+                      </div>
+                      <div className="w-28">
+                        <TextField
+                          label="Năm"
+                          value={convertToDate.year}
+                          variant="filled"
+                          inputProps={{ readOnly: true }}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex gap-2.5">
-                  <div className="w-24">
+              ) : (
+                <div className="flex gap-2.5 flex-wrap 4xl:flex-nowrap">
+                  <div className="w-40 4xl:w-full">
                     <TextField
-                      label="Ngày"
-                      value={convertDate.day}
+                      label="Giờ"
+                      value={convertDate.time}
                       variant="filled"
-                      inputProps={{ readOnly: true }}
+                      inputProps={{ readOnly: true, className: 'w-full' }}
                     />
                   </div>
-                  <div className="w-24">
-                    <TextField
-                      label="Tháng"
-                      value={convertDate.month}
-                      variant="filled"
-                      inputProps={{ readOnly: true }}
-                    />
-                  </div>
-                  <div className="w-28">
-                    <TextField
-                      label="Năm"
-                      value={convertDate.year}
-                      variant="filled"
-                      inputProps={{ readOnly: true }}
-                    />
+                  <div className="flex gap-2.5">
+                    <div className="w-24">
+                      <TextField
+                        label="Ngày"
+                        value={convertDate.day}
+                        variant="filled"
+                        inputProps={{ readOnly: true }}
+                      />
+                    </div>
+                    <div className="w-24">
+                      <TextField
+                        label="Tháng"
+                        value={convertDate.month}
+                        variant="filled"
+                        inputProps={{ readOnly: true }}
+                      />
+                    </div>
+                    <div className="w-28">
+                      <TextField
+                        label="Năm"
+                        value={convertDate.year}
+                        variant="filled"
+                        inputProps={{ readOnly: true }}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </TabPanel>
             <TabPanel value={tabConvert} index={2}>
               <div className="mb-4 text-sm font-medium text-gray-primary">
@@ -720,19 +894,63 @@ export default function CalendarSwitch() {
               <div className="mb-4 text-sm font-medium text-gray-primary">
                 Can chi tương ứng
               </div>
-
-              <div className="mb-4 text-sm text-gray-primary">
-                Giờ: {convertCanChi.time}
-              </div>
-              <div className="mb-4 text-sm text-gray-primary">
-                Ngày: {convertCanChi.day}
-              </div>
-              <div className="mb-4 text-sm text-gray-primary">
-                Tháng: {convertCanChi.month}
-              </div>
-              <div className="mb-4 text-sm text-gray-primary">
-                Năm: {convertCanChi.year}
-              </div>
+              {tab === 2 ? (
+                <div>
+                  <div className="from-can-chi">
+                    <div className="mb-4 text-sm font-semibold text-gray-primary">
+                      Từ ngày:
+                    </div>
+                    <div className="flex">
+                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                        Giờ: {fromCanChi.time}
+                      </div>
+                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                        Ngày: {fromCanChi.day}
+                      </div>
+                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                        Tháng: {fromCanChi.month}
+                      </div>
+                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                        Năm: {fromCanChi.year}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="to-can-chi">
+                    <div className="mb-4 text-sm font-semibold text-gray-primary">
+                      Đến ngày:
+                    </div>
+                    <div className="flex">
+                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                        Giờ: {toCanChi.time}
+                      </div>
+                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                        Ngày: {toCanChi.day}
+                      </div>
+                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                        Tháng: {toCanChi.month}
+                      </div>
+                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                        Năm: {toCanChi.year}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div className="mb-4 text-sm text-gray-primary">
+                    Giờ: {convertCanChi.time}
+                  </div>
+                  <div className="mb-4 text-sm text-gray-primary">
+                    Ngày: {convertCanChi.day}
+                  </div>
+                  <div className="mb-4 text-sm text-gray-primary">
+                    Tháng: {convertCanChi.month}
+                  </div>
+                  <div className="mb-4 text-sm text-gray-primary">
+                    Năm: {convertCanChi.year}
+                  </div>
+                </div>
+              )}
             </TabPanel>
           </div>
         )}
