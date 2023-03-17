@@ -330,3 +330,18 @@ export const MODE_TAB_HEADER = {
 export const DATE_FORMAT = 'DD/MM/YYYY'
 export const isValidDate = (date: string) =>
   dayjs(date, DATE_FORMAT, true).isValid()
+
+export const MONTH_PROPERTY = {
+  1: 'month_1',
+  2: 'month_2',
+  3: 'month_3',
+  4: 'month_4',
+  5: 'month_5',
+  6: 'month_6',
+  7: 'month_7',
+  8: 'month_8',
+  9: 'month_9',
+  10: 'month_10',
+  11: 'month_11',
+  12: 'month_12',
+}
