@@ -8,11 +8,11 @@ const SIDEBAR_MENU = [
     icon: <img src="/images/top_bar.png" alt="Lich tot xau" />,
     to: '/',
   },
-  {
-    label: 'Tứ trụ',
-    icon: <img src="/images/second_bar.png" alt="Tu tru"></img>,
-    to: '/tu-tru',
-  },
+  // {
+  //   label: 'Tứ trụ',
+  //   icon: <img src="/images/second_bar.png" alt="Tu tru"></img>,
+  //   to: '/tu-tru',
+  // },
 ]
 export default function Sidebar() {
   const router = useRouter()

@@ -5,9 +5,6 @@ import { twMerge } from 'tailwind-merge'
 
 import homeApi from '@/api/home.api'
 import { BadgeDateStatus } from '@/components/badge'
-import { Button } from '@/components/button'
-import { ModalInformation } from '@/components/modal'
-import { useToggle } from '@/hooks'
 import { useStore } from '@/store/useStore'
 import {
   CAN,
@@ -66,28 +63,6 @@ export default function CalendarPreview() {
   const arrGioHD: any = getTimeInDay()
   const [info, setInfo] = useState<InfoProp>(initInfo)
   const [tietkhiInfo, setTietkhiInfo] = useState<TietkhiProp>(initTietkhi)
-  const [isOpen, toggleModal] = useToggle()
-  const [isOpenTuDai, toggleModalTuDai] = useToggle()
-  const [chooseTime, setChooseTime] = useState<{
-    name: string
-    index: number
-    quy_nhan: string
-    am_duong: string
-  }>({
-    name: '',
-    index: -1,
-    quy_nhan: '',
-    am_duong: '',
-  })
-  const [chooseTimeTuDai, setChooseTimeTuDai] = useState<{
-    name: string
-    index: number
-    data: ''
-  }>({
-    name: '',
-    index: -1,
-    data: '',
-  })
   const [dataHourInDays, setDataHourInDays] = useState<any>({})
   const [dataQuyNhan, setDataQuyNhan] = useState<any>([])
   const [dataTuDai, setDataTuDai] = useState<any>([])
@@ -118,30 +93,27 @@ export default function CalendarPreview() {
       })
   }, [currentDate])
 
-  const handleClickTime = (time: string, index: number) => {
-    const quynhan = dataQuyNhan.filter(
+  const getInfoByHour = (time: string) => {
+    const quyNhan = dataQuyNhan.find(
       (e: { hour: string }) => e.hour.trim() === time
     )
-    setChooseTime({
-      name: time,
-      index,
-      quy_nhan: quynhan.length > 0 && quynhan[0].quy_nhan,
-      am_duong: quynhan.length > 0 && quynhan[0].am_duong,
-    })
-    toggleModal()
+    return quyNhan && (
+        <>
+          <div>{`${quyNhan?.am_duong} : ${quyNhan?.quy_nhan}`}</div>
+          <div>Hướng: {DIRECTIONS[quyNhan?.quy_nhan]}</div>
+        </>
+    )
   }
 
-  const handleClickTimeTuDai = (time: string, index: number) => {
-    setChooseTimeTuDai({
-      name: time,
-      index,
-      data: dataTuDai[index][
+  const getSaoTuDai = (index: number) => {
+    const data = dataTuDai[index][
         `can_ngay_${
-          CAN.indexOf((dayName[0] && dayName[0].split(' ')[0]) || '') + 1
+            CAN.indexOf((dayName[0] && dayName[0].split(' ')[0]) || '') + 1
         }`
-      ],
-    })
-    toggleModalTuDai()
+        ]
+    return (<>
+      Sao: {data}
+    </>)
   }
 
   return (
@@ -250,70 +222,6 @@ export default function CalendarPreview() {
       </section>
       <section className="bg-[#FFFAF9] mt-30px rounded-[20px] lg:rounded-primary">
         <div className="bg-primary rounded-t-[20px] lg:rounded-t-primary text-lg font-semibold py-2.5 pl-5 text-white">
-          Giờ trong ngày
-        </div>
-        <div className="px-6 pb-6 lg:px-30px lg:pb-0">
-          <div className="grid grid-cols-2 gap-x-6 lg:grid-cols-3 lg:gap-0">
-            {Array.from(Array(12).keys()).map((e: number) => {
-              return (
-                <div
-                  key={e}
-                  className={twMerge(
-                    'flex items-center py-4 pb-2 lg:pb-4 gap-2.5 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5 cursor-pointer',
-                    [9, 10, 11].includes(e) && 'lg:border-b-0'
-                  )}
-                  onClick={() => handleClickTime(arrGioHD[e].name, e)}
-                >
-                  <img src={arrGioHD[e].img} alt="" className="" />
-                  <div className="flex flex-col">
-                    <span className="font-semibold text-left">
-                      {arrGioHD[e].name}
-                    </span>
-                    <span>{arrGioHD[e].time}</span>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-      {dataTuDai.length ? (
-        <section className="bg-[#FFFAF9] mt-30px rounded-[20px] lg:rounded-primary">
-          <div className="bg-primary rounded-t-[20px] lg:rounded-t-primary text-lg font-semibold py-2.5 pl-5 text-white">
-            Tứ đại cát thời
-          </div>
-          <div className="px-6 pb-6 lg:px-30px lg:pb-0">
-            <div className="grid grid-cols-2 gap-x-6 lg:gap-0">
-              {Array.from(Array(4).keys()).map((e: number) => {
-                return (
-                  <div
-                    key={e}
-                    className={twMerge(
-                      'flex items-center py-4 pb-2 lg:pb-4 gap-2.5 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5 cursor-pointer',
-                      [9, 10, 11].includes(e) && 'lg:border-b-0'
-                    )}
-                    onClick={() => handleClickTimeTuDai(dataTuDai[e].hour, e)}
-                  >
-                    <img
-                      src={TIME_DATA[dataTuDai[e].hour].img}
-                      alt=""
-                      className=""
-                    />
-                    <div className="flex flex-col">
-                      <span className="font-semibold text-left">
-                        {dataTuDai[e].hour}
-                      </span>
-                      <span>{TIME_DATA[dataTuDai[e].hour].time}</span>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </section>
-      ) : null}
-      <section className="bg-[#FFFAF9] mt-30px rounded-[20px] lg:rounded-primary">
-        <div className="bg-primary rounded-t-[20px] lg:rounded-t-primary text-lg font-semibold py-2.5 pl-5 text-white">
           Sao tốt xấu
         </div>
         <div className="flex flex-col p-5">
@@ -321,7 +229,7 @@ export default function CalendarPreview() {
             <div className="border-left-infor good flex leading-[16.94px] mr-2 font-semibold text-primary">
               <div className="py-3 pl-3">
                 Sao tốt:
-                <span className="ml-1 text-sm font-normal text-blue-tag">
+                <span className="ml-1 text-sm font-normal text-red-tag">
                   {info.good_stars}
                 </span>
               </div>
@@ -331,7 +239,7 @@ export default function CalendarPreview() {
             <div className="border-left-infor ugly flex leading-[16.94px] mr-2 font-semibold">
               <div className="py-3 pl-3">
                 Sao xấu:
-                <span className="ml-1 text-sm font-normal text-blue-tag">
+                <span className="ml-1 text-sm font-normal">
                   {info.ugly_stars}
                 </span>
               </div>
@@ -366,43 +274,86 @@ export default function CalendarPreview() {
           </div>
         </div>
       </section>
-      <ModalInformation
-        isOpen={isOpen}
-        toggleModal={toggleModal}
-        titleModal={`Giờ ${chooseTime.name}`}
-      >
-        <div>
-          Sao:{' '}
-          {dataHourInDays[`hour_${chooseTime.index + 1}`] &&
-            dataHourInDays[`hour_${chooseTime.index + 1}`].replaceAll(
-              '\n',
-              ', '
-            )}
+      <section className="bg-[#FFFAF9] mt-30px rounded-[20px] lg:rounded-primary">
+        <div className="bg-primary rounded-t-[20px] lg:rounded-t-primary text-lg font-semibold py-2.5 pl-5 text-white">
+          Giờ trong ngày
         </div>
-        {chooseTime.quy_nhan ? (
-          <>
-            <div>{`${chooseTime.am_duong} : ${chooseTime.quy_nhan}`}</div>
-            <div>Hướng: {DIRECTIONS[chooseTime.quy_nhan]}</div>
-          </>
-        ) : null}
-        <div className="flex items-center justify-end mt-5 gap-x-4">
-          <Button primary onClick={toggleModal} className="h-[3.5rem]">
-            OK
-          </Button>
+        <div className="px-6 pb-6 lg:px-30px lg:pb-0">
+          <div className="grid gap-x-6 lg:gap-0">
+            {Array.from(Array(12).keys()).map((e: number) => {
+              return (
+                <div
+                    key={e}
+                    className={twMerge(
+                        'flex items-center py-4 pb-2 lg:pb-4 gap-2.5 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5 cursor-pointer',
+                        [11].includes(e) && 'lg:border-b-0'
+                    )}
+                >
+                  <div className='gap-2.5 flex mr-10 pr-10 border-r'>
+                    <img src={arrGioHD[e].img} alt="" className="" />
+                    <div className="flex flex-col">
+                    <span className="font-semibold text-left">
+                      {arrGioHD[e].name}
+                    </span>
+                        <span>{arrGioHD[e].time}</span>
+                      </div>
+                  </div>
+                  <div>
+                    <div>
+                      Sao:{' '}
+                      {dataHourInDays[`hour_${e + 1}`] &&
+                          dataHourInDays[`hour_${e + 1}`].replaceAll(
+                              '\n',
+                              ', '
+                          )}
+                    </div>
+                    {getInfoByHour(arrGioHD[e].name)}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </div>
-      </ModalInformation>
-      <ModalInformation
-        isOpen={isOpenTuDai}
-        toggleModal={toggleModalTuDai}
-        titleModal={`Giờ ${chooseTimeTuDai.name}`}
-      >
-        <div>{chooseTimeTuDai.data}</div>
-        <div className="flex items-center justify-end mt-5 gap-x-4">
-          <Button primary onClick={toggleModalTuDai} className="h-[3.5rem]">
-            OK
-          </Button>
-        </div>
-      </ModalInformation>
+      </section>
+      {dataTuDai.length ? (
+          <section className="bg-[#FFFAF9] mt-30px rounded-[20px] lg:rounded-primary">
+            <div className="bg-primary rounded-t-[20px] lg:rounded-t-primary text-lg font-semibold py-2.5 pl-5 text-white">
+              Tứ đại cát thời
+            </div>
+            <div className="px-6 pb-6 lg:px-30px lg:pb-0">
+              <div className="grid gap-x-6 lg:gap-0">
+                {Array.from(Array(4).keys()).map((e: number) => {
+                  return (
+                    <div
+                        key={e}
+                        className={twMerge(
+                            'flex items-center py-4 pb-2 lg:pb-4 gap-2.5 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5 cursor-pointer',
+                            [3].includes(e) && 'lg:border-b-0'
+                        )}
+                    >
+                      <div className='gap-2.5 flex mr-10 pr-10 border-r'>
+                        <img
+                            src={TIME_DATA[dataTuDai[e].hour].img}
+                            alt=""
+                            className=""
+                        />
+                        <div className="flex flex-col">
+                          <span className="font-semibold text-left">
+                            {dataTuDai[e].hour}
+                          </span>
+                          <span>{TIME_DATA[dataTuDai[e].hour].time}</span>
+                        </div>
+                      </div>
+                      <div className='flex'>
+                        {getSaoTuDai(e)}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </section>
+      ) : null}
     </div>
   )
 }

@@ -197,19 +197,19 @@ function Header() {
                   }`
                 )}
               >
-                <Link href={'/tu-tru'} passHref legacyBehavior>
-                  <a
-                    className={twMerge(
-                      'flex items-center gap-x-[10px] rounded-primary hover:opacity-[0.85] transition-all',
-                      `${router.pathname === '/tu-tru' && 'bg-[#FD7770]'}`
-                    )}
-                  >
-                    <div>
-                      <img src="/images/second_bar.png" alt="Lich tot xau" />
-                    </div>
-                    <span className="text-base font-medium">Tứ trụ</span>
-                  </a>
-                </Link>
+                {/*<Link href={'/tu-tru'} passHref legacyBehavior>*/}
+                {/*  <a*/}
+                {/*    className={twMerge(*/}
+                {/*      'flex items-center gap-x-[10px] rounded-primary hover:opacity-[0.85] transition-all',*/}
+                {/*      `${router.pathname === '/tu-tru' && 'bg-[#FD7770]'}`*/}
+                {/*    )}*/}
+                {/*  >*/}
+                {/*    <div>*/}
+                {/*      <img src="/images/second_bar.png" alt="Lich tot xau" />*/}
+                {/*    </div>*/}
+                {/*    <span className="text-base font-medium">Tứ trụ</span>*/}
+                {/*  </a>*/}
+                {/*</Link>*/}
               </AccordionSummary>
               <AccordionDetails className="pt-4 pr-1"></AccordionDetails>
             </Accordion>
