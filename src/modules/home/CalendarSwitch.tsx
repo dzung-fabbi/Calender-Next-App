@@ -10,7 +10,6 @@ import { twMerge } from 'tailwind-merge'
 
 import getDateByTietKhi from '@/api/calendar-switch.api'
 import { IconChevronRight, IconDown } from '@/components/icon'
-import { Input } from '@/components/input'
 import { useToggle } from '@/hooks'
 import { CAN, CHI, HOURS, TIETKHI } from '@/utils/constant'
 import {
@@ -881,13 +880,14 @@ export default function CalendarSwitch() {
               <div className="mb-4 text-sm font-medium text-gray-primary">
                 Tiết khí tương ứng
               </div>
-              <Input
-                label="Tiết khí"
-                value={convertTietkhi}
-                containerClass="grow"
-                className="w-[150px] rounded-md border-transparent bg-[#FFF6F6]"
-                disabled
-              ></Input>
+              <div className="w-40">
+                <TextField
+                  label="Tiết khí"
+                  value={convertTietkhi}
+                  variant="filled"
+                  inputProps={{ readOnly: true, className: 'w-full' }}
+                />
+              </div>
             </TabPanel>
             <TabPanel value={tabConvert} index={3}>
               <div className="mb-4 text-sm font-medium text-gray-primary">

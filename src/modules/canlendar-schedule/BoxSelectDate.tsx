@@ -13,9 +13,7 @@ export default function BoxSelectDate() {
         {/* button group */}
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-4 4xl:grid-cols-6">
           {/* active button */}
-          <BadgePrimary className="bg-green-btn text-white">
-            12/2/2023
-          </BadgePrimary>
+          <BadgePrimary isActive>12/2/2023</BadgePrimary>
 
           {/* Default button */}
           <BadgePrimary>15/2/2023</BadgePrimary>

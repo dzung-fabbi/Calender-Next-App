@@ -11,6 +11,7 @@ import {
   DAYS,
   DIRECTIONS,
   LOWER_DAYS,
+  PART_HOURS,
   TIETKHI,
   TIME_DATA,
 } from '@/utils/constant'
@@ -100,7 +101,9 @@ export default function CalendarPreview() {
     return (
       quyNhan && (
         <>
-          <div>{`${quyNhan?.am_duong} : ${quyNhan?.quy_nhan}`}</div>
+          <div>{`${quyNhan?.am_duong} : ${quyNhan?.quy_nhan} (${
+            PART_HOURS[quyNhan?.quy_nhan]
+          })`}</div>
           <div>Hướng: {DIRECTIONS[quyNhan?.quy_nhan]}</div>
         </>
       )
@@ -257,7 +260,7 @@ export default function CalendarPreview() {
             <div className="border-left-infor good mr-2 flex font-semibold leading-[16.94px] text-primary">
               <div className="py-3 pl-3">
                 Nên:
-                <span className="ml-1 text-sm font-normal text-gray-primary">
+                <span className="text-red-primary ml-1 text-sm font-normal">
                   {info.should_things}
                 </span>
               </div>

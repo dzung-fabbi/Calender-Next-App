@@ -16,7 +16,7 @@ const CalendarSchedule: NextPageWithLayout = () => {
         <BoxSelectInfo />
         <BoxSelectDate />
       </div>
-      <div className="flex justify-center mt-5 ">
+      <div className="mt-5 flex justify-center">
         <Button onClick={toogleModal} className="w-[145px]" primary>
           Đặt lịch
         </Button>
