@@ -114,13 +114,13 @@ export default function BoxSelectInfo() {
   const submitForm = (data: FormValue) => alert(data)
   return (
     <form
-      className="flex flex-col p-2.5 pb-5 xl:p-5 xl:pt-2.5 border border-primary rounded-primary gap-y-2.5 xl:gap-y-5"
+      className="flex flex-col gap-y-2.5 rounded-primary border border-primary p-2.5 pb-5 xl:gap-y-5 xl:p-5 xl:pt-2.5"
       onSubmit={handleSubmit(submitForm)}
     >
       <h4 className="my-[5px] font-medium text-gray-primary">
         Lựa chọn thời gian sắp đặt lịch làm việc của bạn!
       </h4>
-      <div className="flex gap-[10px] flex-wrap">
+      <div className="flex flex-wrap gap-[10px]">
         <Controller
           name="mainWork"
           control={control}

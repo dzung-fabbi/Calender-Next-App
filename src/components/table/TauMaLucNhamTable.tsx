@@ -29,7 +29,9 @@ export default function TauMaLucNhamTable({ data }: TauMaLucNhamTableProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
               <TableCell component="th" scope="row">
                 {data.than_hau}
               </TableCell>

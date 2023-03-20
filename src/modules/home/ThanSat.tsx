@@ -89,11 +89,11 @@ function ThanSat() {
       </div>
       <div>
         <h1 className="text-xl font-semibold capitalize">Khai sơn hung</h1>
-        <div className="flex items-center my-2">
-          <div className="border-left-infor ugly good flex mr-2 font-semibold">
+        <div className="my-2 flex items-center">
+          <div className="border-left-infor ugly good mr-2 flex font-semibold">
             <div className="py-3 pl-3">
               Niên khắc sơn gia:
-              <span className="ml-1 italic font-normal text-gray-primary">
+              <span className="ml-1 font-normal italic text-gray-primary">
                 {thanSatInfo.khai_son_hung?.nien_khac_son_gia}
               </span>
             </div>

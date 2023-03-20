@@ -19,6 +19,7 @@ export interface CaiSonHoangDao {
 export interface ThongThienKhieu {
   truoc_phuong_tam_hop: string
   sau_phuong_tam_hop: string
+  note: string
 }
 
 export interface TauMaLucNham {
@@ -28,6 +29,7 @@ export interface TauMaLucNham {
   thang_quang: string
   truyen_tong: string
   ha_khoi: string
+  note: string
 }
 export interface KhaiSonTuPhuongHung {
   thai_tue: string

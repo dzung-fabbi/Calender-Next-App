@@ -27,7 +27,9 @@ export default function ThongThienKhieuTable({
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
               <TableCell component="th" scope="row">
                 {data.truoc_phuong_tam_hop}
               </TableCell>

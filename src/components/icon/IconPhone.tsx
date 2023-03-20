@@ -1,7 +1,7 @@
 export default function IconPhone() {
   return (
     <svg
-      className="w-6 h-6 text-gray-400"
+      className="h-6 w-6 text-gray-400"
       width="24"
       height="24"
       viewBox="0 0 24 24"

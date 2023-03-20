@@ -470,8 +470,8 @@ export default function CalendarSwitch() {
   }
   return (
     <div className="relative grid grid-cols-1 gap-5 2xl:grid-cols-2">
-      <div className="flex flex-col flex-1 px-5 pt-2.5 pb-8  border shadow border-primary rounded-primary gap-y-4 relative">
-        <div className="text-sm font-medium text-center border-b border-gray-200 text-gray-secondary">
+      <div className="relative flex flex-1 flex-col gap-y-4 rounded-primary  border border-primary px-5 pt-2.5 pb-8 shadow">
+        <div className="border-b border-gray-200 text-center text-sm font-medium text-gray-secondary">
           <ul className="flex flex-wrap gap-4">
             {LIST_TAB.map(({ label, tabValue, allow }) => {
               return (
@@ -498,7 +498,7 @@ export default function CalendarSwitch() {
           <div className="mb-4 text-sm font-medium text-gray-primary">
             Lựa chọn ngày {tab === 0 ? 'dương' : 'âm'}
           </div>
-          <div className="flex gap-2.5 flex-wrap 4xl:flex-nowrap">
+          <div className="flex flex-wrap gap-2.5 4xl:flex-nowrap">
             <TimePicker
               label="Chọn giờ"
               value={time}
@@ -701,7 +701,7 @@ export default function CalendarSwitch() {
         {/* Button convert  */}
         <div
           onClick={handleConvert}
-          className="absolute rotate-90 2xl:rotate-0 top-full -translate-y-1.5 left-1/2 -translate-x-1/2 flex items-center justify-center w-[32px] h-[32px] 2xl:-translate-y-1/2 bg-white border-2 cursor-pointer hover:opacity-90 2xl:top-1/2 2xl:left-full 2xl:-translate-x-1.5 rounded-lg border-primary/[43] ring-2 ring-primary/[0.32]"
+          className="absolute top-full left-1/2 flex h-[32px] w-[32px] -translate-y-1.5 -translate-x-1/2 rotate-90 cursor-pointer items-center justify-center rounded-lg border-2 border-primary/[43] bg-white ring-2 ring-primary/[0.32] hover:opacity-90 2xl:top-1/2 2xl:left-full 2xl:-translate-y-1/2 2xl:-translate-x-1.5 2xl:rotate-0"
         >
           <button>
             {isLoading ? (
@@ -714,8 +714,8 @@ export default function CalendarSwitch() {
           </button>
         </div>
       </div>
-      <div className="flex flex-col flex-1 px-5 pt-2.5 pb-8 gap-y-4 border border-transparent shadow rounded-primary">
-        <div className="text-sm font-medium text-center border-b border-gray-200 text-gray-secondary">
+      <div className="flex flex-1 flex-col gap-y-4 rounded-primary border border-transparent px-5 pt-2.5 pb-8 shadow">
+        <div className="border-b border-gray-200 text-center text-sm font-medium text-gray-secondary">
           <ul className="flex flex-wrap gap-4">
             {LIST_TAB.map(({ label, tabValue, allow }) => {
               return (
@@ -759,7 +759,7 @@ export default function CalendarSwitch() {
               </div>
               {tab === 2 ? (
                 <div>
-                  <div className="from-date flex gap-2.5 flex-wrap 4xl:flex-nowrap mb-4">
+                  <div className="from-date mb-4 flex flex-wrap gap-2.5 4xl:flex-nowrap">
                     <div className="mb-4 text-sm font-medium text-gray-primary">
                       Từ ngày
                     </div>
@@ -798,7 +798,7 @@ export default function CalendarSwitch() {
                       </div>
                     </div>
                   </div>
-                  <div className="to-date flex gap-2.5 flex-wrap 4xl:flex-nowrap">
+                  <div className="to-date flex flex-wrap gap-2.5 4xl:flex-nowrap">
                     <div className="mb-4 text-sm font-medium text-gray-primary">
                       Đến ngày
                     </div>
@@ -839,7 +839,7 @@ export default function CalendarSwitch() {
                   </div>
                 </div>
               ) : (
-                <div className="flex gap-2.5 flex-wrap 4xl:flex-nowrap">
+                <div className="flex flex-wrap gap-2.5 4xl:flex-nowrap">
                   <div className="w-40 4xl:w-full">
                     <TextField
                       label="Giờ"
@@ -885,7 +885,7 @@ export default function CalendarSwitch() {
                 label="Tiết khí"
                 value={convertTietkhi}
                 containerClass="grow"
-                className="w-[150px] bg-[#FFF6F6] border-transparent rounded-md"
+                className="w-[150px] rounded-md border-transparent bg-[#FFF6F6]"
                 disabled
               ></Input>
             </TabPanel>
@@ -900,16 +900,16 @@ export default function CalendarSwitch() {
                       Từ ngày:
                     </div>
                     <div className="flex">
-                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                      <div className="mb-4 mr-2 text-sm text-gray-primary">
                         Giờ: {fromCanChi.time}
                       </div>
-                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                      <div className="mb-4 mr-2 text-sm text-gray-primary">
                         Ngày: {fromCanChi.day}
                       </div>
-                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                      <div className="mb-4 mr-2 text-sm text-gray-primary">
                         Tháng: {fromCanChi.month}
                       </div>
-                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                      <div className="mb-4 mr-2 text-sm text-gray-primary">
                         Năm: {fromCanChi.year}
                       </div>
                     </div>
@@ -919,16 +919,16 @@ export default function CalendarSwitch() {
                       Đến ngày:
                     </div>
                     <div className="flex">
-                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                      <div className="mb-4 mr-2 text-sm text-gray-primary">
                         Giờ: {toCanChi.time}
                       </div>
-                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                      <div className="mb-4 mr-2 text-sm text-gray-primary">
                         Ngày: {toCanChi.day}
                       </div>
-                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                      <div className="mb-4 mr-2 text-sm text-gray-primary">
                         Tháng: {toCanChi.month}
                       </div>
-                      <div className="mb-4 text-sm text-gray-primary mr-2">
+                      <div className="mb-4 mr-2 text-sm text-gray-primary">
                         Năm: {toCanChi.year}
                       </div>
                     </div>

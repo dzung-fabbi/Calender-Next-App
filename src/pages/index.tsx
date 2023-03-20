@@ -29,7 +29,7 @@ const Home: NextPageWithLayout = () => {
   return (
     <>
       <img
-        className="hidden object-cover w-full mb-5 rounded-2xl md:block"
+        className="mb-5 hidden w-full rounded-2xl object-cover md:block"
         src="/images/banner.png"
         alt=""
       />

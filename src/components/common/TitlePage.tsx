@@ -6,7 +6,7 @@ export interface TitlePageProps {
 
 export default function TitlePage({ children }: TitlePageProps) {
   return (
-    <h2 className="mb-25px font-semibold text-center text-[26px]">
+    <h2 className="mb-25px text-center text-[26px] font-semibold">
       {children}
     </h2>
   )

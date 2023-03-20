@@ -20,6 +20,7 @@ export function addZero(value: string | number) {
   return value.toString().length === 1 ? `0${value}` : value
 }
 
+// eslint-disable-next-line func-names
 const LunarDate = function (
   this: any,
   dd: any,

@@ -30,10 +30,10 @@ const Main = (props: IMainProps) => {
     <main className="w-full">
       {props.meta}
 
-      <div className="flex w-full mx-auto xs:flex-wrap md:flex-nowrap">
+      <div className="mx-auto flex w-full xs:flex-wrap md:flex-nowrap">
         {!isMobile && <Sidebar />}
-        <div className="flex flex-row flex-wrap xl:flex-nowrap grow">
-          <div className="p-4 pt-0 xl:p-30px xl:pt-0 div-content grow">
+        <div className="flex grow flex-row flex-wrap xl:flex-nowrap">
+          <div className="div-content grow p-4 pt-0 xl:p-30px xl:pt-0">
             <Header />
             <BoxCalenderRight className="xl:hidden" />
             <div className="mt-6 xl:mb-20">{props.children}</div>

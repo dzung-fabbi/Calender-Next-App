@@ -36,13 +36,13 @@ export default function ModalContact({
       <div className="flex justify-center">
         <img src="/images/confirm_info.png" alt="Contact" />
       </div>
-      <p className="mt-5 text-[#2F3A4C] text-sm text-center px-2">
+      <p className="mt-5 px-2 text-center text-sm text-[#2F3A4C]">
         Nhập Email hoặc số điện thoại của bạn, hệ thống sẽ nhắc nhở bạn khi đến
         ngày.
       </p>
-      <div className="flex justify-center mt-5">
+      <div className="mt-5 flex justify-center">
         <div
-          className="inline-flex shadow rounded-primary bg-gray-bgBtn"
+          className="inline-flex rounded-primary bg-gray-bgBtn shadow"
           role="group"
         >
           <button
@@ -68,13 +68,13 @@ export default function ModalContact({
         </div>
       </div>
       <div className="relative transition-all">
-        <div className="absolute -translate-y-1/2 left-3 top-1/2">
+        <div className="absolute left-3 top-1/2 -translate-y-1/2">
           {mode === MODE.EMAIL ? <IconEmail /> : <IconPhone />}
         </div>
         <input
           type="text"
           id="contact"
-          className="pl-11 p-3 mt-3 w-full leading-[22px] border border-[#EAECEA] outline-none text-sm focus:ring-2 focus:border-transparent focus:ring-primary placeholder:text-[#A6B1BE] rounded-lg block"
+          className="mt-3 block w-full rounded-lg border border-[#EAECEA] p-3 pl-11 text-sm leading-[22px] outline-none placeholder:text-[#A6B1BE] focus:border-transparent focus:ring-2 focus:ring-primary"
           placeholder={
             mode === MODE.EMAIL ? LABEL_INPUT.email : LABEL_INPUT.phone
           }
@@ -84,9 +84,9 @@ export default function ModalContact({
         ></input>
       </div>
 
-      <div className="flex items-center justify-end mt-5 gap-x-4">
+      <div className="mt-5 flex items-center justify-end gap-x-4">
         <button
-          className="px-6 transition-all hover:text-primary-swarthy text-primary"
+          className="px-6 text-primary transition-all hover:text-primary-swarthy"
           onClick={toggleModal}
         >
           Quay lại

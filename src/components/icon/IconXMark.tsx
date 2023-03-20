@@ -1,7 +1,7 @@
 export default function IconXMark() {
   return (
     <svg
-      className="w-5 h-5 text-gray-400"
+      className="h-5 w-5 text-gray-400"
       width="24"
       height="24"
       viewBox="0 0 24 24"

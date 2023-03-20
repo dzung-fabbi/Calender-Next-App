@@ -21,7 +21,7 @@ export default function Input({
 }: InputProps) {
   return (
     <div className={twMerge('relative', containerClass && `${containerClass}`)}>
-      <span className="text-sm text-gray-label-input absolute top-[5px] left-[10px]">
+      <span className="absolute top-[5px] left-[10px] text-sm text-gray-label-input">
         {label}
       </span>
       <input
@@ -39,7 +39,7 @@ export default function Input({
         <div className="absolute right-[.75rem] top-[46%]">{children}</div>
       )}
       {error && (
-        <span className="absolute label-text top-full text-error">{error}</span>
+        <span className="label-text text-error absolute top-full">{error}</span>
       )}
     </div>
   )

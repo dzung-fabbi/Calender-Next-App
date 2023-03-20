@@ -44,7 +44,7 @@ function Header() {
     if (router.pathname !== '/') router.push('/')
   }
   return (
-    <section className="flex justify-between items-center gap-x-5 py-[15px] md:py-[25px] border-b border-[#DDE1DD]">
+    <section className="flex items-center justify-between gap-x-5 border-b border-[#DDE1DD] py-[15px] md:py-[25px]">
       <nav className="hidden gap-x-5 md:flex">
         {NAVBAR_MENU.map(({ value, label }) => {
           return (
@@ -69,15 +69,15 @@ function Header() {
         <Button onClick={() => router.push('/calendar-schedule')} primary>
           Sắp đặt lịch làm việc
         </Button>
-        <div className="w-[45px] h-[45px] rounded-primary">
+        <div className="h-[45px] w-[45px] rounded-primary">
           <img
-            className="object-cover w-full h-full rounded-primary"
+            className="h-full w-full rounded-primary object-cover"
             src="https://images.unsplash.com/photo-1603468620905-8de7d86b781e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80"
             alt="avatar"
           />
         </div>
       </div>
-      <div className="w-full md:hidden xs:flex">
+      <div className="w-full xs:flex md:hidden">
         <button onClick={() => setOpenDrawer()} className="grow">
           <img src="/images/menu.png" alt="" />
         </button>
@@ -93,7 +93,7 @@ function Header() {
           open={openDrawer}
           onClose={() => setOpenDrawer()}
         >
-          <div className="justify-between flex p-6 w-full border-b border-[#F0F0F0]">
+          <div className="flex w-full justify-between border-b border-[#F0F0F0] p-6">
             <img src="/images/mobile_logo.png" alt="" />
             <button>
               <img
@@ -169,7 +169,7 @@ function Header() {
                     router.push('/calendar-schedule')
                     setOpenDrawer(false)
                   }}
-                  className="w-[170px] ml-4 mt-4 rounded-primary p-4 border border-[#F0F0F0] text-[#292D32]"
+                  className="ml-4 mt-4 w-[170px] rounded-primary border border-[#F0F0F0] p-4 text-[#292D32]"
                 >
                   Sắp đặt lịch làm việc
                 </button>
@@ -197,19 +197,19 @@ function Header() {
                   }`
                 )}
               >
-                {/*<Link href={'/tu-tru'} passHref legacyBehavior>*/}
-                {/*  <a*/}
-                {/*    className={twMerge(*/}
-                {/*      'flex items-center gap-x-[10px] rounded-primary hover:opacity-[0.85] transition-all',*/}
-                {/*      `${router.pathname === '/tu-tru' && 'bg-[#FD7770]'}`*/}
-                {/*    )}*/}
-                {/*  >*/}
-                {/*    <div>*/}
-                {/*      <img src="/images/second_bar.png" alt="Lich tot xau" />*/}
-                {/*    </div>*/}
-                {/*    <span className="text-base font-medium">Tứ trụ</span>*/}
-                {/*  </a>*/}
-                {/*</Link>*/}
+                {/* <Link href={'/tu-tru'} passHref legacyBehavior>
+                  <a
+                    className={twMerge(
+                      'flex items-center gap-x-[10px] rounded-primary hover:opacity-[0.85] transition-all',
+                      `${router.pathname === '/tu-tru' && 'bg-[#FD7770]'}`
+                    )}
+                  >
+                    <div>
+                      <img src="/images/second_bar.png" alt="Lich tot xau" />
+                    </div>
+                    <span className="text-base font-medium">Tứ trụ</span>
+                  </a>
+                </Link> */}
               </AccordionSummary>
               <AccordionDetails className="pt-4 pr-1"></AccordionDetails>
             </Accordion>

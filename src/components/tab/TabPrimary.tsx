@@ -24,7 +24,7 @@ const LIST_TAB = [
 ]
 export default function TabPrimary({ tabActive }: TabProps) {
   return (
-    <div className="text-sm font-medium text-center border-b border-gray-200 text-gray-secondary">
+    <div className="border-b border-gray-200 text-center text-sm font-medium text-gray-secondary">
       <ul className="flex flex-wrap gap-4">
         {LIST_TAB.map(({ label, tabValue }) => {
           return (
