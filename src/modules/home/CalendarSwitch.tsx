@@ -86,12 +86,12 @@ const LIST_TAB = [
   {
     label: 'Ngày dương',
     tabValue: 0,
-    allow: [1],
+    allow: [1, 3],
   },
   {
     label: 'Ngày âm',
     tabValue: 1,
-    allow: [0, 2],
+    allow: [0, 2, 3],
   },
   {
     label: 'Tiết khí',
@@ -101,7 +101,7 @@ const LIST_TAB = [
   {
     label: 'Can chi',
     tabValue: 3,
-    allow: [0, 1, 2],
+    allow: [2],
   },
 ]
 
@@ -716,17 +716,18 @@ export default function CalendarSwitch() {
       <div className="flex flex-1 flex-col gap-y-4 rounded-primary border border-transparent px-5 pt-2.5 pb-8 shadow">
         <div className="border-b border-gray-200 text-center text-sm font-medium text-gray-secondary">
           <ul className="flex flex-wrap gap-4">
-            {LIST_TAB.map(({ label, tabValue, allow }) => {
+            {LIST_TAB.map(({ label, tabValue }) => {
               return (
                 <li key={tabValue}>
                   <label
                     onClick={() => {
-                      if (allow.includes(tab)) setTabConvert(tabValue)
+                      if (LIST_TAB[tab || 0]?.allow.includes(tabValue))
+                        setTabConvert(tabValue)
                     }}
                     className={twMerge(
                       'inline-block p-2 font-semibold transition-all border-b-2 border-transparent rounded-t-lg',
                       tabValue === tabConvert && 'text-default border-default',
-                      allow.includes(tab)
+                      LIST_TAB[tab || 0]?.allow.includes(tabValue)
                         ? 'hover:text-default hover:border-default'
                         : 'opacity-50'
                     )}
