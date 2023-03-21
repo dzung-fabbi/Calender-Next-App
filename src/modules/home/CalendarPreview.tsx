@@ -101,9 +101,9 @@ export default function CalendarPreview() {
     return (
       quyNhan && (
         <>
-          <div>{`${quyNhan?.am_duong} : ${quyNhan?.quy_nhan} (${
-            PART_HOURS[quyNhan?.quy_nhan]
-          })`}</div>
+          <div>{`Giờ quý nhân đăng thiên môn : ${quyNhan?.am_duong} nhân ${
+            quyNhan?.quy_nhan
+          } (${PART_HOURS[quyNhan?.quy_nhan]})`}</div>
           <div>Hướng: {DIRECTIONS[quyNhan?.quy_nhan]}</div>
         </>
       )
