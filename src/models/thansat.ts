@@ -113,4 +113,5 @@ export interface ThanSatFormValue {
   lap_huong_hung_thang: KhaiSonHungThang[]
   khai_son_hung_thang: KhaiSonHungThang[]
   tu_phuong_hung_thang: KhaiSonHungThang[]
+  than_sat_by_month: []
 }
