@@ -5,6 +5,9 @@ import { twMerge } from 'tailwind-merge'
 
 import homeApi from '@/api/home.api'
 import { BadgeDateStatus } from '@/components/badge'
+import { Button } from '@/components/button'
+import { ModalInformation } from '@/components/modal'
+import { useToggle } from '@/hooks'
 import { useStore } from '@/store/useStore'
 import {
   CAN,
@@ -24,12 +27,12 @@ import {
 } from '@/utils/helpers'
 
 interface InfoProp {
-  good_stars: string
+  good_stars: object
   lunar_day: string
   month: number | string
   no_should_things: string
   should_things: string
-  ugly_stars: string
+  ugly_stars: object
 }
 
 interface TietkhiProp {
@@ -39,12 +42,12 @@ interface TietkhiProp {
 }
 
 const initInfo = {
-  good_stars: '',
+  good_stars: [],
   lunar_day: '',
   month: '',
   should_things: '',
   no_should_things: '',
-  ugly_stars: '',
+  ugly_stars: [],
 }
 
 const initTietkhi = {
@@ -67,6 +70,14 @@ export default function CalendarPreview() {
   const [dataHourInDays, setDataHourInDays] = useState<any>({})
   const [dataQuyNhan, setDataQuyNhan] = useState<any>([])
   const [dataTuDai, setDataTuDai] = useState<any>([])
+  const [isOpen, toggleModal] = useToggle()
+  const [chooseStars, setChooseStars] = useState<{
+    name: string
+    data: string
+  }>({
+    name: '',
+    data: '',
+  })
 
   useEffect(() => {
     homeApi
@@ -118,6 +129,42 @@ export default function CalendarPreview() {
         }`
       ]
     return <>Sao: {data}</>
+  }
+
+  const jsUcfirst = (string: string) => {
+    const tmp = string.toLowerCase()
+    return tmp.charAt(0).toUpperCase() + tmp.slice(1)
+  }
+
+  const handleClickStars = (el: { name: string; property: string }) => {
+    setChooseStars({
+      name: el?.name || '',
+      data: el?.property || '',
+    })
+    toggleModal()
+  }
+
+  const showGoodStars = (goodStars: any) => {
+    return (
+      <>
+        {goodStars.map((el: any, ab: number) => {
+          if (ab === goodStars.length - 1) {
+            return (
+              // eslint-disable-next-line react/jsx-key
+              <span onClick={() => handleClickStars(el)}>
+                {jsUcfirst(el?.name)}
+              </span>
+            )
+          }
+          return (
+            // eslint-disable-next-line react/jsx-key
+            <span onClick={() => handleClickStars(el)}>
+              {`${jsUcfirst(el?.name)}, `}
+            </span>
+          )
+        })}
+      </>
+    )
   }
 
   return (
@@ -234,7 +281,7 @@ export default function CalendarPreview() {
               <div className="py-3 pl-3">
                 Sao tốt:
                 <span className="text-red-tag ml-1 text-sm font-normal">
-                  {info.good_stars}
+                  {showGoodStars(info.good_stars)}
                 </span>
               </div>
             </div>
@@ -244,7 +291,7 @@ export default function CalendarPreview() {
               <div className="py-3 pl-3">
                 Sao xấu:
                 <span className="ml-1 text-sm font-normal">
-                  {info.ugly_stars}
+                  {showGoodStars(info.ugly_stars)}
                 </span>
               </div>
             </div>
@@ -312,7 +359,49 @@ export default function CalendarPreview() {
                     <div>
                       Sao:{' '}
                       {dataHourInDays[`hour_${e + 1}`] &&
-                        dataHourInDays[`hour_${e + 1}`].replaceAll('\n', ', ')}
+                        dataHourInDays[`hour_${e + 1}`].map(
+                          (el: any, ab: number) => {
+                            if (
+                              ab ===
+                              dataHourInDays[`hour_${e + 1}`].length - 1
+                            ) {
+                              if (el.good_ugly_stars === 1) {
+                                return (
+                                  // eslint-disable-next-line react/jsx-key
+                                  <span
+                                    onClick={() => handleClickStars(el)}
+                                    className="text-red-tag text-primary text-red-primary"
+                                  >
+                                    {jsUcfirst(el?.name)}
+                                  </span>
+                                )
+                              }
+                              return (
+                                // eslint-disable-next-line react/jsx-key
+                                <span onClick={() => handleClickStars(el)}>
+                                  {jsUcfirst(el?.name)}
+                                </span>
+                              )
+                            }
+                            if (el.good_ugly_stars === 1) {
+                              return (
+                                // eslint-disable-next-line react/jsx-key
+                                <span
+                                  onClick={() => handleClickStars(el)}
+                                  className="text-red-tag text-primary text-red-primary"
+                                >
+                                  {`${jsUcfirst(el?.name)}, `}
+                                </span>
+                              )
+                            }
+                            return (
+                              // eslint-disable-next-line react/jsx-key
+                              <span onClick={() => handleClickStars(el)}>
+                                {`${jsUcfirst(el?.name)}, `}
+                              </span>
+                            )
+                          }
+                        )}
                     </div>
                     {getInfoByHour(arrGioHD[e].name)}
                   </div>
@@ -362,6 +451,23 @@ export default function CalendarPreview() {
           </div>
         </section>
       ) : null}
+
+      <ModalInformation
+        isOpen={isOpen}
+        toggleModal={toggleModal}
+        titleModal={`Sao ${jsUcfirst(chooseStars.name)}`}
+      >
+        <div>{chooseStars.data}</div>
+        <div className="flex items-center justify-end mt-5 gap-x-4">
+          <Button
+            primary
+            onClick={toggleModal}
+            className="h-[2.5rem] pt-2 w-[2.5rem]"
+          >
+            OK
+          </Button>
+        </div>
+      </ModalInformation>
     </div>
   )
 }
