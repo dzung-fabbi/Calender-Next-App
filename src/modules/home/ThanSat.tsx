@@ -1,18 +1,15 @@
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import homeApi from '@/api/home.api'
-import {
-  AmPhuThaiTueTable,
-  CaiSonHoangDaoTable,
-  KhaiSonTuPhuongCatTable,
-  KhaiSonTuPhuongHungTable,
-  LapHuongHungTable,
-  TableMonth,
-  TamNguyenTuBachTable,
-  TauMaLucNhamTable,
-  ThongThienKhieuTable,
-  TuPhuongHungTable,
-} from '@/components/table'
 import type { ThanSatFormValue } from '@/models'
 import { useStore } from '@/store/useStore'
 import { getDayName, getLunarDate } from '@/utils/helpers'
@@ -40,7 +37,92 @@ function ThanSat() {
   if (!thanSatInfo) return null
   return (
     <div className="flex flex-col gap-y-10">
-      <div>
+      <TableContainer component={Paper}>
+        <Table aria-label="am phu thai tue">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" colSpan={3}>
+                Khảm
+              </TableCell>
+              <TableCell align="center" colSpan={3}>
+                Cấn
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell align="center" colSpan={3}>
+                Bắc{' '}
+              </TableCell>
+              <TableCell align="center" colSpan={3}>
+                Đông bắc{' '}
+              </TableCell>
+            </TableRow>
+
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell align="center" colSpan={3}>
+                337,5 độ{' '}
+              </TableCell>
+              <TableCell align="center" colSpan={3}>
+                22,5 độ{' '}
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
+              <TableCell align="center" colSpan={6}></TableCell>
+            </TableRow>
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell align="center" colSpan={1}>
+                Nhâm
+              </TableCell>
+              <TableCell align="center" colSpan={1}>
+                Tý
+              </TableCell>
+              <TableCell align="center" colSpan={1}>
+                Quý
+              </TableCell>
+              <TableCell align="center" colSpan={1}>
+                Sửu
+              </TableCell>
+              <TableCell align="center" colSpan={1}>
+                Cấn
+              </TableCell>
+              <TableCell align="center" colSpan={1}>
+                Dần
+              </TableCell>
+            </TableRow>
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell align="left" colSpan={1}>
+                337,5 độ
+              </TableCell>
+              <TableCell align="left" colSpan={1}>
+                352,5 độ
+              </TableCell>
+              <TableCell align="left" colSpan={1}>
+                7,5 độ
+              </TableCell>
+              <TableCell align="left" colSpan={1}>
+                22,5 độ
+              </TableCell>
+              <TableCell align="left" colSpan={1}>
+                37,5 độ
+              </TableCell>
+              <TableCell align="left" colSpan={1}>
+                52,5 độ
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {/* <div>
         <h1 className="text-xl font-semibold capitalize">
           Khai sơn , lập hướng , tu phương cát
         </h1>
@@ -89,11 +171,11 @@ function ThanSat() {
       </div>
       <div>
         <h1 className="text-xl font-semibold capitalize">Khai sơn hung</h1>
-        <div className="my-2 flex items-center">
-          <div className="border-left-infor ugly good mr-2 flex font-semibold">
+        <div className="flex items-center my-2">
+          <div className="flex mr-2 font-semibold border-left-infor ugly good">
             <div className="py-3 pl-3">
               Niên khắc sơn gia:
-              <span className="ml-1 font-normal italic text-gray-primary">
+              <span className="ml-1 italic font-normal text-gray-primary">
                 {thanSatInfo.khai_son_hung?.nien_khac_son_gia}
               </span>
             </div>
@@ -141,7 +223,7 @@ function ThanSat() {
         {thanSatInfo.tu_phuong_hung_thang.length > 0 && (
           <TableMonth data={thanSatInfo.tu_phuong_hung_thang} />
         )}
-      </div>
+      </div> */}
     </div>
   )
 }
