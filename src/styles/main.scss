@@ -220,3 +220,10 @@ html {
     max-width: calc(100vw - 410px - 17.5rem);
   }
 }
+
+.MuiTableCell-root {
+  border: 1px solid rgba(224, 224, 224, 1);
+}
+.MuiTableRow-root:last-child td,.MuiTableRow-root:last-child th  {
+  border: 1px solid rgba(224, 224, 224, 1);
+}
