@@ -12,6 +12,45 @@ import {
   TK22,
 } from './constant'
 
+export function getTextDay(goodThing: string, uglyThing: string) {
+  if (!goodThing.trim()) {
+    return {
+      is_good: false,
+      text: 'Ngày cực xấu',
+    }
+  }
+  if (!uglyThing.trim()) {
+    return {
+      is_good: true,
+      text: 'Ngày cực tốt',
+    }
+  }
+  const percent: number =
+    goodThing.split(',').length / uglyThing.split(',').length
+  if (percent > 1.5) {
+    return {
+      is_good: true,
+      text: 'Ngày cực tốt',
+    }
+  }
+  if (percent >= 1 && percent <= 1.5) {
+    return {
+      is_good: true,
+      text: 'Ngày tốt',
+    }
+  }
+  if (percent < 1 && percent >= 0.5) {
+    return {
+      is_good: false,
+      text: 'Ngày xấu',
+    }
+  }
+  return {
+    is_good: false,
+    text: 'Ngày cực xấu',
+  }
+}
+
 export function removeZero(value: string) {
   return +value
 }

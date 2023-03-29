@@ -3,12 +3,17 @@ import { TextField } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { vi } from 'date-fns/locale'
 import type { Dayjs } from 'dayjs'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
+import homeApi from '@/api/home.api'
 import { useStore } from '@/store/useStore'
 import { LOWER_DAYS } from '@/utils/constant'
-import CustomDateAdapter, { getMonth } from '@/utils/helpers'
+import CustomDateAdapter, {
+  getDayName,
+  getMonth,
+  getTextDay,
+} from '@/utils/helpers'
 
 import { CardCalendar } from '../card'
 import { IconAkarChevronDown } from '../icon'
@@ -28,6 +33,7 @@ const Calendar = ({
   const currentMonths = getMonth(+month, +year)
   const ldCurren = currentMonths[0]
   const emptyCells = (ldCurren.jd + 1) % 7
+  const [arrGood, setArrGood] = useState<any>([])
 
   const nextMonths = getMonth(
     +nextMonth.format('MM'),
@@ -40,6 +46,45 @@ const Calendar = ({
   )
 
   const endOfPrevMonth = +prevMonth.endOf('month').format('DD')
+  const arrDay: { month: string | number; lunar_day: string }[] = []
+  Array.from(Array(6).keys()).forEach((i: number) => {
+    Array.from(Array(7).keys()).forEach((j: number) => {
+      const k = 7 * i + j
+      if (
+        k >= emptyCells + currentMonths.length &&
+        k > 34 &&
+        emptyCells + currentMonths.length < 36
+      )
+        return
+      let lunarDate = null
+      if (k < emptyCells || k >= emptyCells + currentMonths.length) {
+        if (k < emptyCells) {
+          lunarDate = prevMonths[prevMonths.length - (emptyCells - k)]
+        } else {
+          lunarDate = nextMonths[k - (emptyCells + currentMonths.length)]
+        }
+      } else {
+        lunarDate = currentMonths[k - emptyCells]
+      }
+      const dayName = getDayName(lunarDate)
+      arrDay.push({
+        month: lunarDate.month,
+        lunar_day: dayName[0] || '',
+      })
+    })
+  })
+
+  useEffect(() => {
+    if (arrDay.length)
+      homeApi
+        .getCalendar(arrDay)
+        .then((res) => {
+          setArrGood(res.data)
+        })
+        .catch(() => {})
+  }, [JSON.stringify(arrDay)])
+
+  let count = -1
 
   return (
     <div className="lvn-lichad-lichmain mt-4 rounded-2xl bg-[#FAFBFA] p-1.5 xl:p-3">
@@ -62,6 +107,7 @@ const Calendar = ({
               emptyCells + currentMonths.length < 36
             )
               return null
+            count += 1
             if (k < emptyCells || k >= emptyCells + currentMonths.length) {
               let solarDate: number | string = ''
               let lunar: number | string = ''
@@ -84,12 +130,22 @@ const Calendar = ({
                   lunar = `${lunarDate.day}/${lunarDate.month}`
                 }
               }
+              let classAdd = ''
+              if (arrGood[count]) {
+                const textDay = getTextDay(
+                  arrGood[count].should_things,
+                  arrGood[count].no_should_things
+                )
+                if (!textDay.is_good) classAdd = 'ugly-cal'
+              }
               return (
                 <div key={k} className="lvn-lichad-col lvn-lichad-colhide">
                   <div className="lvn-lichad-dd text-lg font-semibold ">
                     <span>{solarDate}</span>
                   </div>
-                  <span className="lvn-lichad-da text-sm text-gray-primary">
+                  <span
+                    className={`lvn-lichad-da text-sm text-gray-primary ${classAdd}`}
+                  >
                     {lunar}
                   </span>
                 </div>
@@ -102,6 +158,16 @@ const Calendar = ({
             if (lunar === 1) {
               lunar = `${lunarDate.day}/${lunarDate.month}`
             }
+
+            let classAdd = ''
+            if (arrGood[count]) {
+              const textDay = getTextDay(
+                arrGood[count].should_things,
+                arrGood[count].no_should_things
+              )
+              if (!textDay.is_good) classAdd = 'ugly-cal'
+            }
+
             return (
               <div
                 key={k}
@@ -120,7 +186,7 @@ const Calendar = ({
                     <span className="day">{solarDate}</span>
                   </div>
                   <span
-                    className={`lvn-lichad-da text-sm ${
+                    className={`lvn-lichad-da text-sm ${classAdd} ${
                       lunarDate.day === 1
                         ? 'text-[#FF3939]'
                         : 'text-gray-primary'
