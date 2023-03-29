@@ -23,6 +23,7 @@ import {
   getDayName,
   getLunarDate,
   getSunLongitude,
+  getTextDay,
   getTimeInDay,
 } from '@/utils/helpers'
 
@@ -63,6 +64,7 @@ export default function CalendarPreview() {
   const month = currentDate.format('MM')
   const year = currentDate.format('YYYY')
   const currentLunarDate = getLunarDate(+day, +month, +year)
+
   const dayName = getDayName(currentLunarDate)
   const arrGioHD: any = getTimeInDay()
   const [info, setInfo] = useState<InfoProp>(initInfo)
@@ -105,6 +107,8 @@ export default function CalendarPreview() {
       })
   }, [currentDate])
 
+  const textDay = getTextDay(info.should_things, info.no_should_things)
+
   const getInfoByHour = (time: string) => {
     const quyNhan = dataQuyNhan.find(
       (e: { hour: string }) => e.hour.trim() === time
@@ -145,6 +149,7 @@ export default function CalendarPreview() {
   }
 
   const showGoodStars = (goodStars: any) => {
+    if (!goodStars) return null
     return (
       <>
         {goodStars.map((el: any, ab: number) => {
@@ -180,7 +185,9 @@ export default function CalendarPreview() {
             <h1 className="relative w-fit text-[8.75rem] font-bold leading-none text-primary">
               {day}
               <div className="absolute left-full top-0 rotate-[-31.24deg]">
-                <BadgeDateStatus isBeatifulDay>Ngày Cực Tốt</BadgeDateStatus>
+                <BadgeDateStatus isBeatifulDay={textDay.is_good}>
+                  {textDay.text}
+                </BadgeDateStatus>
               </div>
             </h1>
           </div>
@@ -370,7 +377,7 @@ export default function CalendarPreview() {
                                   // eslint-disable-next-line react/jsx-key
                                   <span
                                     onClick={() => handleClickStars(el)}
-                                    className="text-red-tag text-primary text-red-primary"
+                                    className="text-red-tag text-red-primary text-primary"
                                   >
                                     {jsUcfirst(el?.name)}
                                   </span>
@@ -388,7 +395,7 @@ export default function CalendarPreview() {
                                 // eslint-disable-next-line react/jsx-key
                                 <span
                                   onClick={() => handleClickStars(el)}
-                                  className="text-red-tag text-primary text-red-primary"
+                                  className="text-red-tag text-red-primary text-primary"
                                 >
                                   {`${jsUcfirst(el?.name)}, `}
                                 </span>
