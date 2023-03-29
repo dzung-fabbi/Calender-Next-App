@@ -14,7 +14,7 @@ const Home: NextPageWithLayout = () => {
   if (tabHeader === MODE_TAB_HEADER.THAN_SAT)
     return (
       <>
-        <TitlePage>Thần Sát</TitlePage>
+        <TitlePage>Phương vị cát hung</TitlePage>
         <ThanSat />
       </>
     )

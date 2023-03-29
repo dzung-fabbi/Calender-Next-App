@@ -29,7 +29,7 @@ const NAVBAR_MENU = [
     icon: <ConvertCalendar />,
   },
   {
-    label: 'Thần Sát',
+    label: 'Phương vị cát hung',
     value: MODE_TAB_HEADER.THAN_SAT,
     icon: <ConvertCalendar />,
   },
