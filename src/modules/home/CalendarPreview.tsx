@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import dayjs from 'dayjs'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
@@ -184,7 +185,12 @@ export default function CalendarPreview() {
           <div className="mx-auto">
             <h1 className="relative w-fit text-[8.75rem] font-bold leading-none text-primary">
               {day}
-              <div className="absolute left-full top-0 rotate-[-31.24deg]">
+              <div
+                className={clsx(
+                  'absolute left-full top-0',
+                  textDay.is_good && 'rotate-[-31.24deg]'
+                )}
+              >
                 <BadgeDateStatus isBeatifulDay={textDay.is_good}>
                   {textDay.text}
                 </BadgeDateStatus>
@@ -196,35 +202,37 @@ export default function CalendarPreview() {
             {DAYS[dayOfWeek]}
           </span>
         </div>
-        <div className="z-10 col-span-full flex flex-1 flex-col lg:col-span-1">
+        <div className="z-10 flex flex-col flex-1 col-span-full lg:col-span-1">
           <div className="hidden lg:flex">
-            <div className="flex w-2/5 flex-col">
+            <div className="flex flex-col w-2/5">
               <h1 className="text-left text-[5rem] font-bold leading-none text-orange-primary">
                 {addZero(currentLunarDate.day)}
               </h1>
-              <span className="text-left font-semibold">
+              <span className="font-semibold text-left">
                 Tháng {addZero(currentLunarDate.month)}{' '}
                 {currentLunarDate.leap === 1 && 'Nhuận'} (Âm Lịch)
               </span>
             </div>
             <div className="flex flex-1 flex-col justify-end gap-y-1.5">
-              <span className="text-left font-medium">Năm {dayName[2]}</span>
-              <span className="text-left font-medium">Ngày {dayName[0]}</span>
-              <span className="text-left font-medium">Tháng {dayName[1]}</span>
+              <span className="font-medium text-left">Năm {dayName[2]}</span>
+              <span className="font-medium text-left">Ngày {dayName[0]}</span>
+              <span className="font-medium text-left">Tháng {dayName[1]}</span>
             </div>
           </div>
 
           <div className="flex flex-col lg:hidden">
-            <span className="font-semibold capitalize leading-tight">
+            <span className="font-semibold leading-tight capitalize">
               {LOWER_DAYS[dayOfWeek]}
             </span>
-            <span className="text-2xl font-medium capitalize leading-tight text-primary">{`${day} Tháng ${month} `}</span>
-            <span className="relative w-fit font-medium capitalize leading-tight">
+            <span className="text-2xl font-medium leading-tight capitalize text-primary">{`${day} Tháng ${month} `}</span>
+            <span className="relative font-medium leading-tight capitalize w-fit">
               {`${addZero(currentLunarDate.day)} Tháng ${addZero(
                 currentLunarDate.month
               )}, ${dayName[2]}`}
               <div className="absolute left-full -top-5 translate-x-4 rotate-[-27.42deg]">
-                <BadgeDateStatus>Ngày Xấu</BadgeDateStatus>
+                <BadgeDateStatus isBeatifulDay={textDay.is_good}>
+                  {textDay.text}
+                </BadgeDateStatus>
               </div>
             </span>
           </div>
@@ -232,20 +240,20 @@ export default function CalendarPreview() {
           <ul className="flex pt-5">
             <li className="w-2/5">
               Ngày:
-              <span className="text-left font-semibold">{dayName[0]}</span>
+              <span className="font-semibold text-left">{dayName[0]}</span>
             </li>
             <li>
               Tháng:
-              <span className="text-left font-semibold">{dayName[1]}</span>
+              <span className="font-semibold text-left">{dayName[1]}</span>
             </li>
           </ul>
           <ul className="flex">
             <li className="w-2/5">
-              Năm: <span className="text-left font-semibold">{dayName[2]}</span>
+              Năm: <span className="font-semibold text-left">{dayName[2]}</span>
             </li>
             <li>
               Tiết:
-              <span className="text-left font-semibold">
+              <span className="font-semibold text-left">
                 {TIETKHI[getSunLongitude(currentLunarDate.jd + 1, 7.0)]}
               </span>
             </li>
@@ -253,7 +261,7 @@ export default function CalendarPreview() {
           <ul className="flex">
             <li>
               Ngày khởi tiết:{' '}
-              <span className="text-left font-semibold">
+              <span className="font-semibold text-left">
                 {tietkhiInfo.start_time &&
                   dayjs(tietkhiInfo.start_time).format('HH:mm')}{' '}
                 {tietkhiInfo.start_time &&
@@ -264,7 +272,7 @@ export default function CalendarPreview() {
           <ul className="flex">
             <li>
               Ngày chuyển tiết:{' '}
-              <span className="text-left font-semibold">
+              <span className="font-semibold text-left">
                 {tietkhiInfo.end_time &&
                   dayjs(tietkhiInfo.end_time)
                     .add(1, 'minutes')
@@ -283,7 +291,7 @@ export default function CalendarPreview() {
           Sao tốt xấu
         </div>
         <div className="flex flex-col p-5">
-          <div className="mb-4 flex items-center">
+          <div className="flex items-center mb-4">
             <div className="border-left-infor good mr-2 flex font-semibold leading-[16.94px] text-primary">
               <div className="py-3 pl-3">
                 Sao tốt:
@@ -310,7 +318,7 @@ export default function CalendarPreview() {
           Việc nên - Không nên làm
         </div>
         <div className="flex flex-col p-5">
-          <div className="mb-4 flex items-center">
+          <div className="flex items-center mb-4">
             <div className="border-left-infor good mr-2 flex font-semibold leading-[16.94px] text-primary">
               <div className="py-3 pl-3">
                 Nên:
@@ -348,21 +356,21 @@ export default function CalendarPreview() {
                   )}
                 >
                   <div className="flex w-1/2 shrink-0 items-center gap-2.5 border-r lg:w-48">
-                    <div className="h-10 w-10">
+                    <div className="w-10 h-10">
                       <img
                         src={arrGioHD[e].img}
                         alt="icon"
-                        className="w-full object-cover"
+                        className="object-cover w-full"
                       />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-left font-semibold">
+                      <span className="font-semibold text-left">
                         {arrGioHD[e].name}
                       </span>
                       <span>{arrGioHD[e].time}</span>
                     </div>
                   </div>
-                  <div className="grow pl-8 lg:pl-10">
+                  <div className="pl-8 grow lg:pl-10">
                     <div>
                       Sao:{' '}
                       {dataHourInDays[`hour_${e + 1}`] &&
@@ -435,22 +443,22 @@ export default function CalendarPreview() {
                     )}
                   >
                     <div className="flex w-1/2 shrink-0 items-center gap-2.5 border-r lg:w-48">
-                      <div className="h-10 w-10">
+                      <div className="w-10 h-10">
                         <img
                           src={TIME_DATA[dataTuDai[e].hour].img}
                           alt=""
-                          className="w-full object-cover"
+                          className="object-cover w-full"
                         />
                       </div>
 
                       <div className="flex flex-col">
-                        <span className="text-left font-semibold">
+                        <span className="font-semibold text-left">
                           {dataTuDai[e].hour}
                         </span>
                         <span>{TIME_DATA[dataTuDai[e].hour].time}</span>
                       </div>
                     </div>
-                    <div className="grow pl-8 lg:pl-10">{getSaoTuDai(e)}</div>
+                    <div className="pl-8 grow lg:pl-10">{getSaoTuDai(e)}</div>
                   </div>
                 )
               })}
