@@ -88,7 +88,7 @@ const Calendar = ({
 
   return (
     <div className="lvn-lichad-lichmain mt-4 rounded-2xl bg-[#FAFBFA] p-1.5 xl:p-3">
-      <div className="mb-3 grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7 gap-2 mb-3">
         <div className="font-semibold text-primary">CN</div>
         <div className="font-semibold">Hai</div>
         <div className="font-semibold">Ba</div>
@@ -249,10 +249,10 @@ export default function BoxCalenderRight({
             openTo="year"
             renderInput={(params) => (
               <div
-                className="flex w-fit cursor-pointer items-center hover:opacity-80"
+                className="flex items-center cursor-pointer w-fit hover:opacity-80"
                 onClick={() => setIsOpenCalendar(!isOpenCalendar)}
               >
-                <p className="text-left text-xl">{titleCalendar}</p>
+                <p className="text-xl text-left">{titleCalendar}</p>
 
                 <div className="rounded-full p-1.5 transition-all duration-200 hover:bg-[#E7E7E7]">
                   <IconAkarChevronDown />
@@ -271,9 +271,9 @@ export default function BoxCalenderRight({
           currentDate={currentDate}
           setCurrentDate={onChangeCurrentDate}
         />
-        <p className="mt-4 text-left text-lg font-semibold">Chú thích</p>
+        <p className="mt-4 text-lg font-semibold text-left">Chú thích</p>
         <div className="flex pl-2">
-          <span className="good-day w-2/5 text-left">Ngày đẹp</span>
+          <span className="good-day w-2/5 text-left">Ngày tốt</span>
           <span className="ugly-day">Ngày xấu</span>
         </div>
       </CardCalendar>
