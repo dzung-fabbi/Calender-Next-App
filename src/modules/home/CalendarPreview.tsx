@@ -11,13 +11,11 @@ import { ModalInformation } from '@/components/modal'
 import { useToggle } from '@/hooks'
 import { useStore } from '@/store/useStore'
 import {
-  CAN,
   DAYS,
   DIRECTIONS,
   LOWER_DAYS,
   PART_HOURS,
   TIETKHI,
-  TIME_DATA,
 } from '@/utils/constant'
 import {
   addZero,
@@ -126,14 +124,60 @@ export default function CalendarPreview() {
     )
   }
 
-  const getSaoTuDai = (index: number) => {
-    const data =
-      dataTuDai[index][
-        `can_ngay_${
-          CAN.indexOf((dayName[0] && dayName[0].split(' ')[0]) || '') + 1
-        }`
-      ]
-    return <>Sao: {data}</>
+  const getSaoTuDai = (hour: string) => {
+    let tudai = dataTuDai.filter((el: any) => dayName[0] && el.can_ngay === dayName[0].split(' ')[0])
+    tudai = tudai.find((el: any) => el.hour === hour)
+
+    return (<>
+      {tudai && tudai.sao.length > 0 && ','}&nbsp;
+      {tudai && tudai.sao.length > 0 && tudai.sao.map(
+        (el: any, ab: number) => {
+          if (
+              ab ===
+              tudai.sao.length - 1
+          ) {
+            if (el.good_ugly_stars === 1) {
+              return (
+                <span
+                    onClick={() => handleClickStars(el)}
+                    className="text-red-tag text-red-primary text-primary"
+                >
+                  {jsUcfirst(el?.name)} (Tứ đại cát thời)
+                </span>
+              )
+            }
+            return (
+              <span onClick={() => handleClickStars(el)}>
+                {jsUcfirst(el?.name)} (Tứ đại cát thời)
+              </span>
+            )
+          }
+          if (el.good_ugly_stars === 1) {
+            return (
+              <>
+                <span
+                    onClick={() => handleClickStars(el)}
+                    className="text-red-tag text-red-primary text-primary"
+                >
+                  {`${jsUcfirst(el?.name)} (Tứ đại cát thời)`}
+                </span>
+                ,&nbsp;
+              </>
+            )
+          }
+          return (
+              <>
+                <span
+                    onClick={() => handleClickStars(el)}
+                >
+                  {`${jsUcfirst(el?.name)} (Tứ đại cát thời)`}
+                </span>
+                ,&nbsp;
+              </>
+          )
+        }
+      )}
+    </>)
   }
 
   const jsUcfirst = (string: string) => {
@@ -382,7 +426,6 @@ export default function CalendarPreview() {
                             ) {
                               if (el.good_ugly_stars === 1) {
                                 return (
-                                  // eslint-disable-next-line react/jsx-key
                                   <span
                                     onClick={() => handleClickStars(el)}
                                     className="text-red-tag text-red-primary text-primary"
@@ -392,7 +435,6 @@ export default function CalendarPreview() {
                                 )
                               }
                               return (
-                                // eslint-disable-next-line react/jsx-key
                                 <span onClick={() => handleClickStars(el)}>
                                   {jsUcfirst(el?.name)}
                                 </span>
@@ -400,23 +442,29 @@ export default function CalendarPreview() {
                             }
                             if (el.good_ugly_stars === 1) {
                               return (
-                                // eslint-disable-next-line react/jsx-key
-                                <span
-                                  onClick={() => handleClickStars(el)}
-                                  className="text-red-tag text-red-primary text-primary"
-                                >
-                                  {`${jsUcfirst(el?.name)}, `}
-                                </span>
+                                  <>
+                                    <span
+                                        onClick={() => handleClickStars(el)}
+                                        className="text-red-tag text-red-primary text-primary"
+                                    >
+                                      {`${jsUcfirst(el?.name)}`}
+                                    </span>
+                                    ,&nbsp;
+                                  </>
+
                               )
                             }
                             return (
-                              // eslint-disable-next-line react/jsx-key
-                              <span onClick={() => handleClickStars(el)}>
-                                {`${jsUcfirst(el?.name)}, `}
-                              </span>
+                              <>
+                                <span onClick={() => handleClickStars(el)}>
+                                  {`${jsUcfirst(el?.name)}`}
+                                </span>
+                                ,&nbsp;
+                              </>
                             )
                           }
                         )}
+                       {getSaoTuDai(arrGioHD[e].name)}
                     </div>
                     {getInfoByHour(arrGioHD[e].name)}
                   </div>
@@ -426,46 +474,6 @@ export default function CalendarPreview() {
           </div>
         </div>
       </section>
-      {dataTuDai.length ? (
-        <section className="mt-30px rounded-[20px] bg-[#FFFAF9] lg:rounded-primary">
-          <div className="rounded-t-[20px] bg-primary py-2.5 pl-5 text-lg font-semibold text-white lg:rounded-t-primary">
-            Tứ đại cát thời
-          </div>
-          <div className="px-6 pb-6 lg:px-30px lg:pb-0">
-            <div className="grid gap-x-6 lg:gap-0">
-              {Array.from(Array(4).keys()).map((e: number) => {
-                return (
-                  <div
-                    key={e}
-                    className={twMerge(
-                      'flex py-4 items-center pb-2 lg:pb-4 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5 cursor-pointer',
-                      [3].includes(e) && 'lg:border-b-0'
-                    )}
-                  >
-                    <div className="flex w-1/2 shrink-0 items-center gap-2.5 border-r lg:w-48">
-                      <div className="w-10 h-10">
-                        <img
-                          src={TIME_DATA[dataTuDai[e].hour].img}
-                          alt=""
-                          className="object-cover w-full"
-                        />
-                      </div>
-
-                      <div className="flex flex-col">
-                        <span className="font-semibold text-left">
-                          {dataTuDai[e].hour}
-                        </span>
-                        <span>{TIME_DATA[dataTuDai[e].hour].time}</span>
-                      </div>
-                    </div>
-                    <div className="pl-8 grow lg:pl-10">{getSaoTuDai(e)}</div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </section>
-      ) : null}
 
       <ModalInformation
         isOpen={isOpen}
