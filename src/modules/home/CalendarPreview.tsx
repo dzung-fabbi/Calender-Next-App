@@ -1,11 +1,13 @@
-import clsx from 'clsx'
 import dayjs from 'dayjs'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { map } from 'lodash'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import homeApi from '@/api/home.api'
 import { BadgeDateStatus } from '@/components/badge'
+import BadgeHourStatus from '@/components/badge/BadgeHourStatus'
 import { Button } from '@/components/button'
 import { ModalInformation } from '@/components/modal'
 import { useToggle } from '@/hooks'
@@ -23,16 +25,17 @@ import {
   getLunarDate,
   getSunLongitude,
   getTextDay,
+  getTextHour,
   getTimeInDay,
 } from '@/utils/helpers'
 
 interface InfoProp {
-  good_stars: object
+  good_stars: any
   lunar_day: string
   month: number | string
   no_should_things: string
   should_things: string
-  ugly_stars: object
+  ugly_stars: any
 }
 
 interface TietkhiProp {
@@ -106,7 +109,12 @@ export default function CalendarPreview() {
       })
   }, [currentDate])
 
-  const textDay = getTextDay(info.should_things, info.no_should_things)
+  const textDay = getTextDay(
+    info.should_things,
+    info.no_should_things,
+    map(info.good_stars, 'name').join(','),
+    map(info.ugly_stars, 'name').join(',')
+  )
 
   const getInfoByHour = (time: string) => {
     const quyNhan = dataQuyNhan.find(
@@ -124,62 +132,6 @@ export default function CalendarPreview() {
     )
   }
 
-  const getSaoTuDai = (hour: string) => {
-    let tudai = dataTuDai.filter((el: any) => dayName[0] && el.can_ngay === dayName[0].split(' ')[0])
-    tudai = tudai.find((el: any) => el.hour === hour)
-
-    return (<>
-      {tudai && tudai.sao.length > 0 && ','}&nbsp;
-      {tudai && tudai.sao.length > 0 && tudai.sao.map(
-        (el: any, ab: number) => {
-          if (
-              ab ===
-              tudai.sao.length - 1
-          ) {
-            if (el.good_ugly_stars === 1) {
-              return (
-                <span
-                    onClick={() => handleClickStars(el)}
-                    className="text-red-tag text-red-primary text-primary"
-                >
-                  {jsUcfirst(el?.name)} (Tứ đại cát thời)
-                </span>
-              )
-            }
-            return (
-              <span onClick={() => handleClickStars(el)}>
-                {jsUcfirst(el?.name)} (Tứ đại cát thời)
-              </span>
-            )
-          }
-          if (el.good_ugly_stars === 1) {
-            return (
-              <>
-                <span
-                    onClick={() => handleClickStars(el)}
-                    className="text-red-tag text-red-primary text-primary"
-                >
-                  {`${jsUcfirst(el?.name)} (Tứ đại cát thời)`}
-                </span>
-                ,&nbsp;
-              </>
-            )
-          }
-          return (
-              <>
-                <span
-                    onClick={() => handleClickStars(el)}
-                >
-                  {`${jsUcfirst(el?.name)} (Tứ đại cát thời)`}
-                </span>
-                ,&nbsp;
-              </>
-          )
-        }
-      )}
-    </>)
-  }
-
   const jsUcfirst = (string: string) => {
     const tmp = string.toLowerCase()
     return tmp.charAt(0).toUpperCase() + tmp.slice(1)
@@ -191,6 +143,62 @@ export default function CalendarPreview() {
       data: el?.property || '',
     })
     toggleModal()
+  }
+
+  const getSaoTuDai = (hour: string) => {
+    let tudai = dataTuDai.filter(
+      (el: any) => dayName[0] && el.can_ngay === dayName[0].split(' ')[0]
+    )
+    tudai = tudai.find((el: any) => el.hour === hour)
+
+    return (
+      <>
+        {tudai && tudai.sao.length > 0 && ','}&nbsp;
+        {tudai &&
+          tudai.sao.length > 0 &&
+          tudai.sao.map((el: any, ab: number) => {
+            if (ab === tudai.sao.length - 1) {
+              if (el.good_ugly_stars === 1) {
+                return (
+                  <span
+                    key={ab}
+                    onClick={() => handleClickStars(el)}
+                    className="text-red-tag text-red-primary text-primary"
+                  >
+                    {jsUcfirst(el?.name)} (Tứ đại cát thời)
+                  </span>
+                )
+              }
+              return (
+                <span key={ab} onClick={() => handleClickStars(el)}>
+                  {jsUcfirst(el?.name)} (Tứ đại cát thời)
+                </span>
+              )
+            }
+            if (el.good_ugly_stars === 1) {
+              return (
+                <>
+                  <span
+                    onClick={() => handleClickStars(el)}
+                    className="text-red-tag text-red-primary text-primary"
+                  >
+                    {`${jsUcfirst(el?.name)} (Tứ đại cát thời)`}
+                  </span>
+                  ,&nbsp;
+                </>
+              )
+            }
+            return (
+              <>
+                <span onClick={() => handleClickStars(el)}>
+                  {`${jsUcfirst(el?.name)} (Tứ đại cát thời)`}
+                </span>
+                ,&nbsp;
+              </>
+            )
+          })}
+      </>
+    )
   }
 
   const showGoodStars = (goodStars: any) => {
@@ -229,12 +237,7 @@ export default function CalendarPreview() {
           <div className="mx-auto">
             <h1 className="relative w-fit text-[8.75rem] font-bold leading-none text-primary">
               {day}
-              <div
-                className={clsx(
-                  'absolute left-full top-0',
-                  textDay.is_good && 'rotate-[-31.24deg]'
-                )}
-              >
+              <div className="absolute left-full top-0 rotate-[-31.24deg]">
                 <BadgeDateStatus isBeatifulDay={textDay.is_good}>
                   {textDay.text}
                 </BadgeDateStatus>
@@ -391,6 +394,14 @@ export default function CalendarPreview() {
         <div className="px-6 pb-6 lg:px-30px lg:pb-0">
           <div className="grid gap-x-6 lg:gap-0">
             {Array.from(Array(12).keys()).map((e: number) => {
+              const textHour: any = getTextHour(
+                e + 1,
+                arrGioHD[e].name,
+                dataHourInDays,
+                dataQuyNhan,
+                dataTuDai,
+                (dayName[0] || '').split('')[0] || ''
+              )
               return (
                 <div
                   key={e}
@@ -399,7 +410,7 @@ export default function CalendarPreview() {
                     [11].includes(e) && 'lg:border-b-0'
                   )}
                 >
-                  <div className="flex w-1/2 shrink-0 items-center gap-2.5 border-r lg:w-48">
+                  <div className="flex w-1/2 shrink-0 items-center gap-2.5 border-r lg:w-48 relative">
                     <div className="w-10 h-10">
                       <img
                         src={arrGioHD[e].img}
@@ -412,6 +423,11 @@ export default function CalendarPreview() {
                         {arrGioHD[e].name}
                       </span>
                       <span>{arrGioHD[e].time}</span>
+                    </div>
+                    <div className="absolute left-[80px] lg:left-[100px] top-[-5px] rotate-[-10deg]">
+                      <BadgeHourStatus isBeatifulDay={textHour.is_good}>
+                        {textHour.text}
+                      </BadgeHourStatus>
                     </div>
                   </div>
                   <div className="pl-8 grow lg:pl-10">
@@ -427,6 +443,7 @@ export default function CalendarPreview() {
                               if (el.good_ugly_stars === 1) {
                                 return (
                                   <span
+                                    key={ab}
                                     onClick={() => handleClickStars(el)}
                                     className="text-red-tag text-red-primary text-primary"
                                   >
@@ -435,23 +452,25 @@ export default function CalendarPreview() {
                                 )
                               }
                               return (
-                                <span onClick={() => handleClickStars(el)}>
+                                <span
+                                  key={ab}
+                                  onClick={() => handleClickStars(el)}
+                                >
                                   {jsUcfirst(el?.name)}
                                 </span>
                               )
                             }
                             if (el.good_ugly_stars === 1) {
                               return (
-                                  <>
-                                    <span
-                                        onClick={() => handleClickStars(el)}
-                                        className="text-red-tag text-red-primary text-primary"
-                                    >
-                                      {`${jsUcfirst(el?.name)}`}
-                                    </span>
-                                    ,&nbsp;
-                                  </>
-
+                                <>
+                                  <span
+                                    onClick={() => handleClickStars(el)}
+                                    className="text-red-tag text-red-primary text-primary"
+                                  >
+                                    {`${jsUcfirst(el?.name)}`}
+                                  </span>
+                                  ,&nbsp;
+                                </>
                               )
                             }
                             return (
@@ -464,7 +483,7 @@ export default function CalendarPreview() {
                             )
                           }
                         )}
-                       {getSaoTuDai(arrGioHD[e].name)}
+                      {getSaoTuDai(arrGioHD[e].name)}
                     </div>
                     {getInfoByHour(arrGioHD[e].name)}
                   </div>

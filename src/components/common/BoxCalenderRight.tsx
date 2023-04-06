@@ -134,7 +134,9 @@ const Calendar = ({
               if (arrGood[count]) {
                 const textDay = getTextDay(
                   arrGood[count].should_things,
-                  arrGood[count].no_should_things
+                  arrGood[count].no_should_things,
+                  arrGood[count].good_stars,
+                  arrGood[count].ugly_stars
                 )
                 if (!textDay.is_good) classAdd = 'ugly-cal'
               }
@@ -163,7 +165,9 @@ const Calendar = ({
             if (arrGood[count]) {
               const textDay = getTextDay(
                 arrGood[count].should_things,
-                arrGood[count].no_should_things
+                arrGood[count].no_should_things,
+                arrGood[count].good_stars,
+                arrGood[count].ugly_stars
               )
               if (!textDay.is_good) classAdd = 'ugly-cal'
             }
