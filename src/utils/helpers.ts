@@ -12,25 +12,32 @@ import {
   TK22,
 } from './constant'
 
-export function getTextDay(goodThing: string, uglyThing: string) {
-  if (!goodThing.trim()) {
+export function getTextDay(
+  goodThing: string,
+  uglyThing: string,
+  goodStar: string,
+  uglyStar: string
+) {
+  if (!goodThing.trim() || !goodStar.trim()) {
     return {
       is_good: false,
-      text: 'Ngày cực xấu',
+      text: 'Ngày rất xấu',
     }
   }
-  if (!uglyThing.trim()) {
+  if (!uglyThing.trim() || !uglyStar.trim()) {
     return {
       is_good: true,
-      text: 'Ngày cực tốt',
+      text: 'Ngày rất tốt',
     }
   }
   const percent: number =
-    goodThing.split(',').length / uglyThing.split(',').length
+    ((goodThing.split(',').length / uglyThing.split(',').length) * 2 +
+      goodStar.split(',').length / uglyStar.split(',').length) /
+    3
   if (percent > 1.5) {
     return {
       is_good: true,
-      text: 'Ngày cực tốt',
+      text: 'Ngày rất tốt',
     }
   }
   if (percent >= 1 && percent <= 1.5) {
@@ -47,7 +54,48 @@ export function getTextDay(goodThing: string, uglyThing: string) {
   }
   return {
     is_good: false,
-    text: 'Ngày cực xấu',
+    text: 'Ngày rất xấu',
+  }
+}
+
+export function getTextHour(
+  hour: number,
+  text: string,
+  dataHourInDays: any,
+  quyNhan: any,
+  tuDai: any,
+  canNgay: string
+) {
+  const isQuyNhan = quyNhan.some((el: any) => el.hour.trim() === text)
+  const isTuDai = tuDai.some(
+    (el: any) => el.hour.trim() === text && el.can_ngay.trim() === canNgay
+  )
+  let countGood: number = 0
+  let countUgly: number = 0
+  ;(dataHourInDays[`hour_${hour}`] || []).forEach((el: any) => {
+    if (el.good_ugly_stars === 1) {
+      countGood += 1
+    } else if (el.good_ugly_stars === 2) {
+      countUgly += 1
+    }
+  })
+  const percent: number = countGood / (countUgly || 0.1)
+  if ((isQuyNhan || isTuDai) && percent >= 2) {
+    return {
+      is_good: true,
+      text: 'Giờ rất tốt',
+    }
+  }
+
+  if (percent >= 3) {
+    return {
+      is_good: true,
+      text: 'Giờ tốt',
+    }
+  }
+  return {
+    is_good: false,
+    text: 'Giờ xấu',
   }
 }
 
