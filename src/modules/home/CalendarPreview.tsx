@@ -84,13 +84,12 @@ export default function CalendarPreview() {
   })
 
   useEffect(() => {
+    console.log('currentDate', currentDate)
     homeApi
       .getInfo(
         currentLunarDate.month,
         (dayName[0] || '').toUpperCase(),
-        dayjs(
-          `${currentLunarDate.year}-${currentLunarDate.month}-${currentLunarDate.day}`
-        ).format('YYYY-MM-DD'),
+        dayjs(`${year}-${month}-${day}`).format('YYYY-MM-DD'),
         TIETKHI[getSunLongitude(currentLunarDate.jd + 1, 7.0)] || ''
       )
       .then((res) => {
@@ -209,14 +208,20 @@ export default function CalendarPreview() {
           if (ab === goodStars.length - 1) {
             return (
               // eslint-disable-next-line react/jsx-key
-              <span onClick={() => handleClickStars(el)}>
+              <span
+                className="cursor-pointer"
+                onClick={() => handleClickStars(el)}
+              >
                 {jsUcfirst(el?.name)}
               </span>
             )
           }
           return (
             // eslint-disable-next-line react/jsx-key
-            <span onClick={() => handleClickStars(el)}>
+            <span
+              className="cursor-pointer"
+              onClick={() => handleClickStars(el)}
+            >
               {`${jsUcfirst(el?.name)}, `}
             </span>
           )
