@@ -39,7 +39,7 @@ const Home: NextPageWithLayout = () => {
 }
 
 Home.getLayout = function getLayout(page: ReactElement) {
-  return <Main meta={<Meta title="Home" description="Home" />}>{page}</Main>
+  return <Main meta={<Meta title="Thiên văn lịch pháp" description="Thiên văn lịch pháp" />}>{page}</Main>
 }
 
 export default Home
