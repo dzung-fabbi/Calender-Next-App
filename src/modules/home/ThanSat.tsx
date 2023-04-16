@@ -21,82 +21,6 @@ import * as React from "react";
 
 const cungSon = [
   {
-    name: 'Khảm',
-    direction: 'Bắc',
-    coordinates: '337,5',
-    son: [
-      {
-        name: 'Nhâm',
-        coordinates: '337,5',
-      },
-      {
-        name: 'Tý',
-        coordinates: '337,5',
-      },
-      {
-        name: 'Quý',
-        coordinates: '7,5',
-      },
-    ],
-  },
-  {
-    name: 'Cấn',
-    direction: 'Đông bắc',
-    coordinates: '22,5',
-    son: [
-      {
-        name: 'Sửu',
-        coordinates: '22,5',
-      },
-      {
-        name: 'Cấn',
-        coordinates: '37,5',
-      },
-      {
-        name: 'Dần',
-        coordinates: '52,5',
-      },
-    ],
-  },
-  {
-    name: 'Chấn',
-    direction: 'Đông',
-    coordinates: '67,5',
-    son: [
-      {
-        name: 'Giáp',
-        coordinates: '67,5',
-      },
-      {
-        name: 'Mão',
-        coordinates: '82,5',
-      },
-      {
-        name: 'Ất',
-        coordinates: '97,5',
-      },
-    ],
-  },
-  {
-    name: 'Tốn',
-    direction: 'Đông Nam',
-    coordinates: '112,5',
-    son: [
-      {
-        name: 'Thìn',
-        coordinates: '112,5',
-      },
-      {
-        name: 'Tốn',
-        coordinates: '127,5',
-      },
-      {
-        name: 'Tỵ',
-        coordinates: '142,5',
-      },
-    ],
-  },
-  {
     name: 'Ly',
     direction: 'Nam',
     coordinates: '157,5',
@@ -172,7 +96,84 @@ const cungSon = [
       },
     ],
   },
+  {
+    name: 'Khảm',
+    direction: 'Bắc',
+    coordinates: '337,5',
+    son: [
+      {
+        name: 'Nhâm',
+        coordinates: '337,5',
+      },
+      {
+        name: 'Tý',
+        coordinates: '352,6',
+      },
+      {
+        name: 'Quý',
+        coordinates: '7,5',
+      },
+    ],
+  },
+  {
+    name: 'Cấn',
+    direction: 'Đông bắc',
+    coordinates: '22,5',
+    son: [
+      {
+        name: 'Sửu',
+        coordinates: '22,5',
+      },
+      {
+        name: 'Cấn',
+        coordinates: '37,5',
+      },
+      {
+        name: 'Dần',
+        coordinates: '52,5',
+      },
+    ],
+  },
+  {
+    name: 'Chấn',
+    direction: 'Đông',
+    coordinates: '67,5',
+    son: [
+      {
+        name: 'Giáp',
+        coordinates: '67,5',
+      },
+      {
+        name: 'Mão',
+        coordinates: '82,5',
+      },
+      {
+        name: 'Ất',
+        coordinates: '97,5',
+      },
+    ],
+  },
+  {
+    name: 'Tốn',
+    direction: 'Đông Nam',
+    coordinates: '112,5',
+    son: [
+      {
+        name: 'Thìn',
+        coordinates: '112,5',
+      },
+      {
+        name: 'Tốn',
+        coordinates: '127,5',
+      },
+      {
+        name: 'Tỵ',
+        coordinates: '142,5',
+      },
+    ],
+  },
 ]
+
 
 function ThanSat() {
   const currentDate = useStore((state) => state.currentDate)
@@ -181,7 +182,7 @@ function ThanSat() {
   const year = currentDate.format('YYYY')
   const currentLunarDate = getLunarDate(+day, +month, +year)
   const dayName = getDayName(currentLunarDate)
-  const [thansatByMonth, setThansatByMonth] = useState<any>([])
+  // const [thansatByMonth, setThansatByMonth] = useState<any>([])
   const [thansatByYear, setThansatByYear] = useState<any>([])
   const [isOpen, toggleModal] = useToggle()
   const [chooseStars, setChooseStars] = useState<{
@@ -191,6 +192,27 @@ function ThanSat() {
     name: '',
     data: '',
   })
+
+  const [cung, setCung] = useState<any>({
+    name: 'Ly',
+    direction: 'Nam',
+    coordinates: '157,5',
+    son: [
+      {
+        name: 'Bính',
+        coordinates: '157,5',
+      },
+      {
+        name: 'Ngọ',
+        coordinates: '172,5',
+      },
+      {
+        name: 'Đinh',
+        coordinates: '187,5',
+      },
+    ],
+  },)
+
   const [thanSatInfo, setThanSatInfo] = useState<ThanSatFormValue>()
   useEffect(() => {
     ;(async () => {
@@ -206,7 +228,7 @@ function ThanSat() {
             sao: el.sao,
           }
         })
-        setThansatByMonth(arrTmp)
+        // setThansatByMonth(arrTmp)
         setThansatByYear(responseData.than_sat_by_year)
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -230,257 +252,66 @@ function ThanSat() {
 
   if (!thanSatInfo) return null
 
-  const renderThansatByMonth = (start: number) => {
-    return (
-      <TableContainer component={Paper}>
-        <Table aria-label="am phu thai tue">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center" colSpan={12}>
-                Tháng {month}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              {cungSon.map((el: any, ab: number) => {
-                if (ab > start + 1 || ab < start) return null
-                return (
-                  <TableCell width="50%" key={ab} align="center" colSpan={6}>
-                    {el.name}
-                  </TableCell>
-                )
-              })}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              {cungSon.map((el: any, ab: number) => {
-                if (ab > start + 1 || ab < start) return null
-                return (
-                  <TableCell key={ab} align="center" colSpan={6}>
-                    {el.direction}
-                  </TableCell>
-                )
-              })}
-            </TableRow>
-
-            <TableRow>
-              {cungSon.map((el: any, ab: number) => {
-                if (ab > start + 1 || ab < start) return null
-                return (
-                  <TableCell key={ab} align="left" colSpan={6}>
-                    {el.coordinates}°
-                  </TableCell>
-                )
-              })}
-            </TableRow>
-            <TableRow>
-              {cungSon.map((el: any, ab: number) => {
-                if (ab > start + 1 || ab < start) return null
-
-                const tmp = thansatByMonth.filter(
-                  (x: { name: any; sao: any }) => x.name.includes(el.name)
-                )
-                const goodStars = tmp.filter(
-                  (x: { name: any; sao: any }) => x.sao.good_ugly_stars === 1
-                )
-                const uglyStars = tmp.filter(
-                  (x: { name: any; sao: any }) => x.sao.good_ugly_stars === 2
-                )
-
-                return (
-                  <>
-                    <TableCell width="25%" align="left" colSpan={3}>
-                      <span className="text-red-tag text-red-primary text-primary">
-                        {goodStars.map((x: any) => {
-                          return (
-                              <>
-                                <span className="cursor-pointer" onClick={() => handleClickStars(x.sao)}>
-                                  {jsUcfirst(x.sao.name)}
-                                </span>
-                                ,
-                              </>
-                          )
-                        })}
-                      </span>
-                    </TableCell>
-                    <TableCell width="25%" align="left" colSpan={3}>
-                      <span>
-                        {uglyStars.map((x: any) => {
-                          return (
-                              <>
-                                <span className="cursor-pointer" onClick={() => handleClickStars(x.sao)}>
-                                  {jsUcfirst(x.sao.name)}
-                                </span>
-                                ,
-                              </>
-                          )
-                        })}
-                      </span>
-                    </TableCell>
-                  </>
-                )
-              })}
-            </TableRow>
-            <TableRow>
-              {cungSon.map((el: any, ab: number) => {
-                if (ab > start + 1 || ab < start) return null
-                return el.son.map((row: any) => {
-                  return (
-                    <TableCell
-                      width="16.6%"
-                      key={ab}
-                      align="center"
-                      colSpan={2}
-                    >
-                      {row.name}
-                    </TableCell>
-                  )
-                })
-              })}
-            </TableRow>
-            <TableRow>
-              {cungSon.map((el: any, ab: number) => {
-                if (ab > start + 1 || ab < start) return null
-                return el.son.map((row: any, id: number) => {
-                  return (
-                    <TableCell width="16.6%" key={id} align="left" colSpan={2}>
-                      {row.coordinates}°
-                    </TableCell>
-                  )
-                })
-              })}
-            </TableRow>
-            <TableRow>
-              {cungSon.map((el: any, ab: number) => {
-                if (ab > start + 1 || ab < start) return null
-                return el.son.map((row: any) => {
-                  const tmp = thansatByMonth.filter(
-                    (x: { name: any; sao: any }) => x.name.includes(row.name)
-                  )
-                  const goodStars = tmp.filter(
-                    (x: { name: any; sao: any }) => x.sao.good_ugly_stars === 1
-                  )
-                  const uglyStars = tmp.filter(
-                    (x: { name: any; sao: any }) => x.sao.good_ugly_stars === 2
-                  )
-
-                  return (
-                    <>
-                      <TableCell width="8.3%" align="left" colSpan={1}>
-                        <span className="text-red-tag text-red-primary text-primary">
-                          {goodStars.map((x: any) => {
-                            return (
-                              <>
-                              <span className="cursor-pointer" onClick={() => handleClickStars(x.sao)}>
-                                {jsUcfirst(x.sao.name)}
-                              </span>
-                                ,
-                              </>
-                            )
-                          })}
-                        </span>
-                      </TableCell>
-                      <TableCell width="8.3%" align="left" colSpan={1}>
-                        <span>
-                          {uglyStars.map((x: any) => {
-                            return (
-                              <>
-                              <span className="cursor-pointer" onClick={() => handleClickStars(x.sao)}>
-                                {jsUcfirst(x.sao.name)}
-                              </span>
-                                ,
-                              </>
-                            )
-                          })}
-                        </span>
-                      </TableCell>
-                    </>
-                  )
-                })
-              })}
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+  const renderThansatByYear = () => {
+    const tmp = thansatByYear.filter(
+        (x: { direction: any; sao: any }) => x.direction.includes(cung.name)
     )
-  }
-
-  const renderThansatByYear = (start: number) => {
     return (
         <TableContainer component={Paper}>
           <Table aria-label="am phu thai tue">
             <TableHead>
               <TableRow>
-                <TableCell align="center" colSpan={12}>
+                <TableCell align="center" colSpan={6}>
                   Năn {year}
                 </TableCell>
               </TableRow>
               <TableRow>
-                {cungSon.map((el: any, ab: number) => {
-                  if (ab > start + 1 || ab < start) return null
-                  return (
-                      <TableCell width="50%" key={ab} align="center" colSpan={6}>
-                        {el.name}
-                      </TableCell>
-                  )
-                })}
+                <TableCell width="50%" align="center" colSpan={6}>
+                  {cung.name}
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
-                {cungSon.map((el: any, ab: number) => {
-                  if (ab > start + 1 || ab < start) return null
-                  return (
-                      <TableCell key={ab} align="center" colSpan={6}>
-                        {el.direction}
-                      </TableCell>
-                  )
-                })}
-              </TableRow>
-
-              <TableRow>
-                {cungSon.map((el: any, ab: number) => {
-                  if (ab > start + 1 || ab < start) return null
-                  return (
-                      <TableCell key={ab} align="left" colSpan={6}>
-                        {el.coordinates}°
-                      </TableCell>
-                  )
-                })}
+                <TableCell width="25%" align="left" colSpan={6}>
+                  <span className="text-red-tag text-red-primary text-primary">
+                    {tmp.map((x: any) => {
+                      return (
+                          <>
+                          <span className="cursor-pointer" onClick={() => handleClickStars(x.sao)}>
+                            {jsUcfirst(x.sao.name)}
+                          </span>
+                            ,
+                          </>
+                      )
+                    })}
+                  </span>
+                </TableCell>
               </TableRow>
               <TableRow>
-                {cungSon.map((el: any, ab: number) => {
-                  if (ab > start + 1 || ab < start) return null
-
+                {cung.son.map((row: any) => {
+                  return (
+                      <TableCell
+                          width="16.6%"
+                          align="center"
+                          colSpan={2}
+                      >
+                        {row.name}
+                      </TableCell>
+                  )
+                  })
+                }
+              </TableRow>
+              <TableRow>
+                {cung.son.map((row: any) => {
                   const tmp = thansatByYear.filter(
-                      (x: { direction: any; sao: any }) => x.direction.includes(el.name)
+                      (x: { direction: any; sao: any }) => x.direction.includes(row.name)
                   )
-                  const goodStars = tmp.filter(
-                      (x: { name: any; sao: any }) => x.sao.good_ugly_stars === 1
-                  )
-                  const uglyStars = tmp.filter(
-                      (x: { name: any; sao: any }) => x.sao.good_ugly_stars === 2
-                  )
-
                   return (
                     <>
-                      <TableCell width="25%" align="left" colSpan={3}>
+                      <TableCell width="8.3%" align="left" colSpan={2}>
                         <span className="text-red-tag text-red-primary text-primary">
-                          {goodStars.map((x: any) => {
-                            return (
-                                <>
-                                <span className="cursor-pointer" onClick={() => handleClickStars(x.sao)}>
-                                  {jsUcfirst(x.sao.name)}
-                                </span>
-                                  ,
-                                </>
-                            )
-                          })}
-                        </span>
-                      </TableCell>
-                      <TableCell width="25%" align="left" colSpan={3}>
-                        <span>
-                          {uglyStars.map((x: any) => {
+                          {tmp.map((x: any) => {
                             return (
                                 <>
                                 <span className="cursor-pointer" onClick={() => handleClickStars(x.sao)}>
@@ -494,84 +325,6 @@ function ThanSat() {
                       </TableCell>
                     </>
                   )
-                })}
-              </TableRow>
-              <TableRow>
-                {cungSon.map((el: any, ab: number) => {
-                  if (ab > start + 1 || ab < start) return null
-                  return el.son.map((row: any) => {
-                    return (
-                        <TableCell
-                            width="16.6%"
-                            key={ab}
-                            align="center"
-                            colSpan={2}
-                        >
-                          {row.name}
-                        </TableCell>
-                    )
-                  })
-                })}
-              </TableRow>
-              <TableRow>
-                {cungSon.map((el: any, ab: number) => {
-                  if (ab > start + 1 || ab < start) return null
-                  return el.son.map((row: any, id: number) => {
-                    return (
-                        <TableCell width="16.6%" key={id} align="left" colSpan={2}>
-                          {row.coordinates}°
-                        </TableCell>
-                    )
-                  })
-                })}
-              </TableRow>
-              <TableRow>
-                {cungSon.map((el: any, ab: number) => {
-                  if (ab > start + 1 || ab < start) return null
-                  return el.son.map((row: any) => {
-                    const tmp = thansatByYear.filter(
-                        (x: { direction: any; sao: any }) => x.direction.includes(row.name)
-                    )
-                    const goodStars = tmp.filter(
-                        (x: { name: any; sao: any }) => x.sao.good_ugly_stars === 1
-                    )
-                    const uglyStars = tmp.filter(
-                        (x: { name: any; sao: any }) => x.sao.good_ugly_stars === 2
-                    )
-
-                    return (
-                        <>
-                          <TableCell width="8.3%" align="left" colSpan={1}>
-                            <span className="text-red-tag text-red-primary text-primary">
-                              {goodStars.map((x: any) => {
-                                return (
-                                  <>
-                                    <span className="cursor-pointer" onClick={() => handleClickStars(x.sao)}>
-                                      {jsUcfirst(x.sao.name)}
-                                    </span>
-                                    ,
-                                  </>
-                                )
-                              })}
-                            </span>
-                          </TableCell>
-                          <TableCell width="8.3%" align="left" colSpan={1}>
-                            <span>
-                              {uglyStars.map((x: any) => {
-                                return (
-                                  <>
-                                  <span className="cursor-pointer" onClick={() => handleClickStars(x.sao)}>
-                                    {jsUcfirst(x.sao.name)}
-                                  </span>
-                                    ,
-                                  </>
-                                )
-                              })}
-                            </span>
-                          </TableCell>
-                        </>
-                    )
-                  })
                 })}
               </TableRow>
             </TableBody>
@@ -580,16 +333,51 @@ function ThanSat() {
     )
   }
 
+  const chooseCung = (name: string) => {
+    const tmp = cungSon.find((el:any) => el.name === name)
+    setCung(tmp)
+  }
+
   return (
-    <div className="flex flex-col gap-y-10">
-      {renderThansatByYear(0)}
-      {renderThansatByMonth(0)}
-      {renderThansatByYear(2)}
-      {renderThansatByMonth(2)}
-      {renderThansatByYear(4)}
-      {renderThansatByMonth(4)}
-      {renderThansatByYear(6)}
-      {renderThansatByMonth(6)}
+    <div className="flex flex-col gap-y-10 than_sat">
+      <div className="circle">
+        {cungSon.map((x:any) => {
+          return (
+              <>
+                {x.son.map((x1:any) => {
+                  return (<div className="li none-border"><div onClick={() => chooseCung(x.name)} className="text">{x1.coordinates}°</div></div>)
+                })}
+              </>
+          )
+        })}
+        <div className="child">
+          {cungSon.map((x:any) => {
+            return (
+              <>
+                {x.son.map((x1:any) => {
+                  return (<div className="li"><div onClick={() => chooseCung(x.name)} className="text">{x1.name}</div></div>)
+                })}
+              </>
+            )
+          })}
+          <div className="child-1">
+            {cungSon.map((x:any) => {
+              return (<div className="li1"><div onClick={() => chooseCung(x.name)} className="text1">{x.direction}</div></div>)
+            })}
+            <div className="child-2">
+              {cungSon.map((el:any) => {
+                return (<div className="li1"><div onClick={() => chooseCung(el.name)} className="text1">{el.name}</div></div>)
+              })}
+              <div className="child-3">
+                <div>
+                  {year}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {renderThansatByYear()}
       <ModalInformation
           isOpen={isOpen}
           toggleModal={toggleModal}
