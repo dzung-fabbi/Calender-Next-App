@@ -84,7 +84,6 @@ export default function CalendarPreview() {
   })
 
   useEffect(() => {
-    console.log('currentDate', currentDate)
     homeApi
       .getInfo(
         currentLunarDate.month,
