@@ -8,16 +8,16 @@ import {
   TableRow,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
+import * as React from 'react'
 
 import homeApi from '@/api/home.api'
+import { Button } from '@/components/button'
+import { ModalInformation } from '@/components/modal'
+import { useToggle } from '@/hooks'
 import type { ThanSatFormValue } from '@/models'
 import { useStore } from '@/store/useStore'
 import { MONTH_PROPERTY } from '@/utils/constant'
 import { getDayName, getLunarDate } from '@/utils/helpers'
-import {useToggle} from "@/hooks";
-import {Button} from "@/components/button";
-import {ModalInformation} from "@/components/modal";
-import * as React from "react";
 
 const cungSon = [
   {
@@ -174,7 +174,6 @@ const cungSon = [
   },
 ]
 
-
 function ThanSat() {
   const currentDate = useStore((state) => state.currentDate)
   const day = currentDate.format('DD')
@@ -211,7 +210,7 @@ function ThanSat() {
         coordinates: '187,5',
       },
     ],
-  },)
+  })
 
   const [thanSatInfo, setThanSatInfo] = useState<ThanSatFormValue>()
   useEffect(() => {
@@ -253,125 +252,155 @@ function ThanSat() {
   if (!thanSatInfo) return null
 
   const renderThansatByYear = () => {
-    const tmp = thansatByYear.filter(
-        (x: { direction: any; sao: any }) => x.direction.includes(cung.name)
+    const tmp = thansatByYear.filter((x: { direction: any; sao: any }) =>
+      x.direction.includes(cung.name)
     )
     return (
-        <TableContainer component={Paper}>
-          <Table aria-label="am phu thai tue">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center" colSpan={6}>
-                  Năn {year}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell width="50%" align="center" colSpan={6}>
-                  {cung.name}
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell width="25%" align="left" colSpan={6}>
-                  <span className="text-red-tag text-red-primary text-primary">
-                    {tmp.map((x: any) => {
-                      return (
-                          <>
-                          <span className="cursor-pointer" onClick={() => handleClickStars(x.sao)}>
-                            {jsUcfirst(x.sao.name)}
-                          </span>
-                            ,
-                          </>
-                      )
-                    })}
-                  </span>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                {cung.son.map((row: any) => {
-                  return (
-                      <TableCell
-                          width="16.6%"
-                          align="center"
-                          colSpan={2}
-                      >
-                        {row.name}
-                      </TableCell>
-                  )
-                  })
-                }
-              </TableRow>
-              <TableRow>
-                {cung.son.map((row: any) => {
-                  const tmp = thansatByYear.filter(
-                      (x: { direction: any; sao: any }) => x.direction.includes(row.name)
-                  )
-                  return (
-                    <>
-                      <TableCell width="8.3%" align="left" colSpan={2}>
-                        <span className="text-red-tag text-red-primary text-primary">
-                          {tmp.map((x: any) => {
-                            return (
-                                <>
-                                <span className="cursor-pointer" onClick={() => handleClickStars(x.sao)}>
-                                  {jsUcfirst(x.sao.name)}
-                                </span>
-                                  ,
-                                </>
-                            )
-                          })}
+      <TableContainer component={Paper}>
+        <Table aria-label="am phu thai tue">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" colSpan={6}>
+                Năn {year}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell width="50%" align="center" colSpan={6}>
+                {cung.name}
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell width="25%" align="left" colSpan={6}>
+                <span className="text-red-tag text-red-primary text-primary">
+                  {tmp.map((x: any) => {
+                    return (
+                      <>
+                        <span
+                          className="cursor-pointer"
+                          onClick={() => handleClickStars(x.sao)}
+                        >
+                          {jsUcfirst(x.sao.name)}
                         </span>
-                      </TableCell>
-                    </>
-                  )
-                })}
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+                        ,
+                      </>
+                    )
+                  })}
+                </span>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              {cung.son.map((row: any) => {
+                return (
+                  <TableCell width="16.6%" align="center" colSpan={2}>
+                    {row.name}
+                  </TableCell>
+                )
+              })}
+            </TableRow>
+            <TableRow>
+              {cung.son.map((row: any) => {
+                const tmp = thansatByYear.filter(
+                  (x: { direction: any; sao: any }) =>
+                    x.direction.includes(row.name)
+                )
+                return (
+                  <>
+                    <TableCell width="8.3%" align="left" colSpan={2}>
+                      <span className="text-red-tag text-red-primary text-primary">
+                        {tmp.map((x: any) => {
+                          return (
+                            <>
+                              <span
+                                className="cursor-pointer"
+                                onClick={() => handleClickStars(x.sao)}
+                              >
+                                {jsUcfirst(x.sao.name)}
+                              </span>
+                              ,
+                            </>
+                          )
+                        })}
+                      </span>
+                    </TableCell>
+                  </>
+                )
+              })}
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
     )
   }
 
   const chooseCung = (name: string) => {
-    const tmp = cungSon.find((el:any) => el.name === name)
+    const tmp = cungSon.find((el: any) => el.name === name)
     setCung(tmp)
   }
 
   return (
-    <div className="flex flex-col gap-y-10 than_sat">
+    <div className="than_sat flex flex-col gap-y-10">
       <div className="circle">
-        {cungSon.map((x:any) => {
+        {cungSon.map((x: any) => {
           return (
-              <>
-                {x.son.map((x1:any) => {
-                  return (<div className="li none-border"><div onClick={() => chooseCung(x.name)} className="text">{x1.coordinates}°</div></div>)
-                })}
-              </>
+            <>
+              {x.son.map((x1: any) => {
+                return (
+                  <div key={x1.name} className="li none-border">
+                    <div className="text">
+                      <span onClick={() => chooseCung(x.name)}>
+                        {x1.coordinates}°
+                      </span>
+                    </div>
+                  </div>
+                )
+              })}
+            </>
           )
         })}
         <div className="child">
-          {cungSon.map((x:any) => {
+          {cungSon.map((x: any) => {
             return (
               <>
-                {x.son.map((x1:any) => {
-                  return (<div className="li"><div onClick={() => chooseCung(x.name)} className="text">{x1.name}</div></div>)
+                {x.son.map((x1: any) => {
+                  return (
+                    <div key={x1.name} className="li">
+                      <div className="text">
+                        <span onClick={() => chooseCung(x.name)}>
+                          {x1.name}
+                        </span>
+                      </div>
+                    </div>
+                  )
                 })}
               </>
             )
           })}
           <div className="child-1">
-            {cungSon.map((x:any) => {
-              return (<div className="li1"><div onClick={() => chooseCung(x.name)} className="text1">{x.direction}</div></div>)
+            {cungSon.map((x: any) => {
+              return (
+                <div key={x.name} className="li1">
+                  <div className="text1">
+                    <span onClick={() => chooseCung(x.name)}>
+                      {x.direction}
+                    </span>
+                  </div>
+                </div>
+              )
             })}
             <div className="child-2">
-              {cungSon.map((el:any) => {
-                return (<div className="li1"><div onClick={() => chooseCung(el.name)} className="text1">{el.name}</div></div>)
+              {cungSon.map((el: any) => {
+                return (
+                  <div key={el.name} className="li1">
+                    <div className="text1">
+                      <span onClick={() => chooseCung(el.name)}>{el.name}</span>
+                    </div>
+                  </div>
+                )
               })}
               <div className="child-3">
-                <div>
-                  {year}
-                </div>
+                <div>{year}</div>
               </div>
             </div>
           </div>
@@ -379,16 +408,16 @@ function ThanSat() {
       </div>
       {renderThansatByYear()}
       <ModalInformation
-          isOpen={isOpen}
-          toggleModal={toggleModal}
-          titleModal={`Sao ${jsUcfirst(chooseStars.name)}`}
+        isOpen={isOpen}
+        toggleModal={toggleModal}
+        titleModal={`Sao ${jsUcfirst(chooseStars.name)}`}
       >
         <div>{chooseStars.data}</div>
         <div className="flex items-center justify-end mt-5 gap-x-4">
           <Button
-              primary
-              onClick={toggleModal}
-              className="h-[2.5rem] pt-2 w-[2.5rem]"
+            primary
+            onClick={toggleModal}
+            className="h-[2.5rem] pt-2 w-[2.5rem]"
           >
             OK
           </Button>

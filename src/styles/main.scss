@@ -345,6 +345,14 @@ html {
       transform: skewY(23deg) rotate(8deg);
     }
 
+    .text1 span {
+      display: inline-block;
+    }
+
+    .text span {
+      display: inline-block;
+    }
+
     .text.bold {
       font-size: 20px;
       font-weight: 600;
