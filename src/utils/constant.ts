@@ -360,3 +360,31 @@ export const PART_HOURS: any = {
   Tuất: '19:00-20:00',
   Hợi: '21:00-22:00',
 }
+
+export const PHUONG_VI_CAT_HUNG_BGCOLOR = {
+  black: 'bg-black',
+  yellow: 'bg-yellow-500',
+  green: 'bg-green-500',
+  red: 'bg-red-500',
+  white: 'bg-white',
+}
+export const CUNG_KHAM_ARR = ['Khảm']
+export const CUNG_CAN_KHON_ARR = ['Cấn', 'Khôn']
+export const CUNG_CHAN_TON_ARR = ['Chấn', 'Tốn']
+export const CUNG_LY_ARR = ['Lý']
+export const DOAI_CAN_ARR = ['Đoài', 'Càn']
+export const CUNG_GROUP_DECLARE = {
+  kham: ['Khảm'],
+  canKhon: ['Cấn', 'Khôn'],
+  chanTon: ['Chấn', 'Tốn'],
+  ly: ['Ly'],
+  doaiCan: ['Đoài', 'Càn'],
+}
+
+export const CAN_GROUP_DECLARE = {
+  1: ['Nhâm', 'Tý', 'Quý', 'Hợi'],
+  2: ['Sửu', 'Cấn', 'Mùi', 'Khôn', 'Tuất', 'Thìn'],
+  3: ['Dần', 'Giáp', 'Mão', 'Ất', 'Tốn'],
+  4: ['Tỵ', 'Ngọ', 'Bính', 'Đinh'],
+  5: ['Thân', 'Canh', 'Dậu', 'Tân', 'Càn'],
+}

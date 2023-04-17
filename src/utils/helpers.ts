@@ -2,9 +2,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 import {
   CAN,
+  CAN_GROUP_DECLARE,
   CHI,
+  CUNG_GROUP_DECLARE,
   GIO_HD,
   ICON_CHI,
+  PHUONG_VI_CAT_HUNG_BGCOLOR,
   TIETKHI,
   TK19,
   TK20,
@@ -711,4 +714,27 @@ export default function CustomDateAdapter(options: any) {
       return customWeekdays.map((day) => constructDayObject(day))
     },
   }
+}
+
+export const getBgColorCung = (name: string) => {
+  if (CUNG_GROUP_DECLARE.kham.includes(name))
+    return PHUONG_VI_CAT_HUNG_BGCOLOR.black
+  if (CUNG_GROUP_DECLARE.canKhon.includes(name))
+    return PHUONG_VI_CAT_HUNG_BGCOLOR.yellow
+  if (CUNG_GROUP_DECLARE.chanTon.includes(name))
+    return PHUONG_VI_CAT_HUNG_BGCOLOR.green
+  if (CUNG_GROUP_DECLARE.ly.includes(name))
+    return PHUONG_VI_CAT_HUNG_BGCOLOR.red
+  return PHUONG_VI_CAT_HUNG_BGCOLOR.white
+}
+
+export const getBgColorCan = (name: string) => {
+  if (CAN_GROUP_DECLARE[1].includes(name))
+    return PHUONG_VI_CAT_HUNG_BGCOLOR.black
+  if (CAN_GROUP_DECLARE[2].includes(name))
+    return PHUONG_VI_CAT_HUNG_BGCOLOR.yellow
+  if (CAN_GROUP_DECLARE[3].includes(name))
+    return PHUONG_VI_CAT_HUNG_BGCOLOR.green
+  if (CAN_GROUP_DECLARE[4].includes(name)) return PHUONG_VI_CAT_HUNG_BGCOLOR.red
+  return PHUONG_VI_CAT_HUNG_BGCOLOR.white
 }

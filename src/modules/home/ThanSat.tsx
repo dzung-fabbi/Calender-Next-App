@@ -6,9 +6,11 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import * as React from 'react'
+import { twMerge } from 'tailwind-merge'
 
 import homeApi from '@/api/home.api'
 import { Button } from '@/components/button'
@@ -17,7 +19,12 @@ import { useToggle } from '@/hooks'
 import type { ThanSatFormValue } from '@/models'
 import { useStore } from '@/store/useStore'
 import { MONTH_PROPERTY } from '@/utils/constant'
-import { getDayName, getLunarDate } from '@/utils/helpers'
+import {
+  getBgColorCan,
+  getBgColorCung,
+  getDayName,
+  getLunarDate,
+} from '@/utils/helpers'
 
 const cungSon = [
   {
@@ -291,9 +298,9 @@ function ThanSat() {
               </TableCell>
             </TableRow>
             <TableRow>
-              {cung.son.map((row: any) => {
+              {cung.son.map((row: any, idx: number) => {
                 return (
-                  <TableCell width="16.6%" align="center" colSpan={2}>
+                  <TableCell width="16.6%" align="center" colSpan={2} key={idx}>
                     {row.name}
                   </TableCell>
                 )
@@ -344,32 +351,22 @@ function ThanSat() {
       <div className="circle">
         {cungSon.map((x: any) => {
           return (
-            <>
-              {x.son.map((x1: any) => {
-                return (
-                  <div key={x1.name} className="li none-border">
-                    <div className="text">
-                      <span onClick={() => chooseCung(x.name)}>
-                        {x1.coordinates}°
-                      </span>
-                    </div>
-                  </div>
-                )
-              })}
-            </>
+            <div
+              key={x.name}
+              className="li1 part-layout"
+              onClick={() => chooseCung(x.name)}
+            ></div>
           )
         })}
-        <div className="child">
+        <div className="circle-layout">
           {cungSon.map((x: any) => {
             return (
               <>
                 {x.son.map((x1: any) => {
                   return (
-                    <div key={x1.name} className="li">
+                    <div key={x1.name} className="li none-border">
                       <div className="text">
-                        <span onClick={() => chooseCung(x.name)}>
-                          {x1.name}
-                        </span>
+                        <span>{x1.coordinates}°</span>
                       </div>
                     </div>
                   )
@@ -377,35 +374,69 @@ function ThanSat() {
               </>
             )
           })}
-          <div className="child-1">
+          <div className="child">
             {cungSon.map((x: any) => {
               return (
-                <div key={x.name} className="li1">
-                  <div className="text1">
-                    <span onClick={() => chooseCung(x.name)}>
-                      {x.direction}
-                    </span>
-                  </div>
-                </div>
+                <>
+                  {x.son.map((x1: any) => {
+                    const bgColor = getBgColorCan(x1.name)
+                    return (
+                      <div key={x1.name} className={`li ${bgColor}`}>
+                        <div
+                          className={twMerge(
+                            'text',
+                            bgColor === 'bg-black' && 'text-white'
+                          )}
+                        >
+                          <span onClick={() => chooseCung(x.name)}>
+                            {x1.name}
+                          </span>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </>
               )
             })}
-            <div className="child-2">
-              {cungSon.map((el: any) => {
+            <div className="child-1">
+              {cungSon.map((x: any) => {
                 return (
-                  <div key={el.name} className="li1">
+                  <div key={x.name} className="li1">
                     <div className="text1">
-                      <span onClick={() => chooseCung(el.name)}>{el.name}</span>
+                      <span onClick={() => chooseCung(x.name)}>
+                        {x.direction}
+                      </span>
                     </div>
                   </div>
                 )
               })}
-              <div className="child-3">
-                <div>{year}</div>
+              <div className="child-2">
+                {cungSon.map((el: any) => {
+                  const bgColor = getBgColorCung(el.name)
+                  return (
+                    <div key={el.name} className={`li1 ${bgColor}`}>
+                      <div
+                        className={twMerge(
+                          'text1',
+                          bgColor === 'bg-black' && 'text-white'
+                        )}
+                      >
+                        <span onClick={() => chooseCung(el.name)}>
+                          {el.name}
+                        </span>
+                      </div>
+                    </div>
+                  )
+                })}
+                <div className="child-3">
+                  <div>{year}</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Typography>{cung.name}</Typography>
       {renderThansatByYear()}
       <ModalInformation
         isOpen={isOpen}
