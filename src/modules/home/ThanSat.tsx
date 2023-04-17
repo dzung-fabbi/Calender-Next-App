@@ -6,7 +6,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import * as React from 'react'
@@ -430,6 +429,56 @@ function ThanSat() {
                 })}
                 <div className="child-3">
                   <div>{year}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="relative overflow-hidden w-[451px] h-[451px]">
+        <div className="part-circle absolute left-[-100%] bottom-[-100%] translate-x-[2px] translate-y-[-2px]">
+          <div className="li1 z-[1000]"></div>
+          <div className="part-circle-layout">
+            <div className="child">
+              {cung.son.map((x1: any) => {
+                const bgColor = getBgColorCan(x1.name)
+                return (
+                  <div key={x1.name} className={`li ${bgColor}`}>
+                    <div
+                      className={twMerge(
+                        'text',
+                        bgColor === 'bg-black' && 'text-white'
+                      )}
+                    >
+                      <span>{x1.name}</span>
+                    </div>
+                  </div>
+                )
+              })}
+
+              <div className="child-1">
+                <div className="li1">
+                  <div className="text1">
+                    <span>{cung.direction}</span>
+                  </div>
+                </div>
+
+                <div className="child-2">
+                  <div className={`li1 ${getBgColorCung(cung.name)}`}>
+                    <div
+                      className={twMerge(
+                        'text1',
+                        getBgColorCung(cung.name) === 'bg-black' && 'text-white'
+                      )}
+                    >
+                      <span>{cung.name}</span>
+                    </div>
+                  </div>
+                  <div className="child-3">
+                    <span className="absolute text-2xl rotate-45 top-12 right-8">
+                      {year}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

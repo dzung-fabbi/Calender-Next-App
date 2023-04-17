@@ -743,7 +743,7 @@ html {
       font-weight: bold;
       transform: rotate(23deg);
       padding-left: 20px;
-      padding-top: 47px;
+      padding-top: 40px;
     }
     .li, .li1 {
       //overflow: hidden;
@@ -906,6 +906,190 @@ html {
       -webkit-transform: rotate(345deg) skewY(-75deg);
       -ms-transform: rotate(345deg) skewY(-75deg);
       transform: rotate(345deg) skewY(-75deg);
+    }
+  }
+
+  .part-circle {
+    width: 900px;
+    height: 900px;
+    list-style: none;
+    overflow: hidden;
+    border-radius: 9999px;
+    // border: 1px solid #3B82F6;
+    .part-circle-layout {
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      list-style: none;
+      overflow: hidden;
+      border-radius: 9999px;
+      border: 1px solid #3B82F6;
+    }
+    .child {
+      background: white;
+      outline: 1px solid #3B82F6;
+      position: relative;
+      border-radius: 9999px;
+      height: 700px;
+      width: 700px;
+      /*
+       Put top edge and left edge in the center
+      */
+      top: 50%;
+      left: 50%;
+      overflow: hidden;
+      margin: -350px 0px 0px -350px;
+    }
+    .child-1 {
+      background: white;
+      outline: #3B82F6 solid 1px;
+      position: relative;
+      border-radius: 50%;
+      height: 540px;
+      width: 540px;
+      /*
+       Put top edge and left edge in the center
+      */
+      top: 50%;
+      left: 50%;
+      overflow: hidden;
+      margin: -270px 0px 0px -270px;
+    }
+    .child-2 {
+      background: white;
+      outline: #3B82F6 solid 1px;
+      position: relative;
+      border-radius: 50%;
+      height: 360px;
+      width: 360px;
+      /*
+       Put top edge and left edge in the center
+      */
+      top: 50%;
+      left: 50%;
+      overflow: hidden;
+      margin: -180px 0px 0px -180px;
+    }
+    .child-3 {
+      background: white;
+      outline: #3B82F6 solid 1px;
+      position: relative;
+      border-radius: 50%;
+      height: 200px;
+      width: 200px;
+      /*
+       Put top edge and left edge in the center
+      */
+      top: 50%;
+      left: 50%;
+      overflow: hidden;
+      margin: -100px 0px 0px -100px;
+    }
+    .li, .li1 {
+      //overflow: hidden;
+      position: absolute;
+      top: 0; right: 0;
+      width: 50%; height: 50%;
+      transform-origin: 0% 100%;
+    }
+    .li:not(.none-border), .li1:not(.part-layout) {
+      outline: #3B82F6 solid 1px;
+    }
+    .text {
+      position: absolute;
+      left: -100%;
+      width: 200%; height: 200%;
+      text-align: center;
+        -webkit-transform: skewY(60deg) rotate(15deg);
+        -ms-transform: skewY(60deg) rotate(15deg);
+        transform: skewY(60deg) rotate(15deg);
+        padding-top: 25px;
+    }
+    .none-border .text {
+      padding-top: 8px;
+      padding-right: 75px;
+      transform: skewY(74.4deg) rotate(8deg);
+    }
+
+    .text1 span {
+      display: inline-block;
+    }
+
+    .text span {
+      display: inline-block;
+    }
+
+    .text1 {
+      position: absolute;
+      left: -100%;
+      width: 200%; height: 200%;
+      text-align: center;
+      -webkit-transform:  rotate(45deg);
+      -ms-transform:  rotate(45deg);
+      transform:  rotate(45deg);
+      padding-top: 25px;
+      z-index: -100;
+    }
+
+    .li:first-child {
+      -webkit-transform: rotate(0deg) skewY(-60deg);
+      -ms-transform: rotate(0deg) skewY(-60deg);
+      transform: rotate(0deg) skewY(-60deg);
+    }
+    .li:nth-child(2) {
+      -webkit-transform: rotate(30deg) skewY(-60deg);
+      -ms-transform: rotate(30deg) skewY(-60deg);
+      transform: rotate(30deg) skewY(-60deg);
+    }
+    .li:nth-child(3) {
+      -webkit-transform: rotate(60deg) skewY(-60deg);
+      -ms-transform: rotate(60deg) skewY(-60deg);
+      transform: rotate(60deg) skewY(-60deg);
+    }
+
+
+    .li1:first-child {
+      -webkit-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    .li1:nth-child(2) {
+      -webkit-transform: rotate(45deg) skewY(-45deg);
+      -ms-transform: rotate(45deg) skewY(-45deg);
+      transform: rotate(45deg) skewY(-45deg);
+    }
+    .li1:nth-child(3) {
+      -webkit-transform: rotate(90deg) skewY(-45deg);
+      -ms-transform: rotate(90deg) skewY(-45deg);
+      transform: rotate(90deg) skewY(-45deg);
+    }
+    .li1:nth-child(4) {
+      -webkit-transform: rotate(135deg) skewY(-45deg);
+      -ms-transform: rotate(135deg) skewY(-45deg);
+      transform: rotate(135deg) skewY(-45deg);
+    }
+    .li1:nth-child(5) {
+      -webkit-transform: rotate(180deg) skewY(-45deg);
+      -ms-transform: rotate(180deg) skewY(-45deg);
+      transform: rotate(180deg) skewY(-45deg);
+    }
+    .li1:nth-child(6) {
+      -webkit-transform: rotate(225deg) skewY(-45deg);
+      -ms-transform: rotate(225deg) skewY(-45deg);
+      transform: rotate(225deg) skewY(-45deg);
+    }
+    .li1:nth-child(7) {
+      -webkit-transform: rotate(270deg) skewY(-45deg);
+      -ms-transform: rotate(270deg) skewY(-45deg);
+      transform: rotate(270deg) skewY(-45deg);
+    }
+    .li1:nth-child(8) {
+      -webkit-transform: rotate(315deg) skewY(-45deg);
+      -ms-transform: rotate(315deg) skewY(-45deg);
+      transform: rotate(315deg) skewY(-45deg);
     }
   }
 }
