@@ -436,7 +436,6 @@ function ThanSat() {
           </div>
         </div>
       </div>
-      <Typography>{cung.name}</Typography>
       {renderThansatByYear()}
       <ModalInformation
         isOpen={isOpen}
