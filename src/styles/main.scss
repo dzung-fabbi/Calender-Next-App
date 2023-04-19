@@ -240,7 +240,7 @@ html {
     position: relative;
     border: 1px solid blue;
     padding: 0;
-    margin: 1em auto;
+    margin: 0 auto;
     width: 600px;
     height: 600px;
     border-radius: 50%;
@@ -918,7 +918,7 @@ html {
     // border: 1px solid #3B82F6;
     .part-circle-layout {
       font-weight: bold;
-      cursor: pointer;
+      // cursor: pointer;
       position: relative;
       padding: 0;
       width: 100%;
@@ -927,6 +927,21 @@ html {
       overflow: hidden;
       border-radius: 9999px;
       border: 1px solid #3B82F6;
+    }
+    .parent {
+      background: white;
+      outline: 1px solid #3B82F6;
+      position: relative;
+      border-radius: 9999px;
+      height: 900px;
+      width: 900px;
+      /*
+       Put top edge and left edge in the center
+      */
+      top: 50%;
+      left: 50%;
+      overflow: hidden;
+      margin: -450px 0px 0px -450px;
     }
     .child {
       background: white;
@@ -1003,10 +1018,11 @@ html {
       left: -100%;
       width: 200%; height: 200%;
       text-align: center;
-        -webkit-transform: skewY(60deg) rotate(15deg);
-        -ms-transform: skewY(60deg) rotate(15deg);
-        transform: skewY(60deg) rotate(15deg);
-        padding-top: 25px;
+      -webkit-transform: skewY(60deg) rotate(15deg);
+      -ms-transform: skewY(60deg) rotate(15deg);
+      transform: skewY(60deg) rotate(15deg);
+      padding-top: 25px;
+      pointer-events: none;
     }
     .none-border .text {
       padding-top: 8px;

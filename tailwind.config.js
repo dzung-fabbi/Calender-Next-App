@@ -72,7 +72,9 @@ module.exports = {
         sdprimary: '10px 10px 20px rgba(211, 211, 211, 0.25)',
       },
       animation: {
-        fade: 'fade 0.5s ease-in-out',
+        fade: 'fade 0.3s ease-in-out',
+        leaves: 'leaves 0.5s ease',
+        zoomOut: 'zoomOut 0.5s ease',
       },
       keyframes: {
         fade: {
@@ -81,6 +83,28 @@ module.exports = {
           },
           '100%': {
             opacity: 1,
+          },
+        },
+        leaves: {
+          '0%': {
+            opacity: 0,
+            scale: 0,
+            rotate: '180deg',
+            // transform: 'translate(-100%, 100%)',
+          },
+          '100%': {
+            opacity: 1,
+            scale: '100%',
+          },
+        },
+        zoomOut: {
+          '0%': {
+            opacity: 1,
+            scale: '100%',
+          },
+          '100%': {
+            opacity: 0,
+            scale: 0,
           },
         },
       },

@@ -1,12 +1,3 @@
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material'
 import { useEffect, useState } from 'react'
 import * as React from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -187,7 +178,8 @@ function ThanSat() {
   const year = currentDate.format('YYYY')
   const currentLunarDate = getLunarDate(+day, +month, +year)
   const dayName = getDayName(currentLunarDate)
-  // const [thansatByMonth, setThansatByMonth] = useState<any>([])
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  const [thansatByMonth, setThansatByMonth] = useState<any>([])
   const [thansatByYear, setThansatByYear] = useState<any>([])
   const [isOpen, toggleModal] = useToggle()
   const [chooseStars, setChooseStars] = useState<{
@@ -233,7 +225,7 @@ function ThanSat() {
             sao: el.sao,
           }
         })
-        // setThansatByMonth(arrTmp)
+        setThansatByMonth(arrTmp)
         setThansatByYear(responseData.than_sat_by_year)
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -254,130 +246,164 @@ function ThanSat() {
     })
     toggleModal()
   }
+  const [isShow, setIsShow] = useState<boolean>(false)
 
-  if (!thanSatInfo) return null
+  // if (!thanSatInfo) return null
 
-  const renderThansatByYear = () => {
-    const tmp = thansatByYear.filter((x: { direction: any; sao: any }) =>
-      x.direction.includes(cung.name)
-    )
+  const getStartsByYearSon = (cungName: string) => {
+    let tmp = []
+    if (thansatByYear?.sao?.length > 0) {
+      tmp = thansatByYear.sao.filter((x: { direction: any; sao: any }) =>
+        x.direction.includes(cungName)
+      )
+    }
+
     return (
-      <TableContainer component={Paper}>
-        <Table aria-label="am phu thai tue">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center" colSpan={6}>
-                Năn {year}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell width="50%" align="center" colSpan={6}>
-                {cung.name}
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell width="25%" align="left" colSpan={6}>
-                <span className="text-red-tag text-red-primary text-primary">
-                  {tmp.map((x: any) => {
-                    return (
-                      <>
-                        <span
-                          className="cursor-pointer"
-                          onClick={() => handleClickStars(x.sao)}
-                        >
-                          {jsUcfirst(x.sao.name)}
-                        </span>
-                        ,
-                      </>
-                    )
-                  })}
+      <>
+        {tmp.map((el: any) => {
+          if (el.sao.good_ugly_stars) {
+            return (
+              <div key={el.direction} className="pointer-events-auto">
+                <span
+                  key={el.direction}
+                  className="text-red-tag text-red-primary z-20 transition-all cursor-pointer text-primary hover:brightness-75"
+                  onClick={() => handleClickStars(el.sao)}
+                >
+                  {jsUcfirst(el.sao.name)}
                 </span>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              {cung.son.map((row: any, idx: number) => {
-                return (
-                  <TableCell width="16.6%" align="center" colSpan={2} key={idx}>
-                    {row.name}
-                  </TableCell>
-                )
-              })}
-            </TableRow>
-            <TableRow>
-              {cung.son.map((row: any) => {
-                const tmp = thansatByYear.filter(
-                  (x: { direction: any; sao: any }) =>
-                    x.direction.includes(row.name)
-                )
-                return (
-                  <>
-                    <TableCell width="8.3%" align="left" colSpan={2}>
-                      <span className="text-red-tag text-red-primary text-primary">
-                        {tmp.map((x: any) => {
-                          return (
-                            <>
-                              <span
-                                className="cursor-pointer"
-                                onClick={() => handleClickStars(x.sao)}
-                              >
-                                {jsUcfirst(x.sao.name)}
-                              </span>
-                              ,
-                            </>
-                          )
-                        })}
-                      </span>
-                    </TableCell>
-                  </>
-                )
-              })}
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+              </div>
+            )
+          }
+          return (
+            <span
+              key={el.direction}
+              className="cursor-pointer"
+              onClick={() => handleClickStars(el.sao)}
+            >
+              {jsUcfirst(el.sao.name)}
+            </span>
+          )
+        })}
+      </>
     )
   }
 
   const chooseCung = (name: string) => {
     const tmp = cungSon.find((el: any) => el.name === name)
+    setIsShow(true)
     setCung(tmp)
   }
 
   return (
-    <div className="than_sat flex flex-col gap-y-10">
-      <div className="circle">
-        {cungSon.map((x: any) => {
-          return (
-            <div
-              key={x.name}
-              className="li1 part-layout"
-              onClick={() => chooseCung(x.name)}
-            ></div>
-          )
-        })}
-        <div className="circle-layout">
-          {cungSon.map((x: any) => {
-            return (
-              <>
-                {x.son.map((x1: any) => {
-                  return (
-                    <div key={x1.name} className="li none-border">
-                      <div className="text">
-                        <span>{x1.coordinates}°</span>
-                      </div>
-                    </div>
-                  )
-                })}
-              </>
-            )
-          })}
-          <div className="child">
+    <div className="than_sat">
+      {!isShow && (
+        <>
+          <div
+            className={twMerge(
+              'circle',
+              isShow ? 'animate-zoomOut' : 'animate-leaves'
+            )}
+          >
             {cungSon.map((x: any) => {
               return (
-                <>
-                  {x.son.map((x1: any) => {
+                <div
+                  key={x.name}
+                  className="li1 part-layout transition-all hover:bg-black/10"
+                  onClick={() => chooseCung(x.name)}
+                ></div>
+              )
+            })}
+            <div className="circle-layout">
+              {cungSon.map((x: any) => {
+                return (
+                  <>
+                    {x.son.map((x1: any) => {
+                      return (
+                        <div key={x1.name} className="li none-border">
+                          <div className="text">
+                            <span>{x1.coordinates}°</span>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </>
+                )
+              })}
+              <div className="child">
+                {cungSon.map((x: any) => {
+                  return (
+                    <>
+                      {x.son.map((x1: any) => {
+                        const bgColor = getBgColorCan(x1.name)
+                        return (
+                          <div key={x1.name} className={`li ${bgColor}`}>
+                            <div
+                              className={twMerge(
+                                'text',
+                                bgColor === 'bg-black' && 'text-white'
+                              )}
+                            >
+                              <span onClick={() => chooseCung(x.name)}>
+                                {x1.name}
+                              </span>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </>
+                  )
+                })}
+                <div className="child-1">
+                  {cungSon.map((x: any) => {
+                    return (
+                      <div key={x.name} className="li1">
+                        <div className="text1">
+                          <span onClick={() => chooseCung(x.name)}>
+                            {x.direction}
+                          </span>
+                        </div>
+                      </div>
+                    )
+                  })}
+                  <div className="child-2">
+                    {cungSon.map((el: any) => {
+                      const bgColor = getBgColorCung(el.name)
+                      return (
+                        <div key={el.name} className={`li1 ${bgColor}`}>
+                          <div
+                            className={twMerge(
+                              'text1',
+                              bgColor === 'bg-black' && 'text-white'
+                            )}
+                          >
+                            <span onClick={() => chooseCung(el.name)}>
+                              {el.name}
+                            </span>
+                          </div>
+                        </div>
+                      )
+                    })}
+                    <div className="child-3">
+                      <div>{year}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="mt-10 text-center">
+            * Click vào cung hoặc sơn để hiển thị thông tin sao
+          </p>
+        </>
+      )}
+
+      {isShow && (
+        <>
+          <div className="relative overflow-hidden w-[451px] h-[451px] mx-auto animate-fade">
+            <div className="part-circle absolute left-[-100%] bottom-[-100%] translate-x-[2px] translate-y-[-2px]">
+              <div className="part-circle-layout">
+                <div className="parent">
+                  {cung.son.map((x1: any) => {
                     const bgColor = getBgColorCan(x1.name)
                     return (
                       <div key={x1.name} className={`li ${bgColor}`}>
@@ -387,105 +413,74 @@ function ThanSat() {
                             bgColor === 'bg-black' && 'text-white'
                           )}
                         >
-                          <span onClick={() => chooseCung(x.name)}>
-                            {x1.name}
-                          </span>
+                          {getStartsByYearSon(x1.name)}
                         </div>
                       </div>
                     )
                   })}
-                </>
-              )
-            })}
-            <div className="child-1">
-              {cungSon.map((x: any) => {
-                return (
-                  <div key={x.name} className="li1">
-                    <div className="text1">
-                      <span onClick={() => chooseCung(x.name)}>
-                        {x.direction}
-                      </span>
-                    </div>
-                  </div>
-                )
-              })}
-              <div className="child-2">
-                {cungSon.map((el: any) => {
-                  const bgColor = getBgColorCung(el.name)
-                  return (
-                    <div key={el.name} className={`li1 ${bgColor}`}>
-                      <div
-                        className={twMerge(
-                          'text1',
-                          bgColor === 'bg-black' && 'text-white'
-                        )}
-                      >
-                        <span onClick={() => chooseCung(el.name)}>
-                          {el.name}
-                        </span>
+                  <div className="child">
+                    {cung.son.map((x1: any) => {
+                      const bgColor = getBgColorCan(x1.name)
+                      return (
+                        <div
+                          key={x1.name}
+                          className={`li pointer-events-none ${bgColor}`}
+                        >
+                          <div
+                            className={twMerge(
+                              'text',
+                              bgColor === 'bg-black' && 'text-white'
+                            )}
+                          >
+                            <span>{x1.name}</span>
+                          </div>
+                        </div>
+                      )
+                    })}
+
+                    <div className="child-1">
+                      <div className="li1">
+                        <div className="text1">
+                          <span>{cung.direction}</span>
+                        </div>
+                      </div>
+
+                      <div className="child-2">
+                        <div className={`li1 ${getBgColorCung(cung.name)}`}>
+                          <div
+                            className={twMerge(
+                              'text1',
+                              getBgColorCung(cung.name) === 'bg-black' &&
+                                'text-white'
+                            )}
+                          >
+                            <span>{cung.name}</span>
+                          </div>
+                        </div>
+                        <div className="child-3">
+                          <span className="absolute text-2xl rotate-45 top-12 right-8">
+                            {year}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  )
-                })}
-                <div className="child-3">
-                  <div>{year}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="relative overflow-hidden w-[451px] h-[451px]">
-        <div className="part-circle absolute left-[-100%] bottom-[-100%] translate-x-[2px] translate-y-[-2px]">
-          <div className="li1 z-[1000]"></div>
-          <div className="part-circle-layout">
-            <div className="child">
-              {cung.son.map((x1: any) => {
-                const bgColor = getBgColorCan(x1.name)
-                return (
-                  <div key={x1.name} className={`li ${bgColor}`}>
-                    <div
-                      className={twMerge(
-                        'text',
-                        bgColor === 'bg-black' && 'text-white'
-                      )}
-                    >
-                      <span>{x1.name}</span>
-                    </div>
-                  </div>
-                )
-              })}
-
-              <div className="child-1">
-                <div className="li1">
-                  <div className="text1">
-                    <span>{cung.direction}</span>
-                  </div>
-                </div>
-
-                <div className="child-2">
-                  <div className={`li1 ${getBgColorCung(cung.name)}`}>
-                    <div
-                      className={twMerge(
-                        'text1',
-                        getBgColorCung(cung.name) === 'bg-black' && 'text-white'
-                      )}
-                    >
-                      <span>{cung.name}</span>
-                    </div>
-                  </div>
-                  <div className="child-3">
-                    <span className="absolute text-2xl rotate-45 top-12 right-8">
-                      {year}
-                    </span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      {renderThansatByYear()}
+          <div className="flex justify-center mt-10">
+            <Button
+              primary
+              onClick={() => setIsShow(false)}
+              className="h-[2.5rem] pt-2 w-[2.5rem]"
+            >
+              Hủy
+            </Button>
+          </div>
+        </>
+      )}
+
       <ModalInformation
         isOpen={isOpen}
         toggleModal={toggleModal}
