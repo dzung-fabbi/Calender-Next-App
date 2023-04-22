@@ -309,7 +309,10 @@ function ThanSat() {
                 <div
                   key={x.name}
                   className="li1 part-layout transition-all hover:bg-black/10"
-                  onClick={() => chooseCung(x.name)}
+                  // onClick={() => chooseCung(x.name)}
+                  onClick={() => {
+                    console.log(x.name)
+                  }}
                 ></div>
               )
             })}
@@ -336,16 +339,20 @@ function ThanSat() {
                       {x.son.map((x1: any) => {
                         const bgColor = getBgColorCan(x1.name)
                         return (
-                          <div key={x1.name} className={`li ${bgColor}`}>
+                          <div
+                            key={x1.name}
+                            className={`li ${bgColor} hover:opacity-70`}
+                            onClick={() => {
+                              alert(x1.name, 1111)
+                            }}
+                          >
                             <div
                               className={twMerge(
                                 'text',
                                 bgColor === 'bg-black' && 'text-white'
                               )}
                             >
-                              <span onClick={() => chooseCung(x.name)}>
-                                {x1.name}
-                              </span>
+                              <span>{x1.name}</span>
                             </div>
                           </div>
                         )
@@ -356,9 +363,13 @@ function ThanSat() {
                 <div className="child-1">
                   {cungSon.map((x: any) => {
                     return (
-                      <div key={x.name} className="li1">
+                      <div key={x.name} className="li1 hover:opacity-70">
                         <div className="text1">
-                          <span onClick={() => chooseCung(x.name)}>
+                          <span
+                            onClick={() => {
+                              alert(x.direction)
+                            }}
+                          >
                             {x.direction}
                           </span>
                         </div>
@@ -369,14 +380,17 @@ function ThanSat() {
                     {cungSon.map((el: any) => {
                       const bgColor = getBgColorCung(el.name)
                       return (
-                        <div key={el.name} className={`li1 ${bgColor}`}>
+                        <div
+                          key={el.name}
+                          className={`li1 ${bgColor} hover:opacity-70`}
+                        >
                           <div
                             className={twMerge(
                               'text1',
                               bgColor === 'bg-black' && 'text-white'
                             )}
                           >
-                            <span onClick={() => chooseCung(el.name)}>
+                            <span onClick={() => alert(el.name)}>
                               {el.name}
                             </span>
                           </div>

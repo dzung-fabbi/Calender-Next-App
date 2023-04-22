@@ -261,9 +261,9 @@ html {
       overflow: hidden;
       border-radius: 600px;
     }
-    .part-layout {
-      z-index: 1000;
-    }
+    // .part-layout {
+    //   z-index: 1000;
+    // }
     .child {
       background: white;
       outline: #3B82F6 solid 1px;
@@ -340,6 +340,15 @@ html {
       width: 50%; height: 50%;
       transform-origin: 0% 100%;
     }
+    .li1, .text1 {
+      pointer-events: none;
+    }
+    .text1 span {
+      width: 114px;
+      height: 60px;
+      padding-top: 20px;
+      pointer-events: all;
+    }
     .li:not(.none-border), .li1:not(.part-layout) {
       outline: #3B82F6 solid 1px;
     }
@@ -352,6 +361,7 @@ html {
         -ms-transform: skewY(75deg) rotate(7.5deg);
         transform: skewY(75deg) rotate(7.5deg);
         padding-top: 20px;
+        pointer-events: none;
     }
     .none-border .text {
       padding-top: 8px;
@@ -380,7 +390,6 @@ html {
       -webkit-transform: skewY(45deg) rotate(22.5deg);
       -ms-transform: skewY(45deg) rotate(22.5deg);
       transform: skewY(45deg) rotate(22.5deg);
-      padding-top: 20px;
       z-index: -100;
     }
 
@@ -1022,7 +1031,7 @@ html {
       -ms-transform: skewY(60deg) rotate(15deg);
       transform: skewY(60deg) rotate(15deg);
       padding-top: 25px;
-      pointer-events: none;
+      // pointer-events: none;
     }
     .none-border .text {
       padding-top: 8px;
