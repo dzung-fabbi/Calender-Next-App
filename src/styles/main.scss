@@ -1122,3 +1122,30 @@ html {
 .MuiTableCell-root {
   border: #3B82F6 solid 1px !important;
 }
+
+@-webkit-keyframes my {
+  0% { color: rgb(239, 68, 68); }
+  50% { color: #000000;  }
+  100% { color: rgb(239, 68, 68);  }
+}
+@-moz-keyframes my {
+  0% { color: rgb(239, 68, 68);  }
+  50% { color: #000000;  }
+  100% { color: rgb(239, 68, 68);  }
+}
+@-o-keyframes my {
+  0% { color: rgb(239, 68, 68); }
+  50% { color: #000000; }
+  100% { color: rgb(239, 68, 68);  }
+}
+@keyframes my {
+  0% { color: rgb(239, 68, 68);  }
+  50% { color: #000000;  }
+  100% { color: rgb(239, 68, 68);  }
+}
+.flicker {
+  -webkit-animation: my 700ms infinite;
+  -moz-animation: my 700ms infinite;
+  -o-animation: my 700ms infinite;
+  animation: my 700ms infinite;
+}

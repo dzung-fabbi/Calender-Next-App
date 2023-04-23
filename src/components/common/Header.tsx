@@ -29,8 +29,13 @@ const NAVBAR_MENU = [
     icon: <ConvertCalendar />,
   },
   {
-    label: 'Phương vị cát hung',
+    label: 'Phương vị cát hung năm',
     value: MODE_TAB_HEADER.THAN_SAT,
+    icon: <ConvertCalendar />,
+  },
+  {
+    label: 'Phương vị cát hung tháng',
+    value: MODE_TAB_HEADER.THAN_SAT_MONTH,
     icon: <ConvertCalendar />,
   },
 ]

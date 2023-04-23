@@ -249,7 +249,7 @@ function ThanSat() {
   const year = currentDate.format('YYYY')
   const currentLunarDate = getLunarDate(+day, +month, +year)
   const dayName = getDayName(currentLunarDate)
-  const [thansatByYear, setThansatByYear] = useState<any>([])
+  const [thansatByMonth, setThansatByMonth] = useState<any>([])
   const [isOpen, toggleModal] = useToggle()
   const [chooseStars, setChooseStars] = useState<{
     name: string
@@ -290,7 +290,9 @@ function ThanSat() {
     ;(async () => {
       try {
         const responseData = await homeApi.getThanSatInfo(dayName[2] || '')
-        setThansatByYear(responseData.than_sat_by_year?.than_sat_sao)
+        const tmp = responseData.than_sat_by_month
+        // @ts-ignore
+        setThansatByMonth(tmp[`month_${month}`])
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error)
@@ -324,8 +326,8 @@ function ThanSat() {
     }
   }
 
-  const renderThansatByYear = () => {
-    const saoCung = thansatByYear.filter(
+  const renderthansatByMonth = () => {
+    const saoCung = thansatByMonth.filter(
       (x: any) => x.direction === cungSelect.name && x.cung_son === 1
     )
 
@@ -335,7 +337,7 @@ function ThanSat() {
           <TableHead>
             <TableRow>
               <TableCell align="center" colSpan={6}>
-                Năm {year}
+                {month}/{year}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -399,7 +401,7 @@ function ThanSat() {
             </TableRow>
             <TableRow>
               {cungSelect.son.map((el: any) => {
-                const saoSon = thansatByYear.filter(
+                const saoSon = thansatByMonth.filter(
                   (x: any) => x.direction === el.name && x.cung_son === 2
                 )
                 return (
@@ -530,7 +532,7 @@ function ThanSat() {
                     )
                   })}
                   <div className="child-3">
-                    <div>{year}</div>
+                    <div>{month}</div>
                   </div>
                 </div>
               </div>
@@ -541,7 +543,7 @@ function ThanSat() {
           * Click vào cung hoặc sơn để hiển thị thông tin sao
         </p>
       </>
-      {renderThansatByYear()}
+      {renderthansatByMonth()}
 
       <ModalInformation
         isOpen={isOpen}
