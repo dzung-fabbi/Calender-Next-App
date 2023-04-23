@@ -266,21 +266,29 @@ function ThanSat() {
     name: 'Ly',
     direction: 'Nam',
     coordinates: '157,5',
+    backgroundColor: 'rgb(239 68 68 / 1)',
+    color: 'black',
     son: [
       {
         name: 'Bính',
         coordinates: '157,5',
+        backgroundColor: 'rgb(239 68 68 / 1)',
+        color: 'black',
       },
       {
         name: 'Ngọ',
         coordinates: '172,5',
+        backgroundColor: 'rgb(239 68 68 / 1)',
+        color: 'black',
       },
       {
         name: 'Đinh',
         coordinates: '187,5',
+        backgroundColor: 'rgb(239 68 68 / 1)',
+        color: 'black',
       },
     ],
-  })
+  },)
 
   const [sonSelect, setSonSelect] = useState<string>('')
 
