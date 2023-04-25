@@ -4,7 +4,12 @@ import { TitlePage } from '@/components/common'
 import { Main } from '@/layouts/Main'
 import { Meta } from '@/layouts/Meta'
 import type { NextPageWithLayout } from '@/models'
-import { CalendarPreview, CalendarSwitch, ThanSat, ThanSatForMonth } from '@/modules/home'
+import {
+  CalendarPreview,
+  CalendarSwitch,
+  ThanSat,
+  ThanSatForMonth,
+} from '@/modules/home'
 import { useStore } from '@/store/useStore'
 import { MODE_TAB_HEADER } from '@/utils/constant'
 
@@ -37,7 +42,7 @@ const Home: NextPageWithLayout = () => {
   return (
     <>
       <img
-        className="mb-5 hidden w-full rounded-2xl object-cover md:block"
+        className="hidden object-cover w-full mb-5 rounded-2xl md:block"
         src="/images/banner.png"
         alt=""
       />
@@ -47,7 +52,15 @@ const Home: NextPageWithLayout = () => {
 }
 
 Home.getLayout = function getLayout(page: ReactElement) {
-  return <Main meta={<Meta title="Thiên văn lịch pháp" description="Thiên văn lịch pháp" />}>{page}</Main>
+  return (
+    <Main
+      meta={
+        <Meta title="Thiên văn lịch pháp" description="Thiên văn lịch pháp" />
+      }
+    >
+      {page}
+    </Main>
+  )
 }
 
 export default Home

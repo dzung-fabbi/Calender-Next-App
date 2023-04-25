@@ -437,9 +437,14 @@ function ThanSat() {
   }
 
   return (
-    <div className="than_sat">
+    <div className="than_sat overflow-hidden">
       <>
-        <div className={twMerge('circle', 'animate-zoomOut')}>
+        <div
+          className={twMerge(
+            'circle w-full max-w-[600px] aspect-square',
+            'animate-zoomOut'
+          )}
+        >
           {cungSon.map((x: any) => {
             return (
               <div
@@ -537,7 +542,7 @@ function ThanSat() {
             </div>
           </div>
         </div>
-        <p className="mt-5 text-center mb-10 flicker">
+        <p className="flicker mt-5 mb-10 text-center">
           * Click vào cung hoặc sơn để hiển thị thông tin sao
         </p>
       </>
