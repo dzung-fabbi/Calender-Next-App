@@ -22,6 +22,18 @@ html {
   }
 }
 
+@media only screen and (max-width: 520px) {
+  .than_sat .circle .none-border .text {
+    padding-top: 0.7rem !important;
+    padding-right: 75px;
+    transform: skewY(74deg) rotate(13deg) !important;
+    font-size: 0.7rem !important;
+  }
+  .than_sat .circle {
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='300' ry='300' stroke='blue' stroke-width='12' stroke-dasharray='2%2c 6' stroke-dashoffset='28' stroke-linecap='butt'/%3e%3c/svg%3e") !important;
+  }
+}
+
 @media screen and (min-width: 376px) and (max-width: 767px) {
   html {
     font-size: 14px;
@@ -246,6 +258,12 @@ html {
     background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='300' ry='300' stroke='blue' stroke-width='18' stroke-dasharray='2%2c 6' stroke-dashoffset='28' stroke-linecap='butt'/%3e%3c/svg%3e");
     border-radius: 9999px;
     transform: rotate(-22.5deg);
+    @media screen and (max-width: 520px) {
+      .child, .child-1, .child-2, .child-3 {
+        outline: unset;
+        border: #3B82F6 solid 1px;
+      }
+    }
     .circle-layout {
       font-weight: bold;
       cursor: pointer;
@@ -328,7 +346,20 @@ html {
       font-size: 2rem;
       text-align: center;
       font-weight: bold;
-      transform: rotate(22.5deg);
+      transform: rotate(11deg);
+      width: 100px;
+      height: 100px;
+      padding-top: 17px;
+      @media screen and (max-width: 520px) {
+        padding-top: 0;
+        div {
+          width: 67px;
+          height: 67px;
+          padding-top: 14px;
+          padding-left: 8px;
+          font-size: 1.7rem;
+        }
+      }
     }
     .li, .li1 {
       //overflow: hidden;
@@ -347,7 +378,8 @@ html {
       pointer-events: all;
 
       @media screen and (max-width: 520px) {
-        padding-top: 1rem;
+        padding-top: 10px;
+        font-size: 12px;
       }
     }
     .li:not(.none-border), .li1:not(.part-layout) {
@@ -366,7 +398,8 @@ html {
       pointer-events: none;
 
       @media screen and (max-width: 520px) {
-        padding-top: 1rem;
+        padding-top: 10px;
+        font-size: 12px;
       }
 
     }

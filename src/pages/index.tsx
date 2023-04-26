@@ -1,4 +1,6 @@
+import { useRouter } from 'next/router'
 import type { ReactElement } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 import { TitlePage } from '@/components/common'
 import { Main } from '@/layouts/Main'
@@ -14,11 +16,51 @@ import { useStore } from '@/store/useStore'
 import { MODE_TAB_HEADER } from '@/utils/constant'
 
 const Home: NextPageWithLayout = () => {
+  const router = useRouter()
   const tabHeader = useStore((state) => state.tabHeader)
+  const onChangeTab = useStore((state) => state.setTabHeader)
+  const handleChangeTabHeader = (newTab: number) => {
+    onChangeTab(newTab)
+    if (router.pathname !== '/') router.push('/')
+  }
+
+  const renderTab = () => {
+    return (
+      <nav className="flex gap-2 md:hidden">
+        <div
+          className={twMerge(
+            'font-medium text-default p-2.5 cursor-pointer transition-all',
+            `${
+              router.pathname === '/' &&
+              tabHeader === 3 &&
+              'text-primary border-b border-primary'
+            }`
+          )}
+          onClick={() => handleChangeTabHeader(3)}
+        >
+          Theo năm
+        </div>
+        <div
+          className={twMerge(
+            'font-medium text-default p-2.5 cursor-pointer transition-all',
+            `${
+              router.pathname === '/' &&
+              tabHeader === 4 &&
+              'text-primary border-b border-primary'
+            }`
+          )}
+          onClick={() => handleChangeTabHeader(4)}
+        >
+          Theo tháng
+        </div>
+      </nav>
+    )
+  }
 
   if (tabHeader === MODE_TAB_HEADER.THAN_SAT)
     return (
       <>
+        {renderTab()}
         <TitlePage>Phương vị cát hung năm</TitlePage>
         <ThanSat />
       </>
@@ -27,6 +69,7 @@ const Home: NextPageWithLayout = () => {
   if (tabHeader === MODE_TAB_HEADER.THAN_SAT_MONTH)
     return (
       <>
+        {renderTab()}
         <TitlePage>Phương vị cát hung tháng</TitlePage>
         <ThanSatForMonth />
       </>

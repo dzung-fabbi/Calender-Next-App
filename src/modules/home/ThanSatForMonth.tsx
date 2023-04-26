@@ -5,8 +5,14 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from '@mui/material'
 import Paper from '@mui/material/Paper'
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { vi } from 'date-fns/locale'
+import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import * as React from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -251,6 +257,8 @@ function ThanSat() {
   const dayName = getDayName(currentLunarDate)
   const [thansatByMonth, setThansatByMonth] = useState<any>([])
   const [isOpen, toggleModal] = useToggle()
+  const onChangeCurrentDate = useStore((state) => state.setCurrentDate)
+  const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   const [chooseStars, setChooseStars] = useState<{
     name: string
     data: string
@@ -537,7 +545,41 @@ function ThanSat() {
                     )
                   })}
                   <div className="child-3">
-                    <div>{month}</div>
+                    <LocalizationProvider
+                      adapterLocale={vi}
+                      // @ts-ignore
+                      dateAdapter={AdapterDateFns}
+                    >
+                      <DatePicker
+                        views={['month']}
+                        // minDate={dayjs('2012-03-01')}
+                        // maxDate={dayjs('2023-06-01')}
+                        value={currentDate}
+                        PopperProps={{
+                          placement: 'bottom',
+                        }}
+                        onChange={(newValue: Dayjs | null) => {
+                          onChangeCurrentDate(dayjs(newValue || currentDate))
+                        }}
+                        open={isOpenCalendar}
+                        onClose={() => setIsOpenCalendar(false)}
+                        renderInput={(params) => (
+                          <div
+                            className="flex items-center cursor-pointer w-fit hover:opacity-80"
+                            onClick={() => setIsOpenCalendar(!isOpenCalendar)}
+                          >
+                            <div>{month}</div>
+                            <TextField
+                              style={{ opacity: 0, width: 0, height: 0 }}
+                              {...params}
+                              InputProps={{
+                                className: 'hidden-input-calendar',
+                              }}
+                            />
+                          </div>
+                        )}
+                      />
+                    </LocalizationProvider>
                   </div>
                 </div>
               </div>
