@@ -5,8 +5,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from '@mui/material'
 import Paper from '@mui/material/Paper'
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { vi } from 'date-fns/locale'
+import type { Dayjs } from 'dayjs'
 import { useEffect, useState } from 'react'
 import * as React from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -16,7 +20,7 @@ import { Button } from '@/components/button'
 import { ModalInformation } from '@/components/modal'
 import { useToggle } from '@/hooks'
 import { useStore } from '@/store/useStore'
-import {
+import CustomDateAdapter, {
   getBgColorCan,
   getBgColorCung,
   getDayName,
@@ -251,6 +255,8 @@ function ThanSat() {
   const dayName = getDayName(currentLunarDate)
   const [thansatByYear, setThansatByYear] = useState<any>([])
   const [isOpen, toggleModal] = useToggle()
+  const onChangeCurrentDate = useStore((state) => state.setCurrentDate)
+  const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   const [chooseStars, setChooseStars] = useState<{
     name: string
     data: string
@@ -535,7 +541,46 @@ function ThanSat() {
                     )
                   })}
                   <div className="child-3">
-                    <div>{year}</div>
+                    <LocalizationProvider
+                      adapterLocale={vi}
+                      // @ts-ignore
+                      dateAdapter={CustomDateAdapter}
+                      dateFormats={{
+                        monthShort: 'T.M',
+                        monthAndYear: 'MM/YYYY',
+                      }}
+                    >
+                      <DatePicker
+                        views={['year']}
+                        // minDate={dayjs('2012-03-01')}
+                        // maxDate={dayjs('2023-06-01')}
+                        value={currentDate}
+                        PopperProps={{
+                          placement: 'bottom',
+                        }}
+                        onChange={(newValue: Dayjs | null) => {
+                          onChangeCurrentDate(newValue || currentDate)
+                        }}
+                        open={isOpenCalendar}
+                        onClose={() => setIsOpenCalendar(false)}
+                        openTo="year"
+                        renderInput={(params) => (
+                          <div
+                            className="flex items-center cursor-pointer w-fit hover:opacity-80"
+                            onClick={() => setIsOpenCalendar(!isOpenCalendar)}
+                          >
+                            <div>{year}</div>
+                            <TextField
+                              style={{ opacity: 0, width: 0, height: 0 }}
+                              {...params}
+                              InputProps={{
+                                className: 'hidden-input-calendar',
+                              }}
+                            />
+                          </div>
+                        )}
+                      />
+                    </LocalizationProvider>
                   </div>
                 </div>
               </div>

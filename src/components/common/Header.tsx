@@ -180,7 +180,7 @@ function Header() {
                 </button>
               </AccordionDetails>
             </Accordion>
-            <Accordion className="mt-5 rounded-primary">
+            {/* <Accordion className="mt-5 rounded-primary">
               <AccordionSummary
                 expandIcon={
                   <ExpandMoreIcon
@@ -202,7 +202,7 @@ function Header() {
                   }`
                 )}
               >
-                {/* <Link href={'/tu-tru'} passHref legacyBehavior>
+                <Link href={'/tu-tru'} passHref legacyBehavior>
                   <a
                     className={twMerge(
                       'flex items-center gap-x-[10px] rounded-primary hover:opacity-[0.85] transition-all',
@@ -214,10 +214,10 @@ function Header() {
                     </div>
                     <span className="text-base font-medium">Tứ trụ</span>
                   </a>
-                </Link> */}
+                </Link>
               </AccordionSummary>
               <AccordionDetails className="pt-4 pr-1"></AccordionDetails>
-            </Accordion>
+            </Accordion> */}
           </div>
         </Drawer>
       </div>

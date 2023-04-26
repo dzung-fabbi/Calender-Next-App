@@ -3,6 +3,7 @@ import { TextField } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { vi } from 'date-fns/locale'
 import type { Dayjs } from 'dayjs'
+import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
@@ -213,6 +214,7 @@ export default function BoxCalenderRight({
 }: {
   className?: string
 }) {
+  const router = useRouter()
   const tabHeader = useStore((state) => state.tabHeader)
   const currentDate = useStore((state) => state.currentDate)
   const onChangeCurrentDate = useStore((state) => state.setCurrentDate)
@@ -226,7 +228,7 @@ export default function BoxCalenderRight({
     <section
       className={twMerge(
         'bg-transparent xl:bg-[#F3F4F3] xl:h-[100vh] w-full mx-auto xl:max-w-[25.625rem] xl:min-w-[25.625rem] min-w-[22rem] xs:pt-4 xl:py-10 xl:px-5 rounded-30px xl:rounded-r-none',
-        tabHeader === 2 && 'xs:hidden',
+        tabHeader !== 1 && 'xs:hidden',
         className
       )}
     >
