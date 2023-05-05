@@ -27,6 +27,7 @@ import {
   getTextDay,
   getTextHour,
   getTimeInDay,
+  jsUcfirst,
 } from '@/utils/helpers'
 
 interface InfoProp {
@@ -38,7 +39,7 @@ interface InfoProp {
   ugly_stars: any
 }
 
-interface TietkhiProp {
+interface TietKhiProp {
   start_time: string
   end_time: string
   tiet_khi: string
@@ -53,24 +54,24 @@ const initInfo = {
   ugly_stars: [],
 }
 
-const initTietkhi = {
+const initTietKhi = {
   start_time: '',
   end_time: '',
   tiet_khi: '',
 }
 
-export default function CalendarPreview() {
+export default function CalendarPreview(props: any) {
   const currentDate = useStore((state) => state.currentDate)
+  const onChangeCurrentDate = useStore((state) => state.setCurrentDate)
   const dayOfWeek = currentDate.day()
   const day = currentDate.format('DD')
   const month = currentDate.format('MM')
   const year = currentDate.format('YYYY')
   const currentLunarDate = getLunarDate(+day, +month, +year)
-
   const dayName = getDayName(currentLunarDate)
   const arrGioHD: any = getTimeInDay()
   const [info, setInfo] = useState<InfoProp>(initInfo)
-  const [tietkhiInfo, setTietkhiInfo] = useState<TietkhiProp>(initTietkhi)
+  const [tietKhiInfo, setTietKhiInfo] = useState<TietKhiProp>(initTietKhi)
   const [dataHourInDays, setDataHourInDays] = useState<any>({})
   const [dataQuyNhan, setDataQuyNhan] = useState<any>([])
   const [dataTuDai, setDataTuDai] = useState<any>([])
@@ -84,6 +85,12 @@ export default function CalendarPreview() {
   })
 
   useEffect(() => {
+    if (props.day) {
+      onChangeCurrentDate(dayjs(new Date(props.day)))
+    }
+  }, [props.day])
+
+  useEffect(() => {
     homeApi
       .getInfo(
         currentLunarDate.month,
@@ -93,14 +100,14 @@ export default function CalendarPreview() {
       )
       .then((res) => {
         setInfo(res.data.hiep_ky)
-        setTietkhiInfo(res.data.tiet_khi)
+        setTietKhiInfo(res.data.tiet_khi)
         setDataHourInDays(res.data.hour_in_days)
         setDataQuyNhan(res.data.quy_nhan)
         setDataTuDai(res.data.tu_dai)
       })
       .catch(() => {
         setInfo(initInfo)
-        setTietkhiInfo(initTietkhi)
+        setTietKhiInfo(initTietKhi)
         setDataHourInDays({})
         setDataQuyNhan([])
         setDataTuDai([])
@@ -128,11 +135,6 @@ export default function CalendarPreview() {
         </>
       )
     )
-  }
-
-  const jsUcfirst = (string: string) => {
-    const tmp = string.toLowerCase()
-    return tmp.charAt(0).toUpperCase() + tmp.slice(1)
   }
 
   const handleClickStars = (el: { name: string; property: string }) => {
@@ -313,10 +315,10 @@ export default function CalendarPreview() {
             <li>
               Ngày khởi tiết:{' '}
               <span className="font-semibold text-left">
-                {tietkhiInfo.start_time &&
-                  dayjs(tietkhiInfo.start_time).format('HH:mm')}{' '}
-                {tietkhiInfo.start_time &&
-                  `ngày ${dayjs(tietkhiInfo.start_time).format('DD/MM/YYYY')}`}
+                {tietKhiInfo.start_time &&
+                  dayjs(tietKhiInfo.start_time).format('HH:mm')}{' '}
+                {tietKhiInfo.start_time &&
+                  `ngày ${dayjs(tietKhiInfo.start_time).format('DD/MM/YYYY')}`}
               </span>
             </li>
           </ul>
@@ -324,12 +326,12 @@ export default function CalendarPreview() {
             <li>
               Ngày chuyển tiết:{' '}
               <span className="font-semibold text-left">
-                {tietkhiInfo.end_time &&
-                  dayjs(tietkhiInfo.end_time)
+                {tietKhiInfo.end_time &&
+                  dayjs(tietKhiInfo.end_time)
                     .add(1, 'minutes')
                     .format('HH:mm')}{' '}
-                {tietkhiInfo.end_time &&
-                  `ngày ${dayjs(tietkhiInfo.end_time)
+                {tietKhiInfo.end_time &&
+                  `ngày ${dayjs(tietKhiInfo.end_time)
                     .add(1, 'minutes')
                     .format('DD/MM/YYYY')}`}
               </span>

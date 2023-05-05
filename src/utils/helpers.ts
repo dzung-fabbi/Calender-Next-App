@@ -1,7 +1,7 @@
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 import {
-  CAN,
+  CAN, CAN_CHI,
   CAN_GROUP_DECLARE,
   CHI,
   CUNG_GROUP_DECLARE,
@@ -737,4 +737,14 @@ export const getBgColorCan = (name: string) => {
     return PHUONG_VI_CAT_HUNG_BGCOLOR.green
   if (CAN_GROUP_DECLARE[4].includes(name)) return PHUONG_VI_CAT_HUNG_BGCOLOR.red
   return PHUONG_VI_CAT_HUNG_BGCOLOR.white
+}
+
+
+export const findIndexCanChi = (value: any) => {
+  return CAN_CHI.findIndex((element: string) => element === value)
+}
+
+export const jsUcfirst = (string: string) => {
+  const tmp = string.toLowerCase()
+  return tmp.charAt(0).toUpperCase() + tmp.slice(1)
 }

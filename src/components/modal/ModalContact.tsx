@@ -9,7 +9,7 @@ export interface ModalContactProps {
   isOpen: boolean
   toggleModal: () => void
   titleModal: string
-  onSubmit?: () => void
+  onSubmit?: (data: any) => void
 }
 const MODE = {
   EMAIL: 'email',
@@ -91,7 +91,23 @@ export default function ModalContact({
         >
           Quay lại
         </button>
-        <Button primary onClick={onSubmit} className="h-[3.5rem]">
+        <Button
+          primary
+          onClick={() => {
+            if (onSubmit) {
+              let object: any = {
+                email: input,
+              }
+              if (mode === MODE.PHONE) {
+                object = {
+                  phone: input,
+                }
+              }
+              onSubmit(object)
+            }
+          }}
+          className="h-[3.5rem]"
+        >
           Gửi
         </Button>
       </div>

@@ -1,84 +1,33 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Autocomplete, TextField } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers'
-import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
+import calendarSchedule from '@/api/calendar-schedule.api'
 import { Button } from '@/components/button'
 import { IconCalendar, IconDown } from '@/components/icon'
+import { LABEL_WORK } from '@/utils/constant'
+import {
+  findIndexCanChi,
+  getCanChi,
+  getLunarDate,
+  getSolarDate,
+  jsUcfirst,
+} from '@/utils/helpers'
 
-const LABEL_WORK = [
-  {
-    label: 'Việc liên quan đến sản xuất',
-    value: 1,
-    work: ['Đặt cối đá', 'Rèn đúc', 'Nấu rượu', 'Đan dệt'],
-  },
-  {
-    label: 'Việc liên quan đến kinh doanh ',
-    value: 2,
-    work: [
-      'Khai trương',
-      'Lập ước giao dịch ',
-      'Nạp tài',
-      'Mở kho xuất tiền hàng',
-    ],
-  },
-  {
-    label: 'Việc liên quan đến trồng trọt, chăn nuôi , săn bắt',
-    value: 3,
-    work: [
-      'Gieo trồng',
-      'Nạp gia súc , chăn nuôi',
-      'Săn bắt',
-      'Săn bắn',
-      'Đánh cá',
-    ],
-  },
-  {
-    label: 'Việc xây dựng một ngôi nhà mới',
-    value: 4,
-    work: [
-      'Động thổ',
-      'Dựng cột gác xà',
-      'Tu tạo',
-      'Tu sức viên  tường',
-      'Tu thương khố',
-    ],
-  },
-  {
-    label: 'Việc liên quan đến một công trình , một ngôi nhà',
-    value: 5,
-    work: [
-      'Phạt mộc',
-      'Lấp hang hố ( tắc  nguyệt )',
-      'Quét dọn',
-      'Dỡ nhà phá tường',
-      'Đào giếng',
-      'Sửa đường',
-      'Khơi mương , đắp đê',
-    ],
-  },
-  {
-    label: 'Việc liên quan đến chôn cất',
-    value: 6,
-    work: ['Phá thổ', 'An táng', 'Cải táng'],
-  },
-]
 interface FormValue {
   mainWork: string | null
   work: string | null
-  year: Dayjs | null
-  startDate: Dayjs | null
-  endDate: Dayjs | null
+  startDate: any
+  endDate: any
 }
-export default function BoxSelectInfo() {
+export default function BoxSelectInfo(props: any) {
   const schema = yup.object().shape({
     mainWork: yup.string().nullable().required('Please enter your work'),
     work: yup.string().nullable().required('Please enter your work'),
-    year: yup.date().nullable().required('Please enter your year'),
     startDate: yup
       .date()
       .typeError('Please enter the correct date format')
@@ -103,15 +52,99 @@ export default function BoxSelectInfo() {
     defaultValues: {
       mainWork: workMain || 'abc',
       work: LABEL_WORK.find((el) => el.label === workMain)?.work[0] || '',
-      year: dayjs('1998-08-18'),
-      startDate: dayjs('2022-08-18'),
-      endDate: dayjs('2022-08-18'),
+      startDate: dayjs(new Date()),
+      endDate: dayjs(new Date()),
     },
     mode: 'onChange',
   })
 
+  const getLunarDateByCanchi = (
+    canChi: string,
+    month: string,
+    year: number
+  ) => {
+    // process day
+    const convertSolarFirstDay = getSolarDate(1, month, +year)
+    const lunarDateFirstDay = getLunarDate(
+      +convertSolarFirstDay[0],
+      +convertSolarFirstDay[1],
+      +convertSolarFirstDay[2]
+    )
+    const canChiByYear = getCanChi(lunarDateFirstDay)
+    const arrTmp = canChi.split(' ')
+    const canChiDayFirstDay = canChiByYear[0]
+    // @ts-ignore
+    const indexCanChiDaySearch = findIndexCanChi(
+      `${jsUcfirst(arrTmp[0] || '')} ${jsUcfirst(arrTmp[1] || '')}`
+    )
+    const indexCanChiFirstDay = findIndexCanChi(canChiDayFirstDay)
+    let rangeDay = indexCanChiDaySearch - indexCanChiFirstDay
+
+    if (indexCanChiFirstDay > indexCanChiDaySearch) {
+      rangeDay = 59 - indexCanChiFirstDay + indexCanChiDaySearch
+    }
+    const firstDay = new Date(`${year}-${month}-1`)
+    const daySearchNumber = firstDay.setDate(firstDay.getDate() + rangeDay)
+    const daySearch = new Date(daySearchNumber)
+    const solarSearch = getSolarDate(
+      daySearch.getDate(),
+      daySearch.getMonth() + 1,
+      +daySearch.getFullYear()
+    )
+
+    const lunarDateSearchDay = getLunarDate(
+      +solarSearch[0],
+      +solarSearch[1],
+      +solarSearch[2]
+    )
+    const canChiSearch = getCanChi(lunarDateSearchDay)
+    if (canChiSearch[0]?.toUpperCase() !== canChi) return null
+
+    return `${solarSearch[2]}-${solarSearch[1]}-${solarSearch[0]}`
+  }
+
   // eslint-disable-next-line no-alert
-  const submitForm = (data: FormValue) => alert(data)
+  const submitForm = (data: FormValue) => {
+    props.setWork(data.work)
+    const startDate = dayjs(data.startDate).format('DD/MM/YYYY')
+    const endDate = dayjs(data.endDate).format('DD/MM/YYYY')
+    const startDateLunar = getLunarDate(
+      +data.startDate.getDate() || new Date().getDate(),
+      +(data.startDate.getMonth() + 1),
+      +data.startDate.getFullYear()
+    )
+
+    const canChi = getCanChi(startDateLunar)
+    const endDateLunar = getLunarDate(
+      +data.endDate.getDate() || new Date().getDate(),
+      +(data.endDate.getMonth() + 1),
+      +data.endDate.getFullYear()
+    )
+    calendarSchedule
+      .getDateByWork(
+        data.work || '',
+        startDate,
+        endDate,
+        canChi[0] || '',
+        startDateLunar.month,
+        endDateLunar.month
+      )
+      .then((res) => {
+        let goodDays = res.data.map((el: any) => {
+          const newEl = { ...el }
+          newEl.lunar_day = getLunarDateByCanchi(
+            el.lunar_day,
+            el.month,
+            data.startDate.getFullYear()
+          )
+          return newEl
+        })
+        goodDays = goodDays.filter((el: any) => el.lunar_day !== null)
+        goodDays = goodDays.slice(0, 10)
+        props.setGoodDays(goodDays)
+      })
+      .catch(() => {})
+  }
   return (
     <form
       className="flex flex-col gap-y-2.5 rounded-primary border border-primary p-2.5 pb-5 xl:gap-y-5 xl:p-5 xl:pt-2.5"
@@ -188,38 +221,6 @@ export default function BoxSelectInfo() {
             />
           )}
         />
-
-        <div className="w-full lg:w-[11.25rem] 2xl:w-52">
-          <Controller
-            name="year"
-            control={control}
-            render={({
-              field: { onChange, value, ref },
-              fieldState: { invalid },
-            }) => (
-              <DatePicker
-                label="Năm sinh"
-                inputFormat="DD/MM/YYYY"
-                components={{
-                  OpenPickerIcon: IconDown,
-                }}
-                className="w-full"
-                disableFuture
-                value={value}
-                onChange={onChange}
-                ref={ref}
-                renderInput={(params) => (
-                  <TextField
-                    variant="filled"
-                    // type="date"
-                    {...params}
-                    error={invalid}
-                  />
-                )}
-              />
-            )}
-          />
-        </div>
         <div className="w-full lg:w-[11.25rem] 2xl:w-52">
           <Controller
             name="startDate"
