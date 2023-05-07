@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Table,
   TableBody,
   TableCell,
@@ -8,26 +9,40 @@ import {
   TextField,
 } from '@mui/material'
 import Paper from '@mui/material/Paper'
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
-import { vi } from 'date-fns/locale'
-import type { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import * as React from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import homeApi from '@/api/home.api'
 import { Button } from '@/components/button'
+import { IconDown } from '@/components/icon'
 import { ModalInformation } from '@/components/modal'
 import { useToggle } from '@/hooks'
 import { useStore } from '@/store/useStore'
 import { cungSon } from '@/utils/constant'
-import CustomDateAdapter, {
+import {
   getBgColorCan,
   getBgColorCung,
   getDayName,
   getLunarDate,
   jsUcfirst,
 } from '@/utils/helpers'
+
+const months = [
+  '01',
+  '02',
+  '03',
+  '04',
+  '05',
+  '06',
+  '07',
+  '08',
+  '09',
+  '10',
+  '11',
+  '12',
+]
 
 function ThanSat() {
   const currentDate = useStore((state) => state.currentDate)
@@ -39,6 +54,8 @@ function ThanSat() {
   const [thansatByYear, setThansatByYear] = useState<any>([])
   const [isOpen, toggleModal] = useToggle()
   const onChangeCurrentDate = useStore((state) => state.setCurrentDate)
+  const [monthSelect, setMonth] = useState<string>('')
+  const [yearSelect, setYear] = useState<string>(currentDate.format('YYYY'))
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   const [chooseStars, setChooseStars] = useState<{
     name: string
@@ -79,7 +96,13 @@ function ThanSat() {
     ;(async () => {
       try {
         const responseData = await homeApi.getThanSatInfo(dayName[2] || '')
-        setThansatByYear(responseData.than_sat_by_year?.than_sat_sao)
+        if (monthSelect) {
+          setThansatByYear(
+            (responseData.than_sat_by_month as any)[`month_${monthSelect}`]
+          )
+        } else {
+          setThansatByYear(responseData.than_sat_by_year?.than_sat_sao)
+        }
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error)
@@ -119,7 +142,7 @@ function ThanSat() {
           <TableHead>
             <TableRow>
               <TableCell align="center" colSpan={6}>
-                Năm {year}
+                {monthSelect ? `${month}/${year}` : `Năm ${year}`}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -222,6 +245,46 @@ function ThanSat() {
 
   return (
     <div className="than_sat overflow-hidden">
+      <div className="flex gap-2">
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={Array.from({ length: 400 }, (_, i) => (i + 1900).toString())}
+          className="w-32"
+          renderInput={(params) => (
+            <TextField variant="filled" {...params} label="Năm" />
+          )}
+          value={yearSelect}
+          disableClearable
+          onChange={(_, v: string) => {
+            setYear(v)
+            onChangeCurrentDate(dayjs(`${v}-${month}-${day}`))
+          }}
+          popupIcon={<IconDown />}
+        />
+        <Autocomplete
+          disablePortal
+          clearOnBlur
+          id="combo-box-demo"
+          options={months}
+          className="w-32"
+          renderInput={(params) => (
+            <TextField variant="filled" {...params} label="Tháng" />
+          )}
+          value={monthSelect}
+          onChange={(_, v: string | null) => {
+            setMonth(v || '')
+            if (v) {
+              onChangeCurrentDate(dayjs(`${year}-${v}-${day}`))
+            } else {
+              onChangeCurrentDate(
+                dayjs(`${year}-${dayjs().format('MM')}-${day}`)
+              )
+            }
+          }}
+          popupIcon={<IconDown />}
+        />
+      </div>
       <>
         <div
           className={twMerge(
@@ -319,46 +382,9 @@ function ThanSat() {
                     )
                   })}
                   <div className="child-3">
-                    <LocalizationProvider
-                      adapterLocale={vi}
-                      // @ts-ignore
-                      dateAdapter={CustomDateAdapter}
-                      dateFormats={{
-                        monthShort: 'T.M',
-                        monthAndYear: 'MM/YYYY',
-                      }}
-                    >
-                      <DatePicker
-                        views={['year']}
-                        // minDate={dayjs('2012-03-01')}
-                        // maxDate={dayjs('2023-06-01')}
-                        value={currentDate}
-                        PopperProps={{
-                          placement: 'bottom',
-                        }}
-                        onChange={(newValue: Dayjs | null) => {
-                          onChangeCurrentDate(newValue || currentDate)
-                        }}
-                        open={isOpenCalendar}
-                        onClose={() => setIsOpenCalendar(false)}
-                        openTo="year"
-                        renderInput={(params) => (
-                          <div
-                            className="flex items-center cursor-pointer w-fit hover:opacity-80"
-                            onClick={() => setIsOpenCalendar(!isOpenCalendar)}
-                          >
-                            <div>{year}</div>
-                            <TextField
-                              style={{ opacity: 0, width: 0, height: 0 }}
-                              {...params}
-                              InputProps={{
-                                className: 'hidden-input-calendar',
-                              }}
-                            />
-                          </div>
-                        )}
-                      />
-                    </LocalizationProvider>
+                    <div className="flex items-center w-fit">
+                      <div>{monthSelect ? month : year}</div>
+                    </div>
                   </div>
                 </div>
               </div>
