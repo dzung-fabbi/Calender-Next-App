@@ -3,11 +3,18 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
   Drawer,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
 } from '@mui/material'
 import Avatar from '@mui/material/Avatar'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { signIn, signOut, useSession } from 'next-auth/react'
+import { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { useToggle } from '@/hooks'
@@ -15,7 +22,8 @@ import { useStore } from '@/store/useStore'
 import { MODE_TAB_HEADER } from '@/utils/constant'
 
 import Button from '../button/ButtonPrimary'
-import { CalendarHeader, ConvertCalendar } from '../icon'
+import { CalendarHeader, ConvertCalendar, IconDown2 } from '../icon'
+import { ModalLogin } from '../modal'
 
 const NAVBAR_MENU = [
   {
@@ -34,14 +42,42 @@ const NAVBAR_MENU = [
     icon: <ConvertCalendar />,
   },
 ]
+const CALLBACK_URL_LOGIN = `${process.env.NEXTAUTH_URL}`
 function Header() {
   const router = useRouter()
   const tabHeader = useStore((state) => state.tabHeader)
   const [openDrawer, setOpenDrawer] = useToggle(false)
+  const [openModalLogin, toggleModalLogin] = useToggle(false)
   const onChangeTab = useStore((state) => state.setTabHeader)
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget)
+  }
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null)
+  }
+  const { data: session } = useSession()
+  // console.log('session', session)
+  const settings = [
+    {
+      name: 'Đăng Nhập Lại',
+      onSubmit: toggleModalLogin,
+    },
+    {
+      name: 'Đăng Xuất',
+      onSubmit: () => signOut(),
+    },
+  ]
   const handleChangeTabHeader = (newTab: number) => {
     onChangeTab(newTab)
     if (router.pathname !== '/') router.push('/')
+  }
+
+  const handleSubmitLogin = (type: 'facebook' | 'google') => {
+    if (type === 'google') signIn('google', { callbackUrl: CALLBACK_URL_LOGIN })
+    else {
+      signIn('facebook', { callbackUrl: CALLBACK_URL_LOGIN })
+    }
   }
   return (
     <section className="flex items-center justify-between gap-x-5 border-b border-[#DDE1DD] py-[15px] md:py-[25px]">
@@ -65,26 +101,88 @@ function Header() {
           )
         })}
       </nav>
-      <div className="hidden gap-x-4 md:flex">
+      <div className="hidden gap-x-4 md:flex md:items-stretch">
         <Button onClick={() => router.push('/calendar-schedule')} primary>
           Sắp đặt lịch làm việc
         </Button>
-        <div className="h-[45px] w-[45px] rounded-primary">
-          <img
-            className="h-full w-full rounded-primary object-cover"
-            src="https://images.unsplash.com/photo-1603468620905-8de7d86b781e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80"
-            alt="avatar"
-          />
-        </div>
+        {session?.user ? (
+          <Box>
+            <Tooltip title={`${session.user.name}`}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  ':hover': {
+                    opacity: 0.8,
+                  },
+                  transition: 'all ease 0.2s',
+                }}
+                onClick={handleOpenUserMenu}
+              >
+                <Avatar
+                  alt="Avatar"
+                  src={session.user.image || '/apple-touch-icon.png'}
+                  sx={{ width: 45, height: 45, mr: 1 }}
+                />
+                <IconDown2 />
+              </Box>
+            </Tooltip>
+            <Menu
+              sx={{ mt: 6 }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              disableScrollLock={true}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map(({ name, onSubmit }) => (
+                <MenuItem key={name} onClick={handleCloseUserMenu}>
+                  <Typography
+                    textAlign="center"
+                    onClick={onSubmit}
+                    sx={{
+                      transition: 'all ease 0.2s',
+                      '&:hover': { color: '#F96A2D' },
+                    }}
+                  >
+                    {name}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        ) : (
+          <Button onClick={toggleModalLogin}>Đăng Nhập</Button>
+        )}
+
+        <ModalLogin
+          isOpen={openModalLogin}
+          toggleModal={toggleModalLogin}
+          onSubmit={handleSubmitLogin}
+        />
       </div>
       <div className="w-full xs:flex md:hidden">
         <button onClick={() => setOpenDrawer()} className="grow">
           <img src="/images/menu.png" alt="" />
         </button>
-        <Avatar
-          alt="Remy Sharp"
-          src="https://images.unsplash.com/photo-1603468620905-8de7d86b781e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80"
-        />
+
+        {session && (
+          <Avatar
+            alt="Avatar"
+            src={session.user?.image || '/apple-touch-icon.png'}
+            sx={{ width: 45, height: 45, mr: 1 }}
+          />
+        )}
         <Drawer
           PaperProps={{
             sx: { width: '100%' },
@@ -175,44 +273,6 @@ function Header() {
                 </button>
               </AccordionDetails>
             </Accordion>
-            {/* <Accordion className="mt-5 rounded-primary">
-              <AccordionSummary
-                expandIcon={
-                  <ExpandMoreIcon
-                    fontSize="large"
-                    sx={{
-                      color:
-                        router.pathname === '/tu-tru' ? 'white' : '#000000',
-                    }}
-                  />
-                }
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-                className={twMerge(
-                  'rounded-primary',
-                  `${
-                    router.pathname === '/tu-tru'
-                      ? 'bg-[#FD7770] text-white'
-                      : 'border border-[#F0F0F0]'
-                  }`
-                )}
-              >
-                <Link href={'/tu-tru'} passHref legacyBehavior>
-                  <a
-                    className={twMerge(
-                      'flex items-center gap-x-[10px] rounded-primary hover:opacity-[0.85] transition-all',
-                      `${router.pathname === '/tu-tru' && 'bg-[#FD7770]'}`
-                    )}
-                  >
-                    <div>
-                      <img src="/images/second_bar.png" alt="Lich tot xau" />
-                    </div>
-                    <span className="text-base font-medium">Tứ trụ</span>
-                  </a>
-                </Link>
-              </AccordionSummary>
-              <AccordionDetails className="pt-4 pr-1"></AccordionDetails>
-            </Accordion> */}
           </div>
         </Drawer>
       </div>

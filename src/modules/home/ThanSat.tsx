@@ -56,7 +56,6 @@ function ThanSat() {
   const onChangeCurrentDate = useStore((state) => state.setCurrentDate)
   const [monthSelect, setMonth] = useState<string>('')
   const [yearSelect, setYear] = useState<string>(currentDate.format('YYYY'))
-  const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   const [chooseStars, setChooseStars] = useState<{
     name: string
     data: string

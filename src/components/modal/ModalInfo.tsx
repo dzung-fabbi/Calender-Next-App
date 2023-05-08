@@ -6,12 +6,12 @@ import { IconXMark } from '../icon'
 interface ModalInfoProps {
   isOpen: boolean
   toggleModal: () => void
-  titleModal: string
+  titleModal?: string
   children: ReactNode
 }
 
 export default function ModalInformation(props: ModalInfoProps) {
-  const { isOpen = false, toggleModal, children, titleModal } = props
+  const { isOpen = false, toggleModal, children, titleModal = '' } = props
 
   return (
     <Modal
@@ -23,7 +23,7 @@ export default function ModalInformation(props: ModalInfoProps) {
       contentLabel="Example Modal"
     >
       <div
-        className="absolute top-4 right-5 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full transition-all hover:bg-gray-300"
+        className="absolute flex items-center justify-center transition-all rounded-full cursor-pointer top-4 right-5 h-7 w-7 hover:bg-gray-300"
         onClick={toggleModal}
         data-cy="btnClose"
       >
