@@ -1,4 +1,5 @@
 import ModalContact from './ModalContact'
 import ModalInformation from './ModalInfo'
+import ModalLogin from './ModalLogin'
 
-export { ModalContact, ModalInformation }
+export { ModalContact, ModalInformation, ModalLogin }

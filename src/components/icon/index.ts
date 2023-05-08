@@ -5,7 +5,9 @@ import IconCalendar from './IconCalendar'
 import IconChevronRight from './IconChevronRight'
 import IconClock from './IconClock'
 import IconDown from './IconDown'
+import IconDown2 from './IconDown2'
 import IconEmail from './IconEmail'
+import IconFacebookLogin from './IconFacebookLogin'
 import IconPhone from './IconPhone'
 import IconXMark from './IconXMark'
 
@@ -17,7 +19,9 @@ export {
   IconChevronRight,
   IconClock,
   IconDown,
+  IconDown2,
   IconEmail,
+  IconFacebookLogin,
   IconPhone,
   IconXMark,
 }
