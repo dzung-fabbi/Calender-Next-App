@@ -1,3 +1,4 @@
+import { Alert, Snackbar } from '@mui/material'
 import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 
@@ -12,9 +13,18 @@ type IMainProps = {
 
 const Main = (props: IMainProps) => {
   const windowSize = useWindowSize()
-  const { isMobile, updateIsMobile } = useStore((state) => ({
+  const {
+    isMobile,
+    updateIsMobile,
+    openSnackbar,
+    setOpenSnackbar,
+    messageInfo,
+  } = useStore((state) => ({
     isMobile: state.isMobile,
     updateIsMobile: state.setIsMobile,
+    openSnackbar: state.openSnackbar,
+    setOpenSnackbar: state.setOpenSnackbar,
+    messageInfo: state.messageInfo,
   }))
   useEffect(() => {
     if (windowSize.width) {
@@ -25,6 +35,10 @@ const Main = (props: IMainProps) => {
       }
     }
   }, [windowSize])
+
+  const handleClose = () => {
+    setOpenSnackbar(false)
+  }
 
   return (
     <main className="w-full">
@@ -41,6 +55,20 @@ const Main = (props: IMainProps) => {
           <BoxCalenderRight className="xs:hidden xl:block" />
         </div>
       </div>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={messageInfo.type}
+          sx={{ width: '100%' }}
+        >
+          {messageInfo.message}
+        </Alert>
+      </Snackbar>
     </main>
   )
 }

@@ -21,6 +21,18 @@ const calendarSchedule = {
     const res = await axiosClient.post<ResultResponse<any>>(url, body)
     return res.data
   },
+
+  async getAppointmentDate(userId: string) {
+    const url = `/api/appointment-date?user_id=${userId}`
+    const res = await axiosClient.get<ResultResponse<any>>(url)
+    return res.data
+  },
+
+  async appointmentDate(body: any) {
+    const url = '/api/appointment-date'
+    const res = await axiosClient.post<ResultResponse<any>>(url, body)
+    return res.data
+  },
 }
 
 export default calendarSchedule
