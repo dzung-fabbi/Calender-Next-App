@@ -93,6 +93,7 @@ export default function ModalContact({
         </button>
         <Button
           primary
+          disabled={!input}
           onClick={() => {
             if (onSubmit) {
               let object: any = {

@@ -1,11 +1,10 @@
-/**
- * Copyright 2004 Ho Ngoc Duc [http://come.to/duc]. All Rights Reserved.<p>
- * Permission to use, copy, modify, and redistribute this software and its
- * documentation for personal, non-commercial use is hereby granted provided that
- * this copyright notice appears in all copies.
- */
-
 import dayjs from 'dayjs'
+
+export const MESSAGES = {
+  SUCCESS: 'Lưu thành công',
+  ERROR: 'Có lỗi xảy ra',
+  NOT_FOUND: 'Không có dữ  liệu phù hợp',
+}
 
 export const ABOUT =
   '\u00C2m l\u1ECBch Vi\u1EC7t Nam - Version 0.8' +

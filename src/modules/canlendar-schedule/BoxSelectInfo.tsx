@@ -9,7 +9,8 @@ import * as yup from 'yup'
 import calendarSchedule from '@/api/calendar-schedule.api'
 import { Button } from '@/components/button'
 import { IconCalendar, IconDown } from '@/components/icon'
-import { LABEL_WORK } from '@/utils/constant'
+import { useStore } from '@/store/useStore'
+import { LABEL_WORK, MESSAGES } from '@/utils/constant'
 import {
   findIndexCanChi,
   getCanChi,
@@ -25,6 +26,7 @@ interface FormValue {
   endDate: any
 }
 export default function BoxSelectInfo(props: any) {
+  const setMessageInfo = useStore((state) => state.setMessageInfo)
   const schema = yup.object().shape({
     mainWork: yup.string().nullable().required('Please enter your work'),
     work: yup.string().nullable().required('Please enter your work'),
@@ -142,6 +144,9 @@ export default function BoxSelectInfo(props: any) {
         goodDays = goodDays.filter((el: any) => el.lunar_day !== null)
         goodDays = goodDays.slice(0, 10)
         props.setGoodDays(goodDays)
+        if (!goodDays.length) {
+          setMessageInfo({ type: 'warning', message: MESSAGES.NOT_FOUND })
+        }
       })
       .catch(() => {})
   }
