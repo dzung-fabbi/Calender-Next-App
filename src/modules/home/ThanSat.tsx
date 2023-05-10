@@ -247,7 +247,7 @@ function ThanSat() {
       <div className="flex gap-2">
         <Autocomplete
           disablePortal
-          id="combo-box-demo"
+          id="year-select"
           options={Array.from({ length: 400 }, (_, i) => (i + 1900).toString())}
           className="w-32"
           renderInput={(params) => (
@@ -264,13 +264,13 @@ function ThanSat() {
         <Autocomplete
           disablePortal
           clearOnBlur
-          id="combo-box-demo"
+          id="month-select"
           options={months}
           className="w-32"
           renderInput={(params) => (
             <TextField variant="filled" {...params} label="Tháng" />
           )}
-          value={monthSelect}
+          value={monthSelect || null}
           onChange={(_, v: string | null) => {
             setMonth(v || '')
             if (v) {

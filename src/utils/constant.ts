@@ -6,6 +6,11 @@ export const MESSAGES = {
   NOT_FOUND: 'Không có dữ  liệu phù hợp',
 }
 
+export const TYPE_GOOGLE = 'google'
+export const TYPE_FACEBOOK = 'facebook'
+export const CONVERT_TOKEN_GRANT_TYPE = 'convert_token'
+export const BACKEND_GOOGLE_OAUTH2 = 'google-oauth2'
+export const BACKEND_FACEBOOK = 'facebook'
 export const ABOUT =
   '\u00C2m l\u1ECBch Vi\u1EC7t Nam - Version 0.8' +
   '\n\u00A9 2004 H\u1ED3 Ng\u1ECDc \u0110\u1EE9c [http://come.to/duc]'

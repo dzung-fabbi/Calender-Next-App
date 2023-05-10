@@ -1,9 +1,11 @@
 import { Alert, Snackbar } from '@mui/material'
+import Cookies from 'js-cookie'
+import { useSession } from 'next-auth/react'
 import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 
+import homeApi from '@/api/home.api'
 import { BoxCalenderRight, Header, Sidebar } from '@/components/common'
-import { useWindowSize } from '@/hooks'
 import { useStore } from '@/store/useStore'
 
 type IMainProps = {
@@ -12,29 +14,35 @@ type IMainProps = {
 }
 
 const Main = (props: IMainProps) => {
-  const windowSize = useWindowSize()
-  const {
-    isMobile,
-    updateIsMobile,
-    openSnackbar,
-    setOpenSnackbar,
-    messageInfo,
-  } = useStore((state) => ({
-    isMobile: state.isMobile,
-    updateIsMobile: state.setIsMobile,
+  const { openSnackbar, setOpenSnackbar, messageInfo } = useStore((state) => ({
     openSnackbar: state.openSnackbar,
     setOpenSnackbar: state.setOpenSnackbar,
     messageInfo: state.messageInfo,
   }))
-  useEffect(() => {
-    if (windowSize.width) {
-      if (windowSize.width < 640) {
-        updateIsMobile(true)
-      } else {
-        updateIsMobile(false)
+
+  const { data: session } = useSession()
+
+  async function convertTokenFunc(token: string, type: string) {
+    try {
+      const res = await homeApi.convertTokenSocial(token, type)
+      if (res) {
+        Cookies.set('access_token', res.access_token, {
+          expires: res.expires_in,
+        })
+        Cookies.set('refresh_token', res.refresh_token)
       }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err)
     }
-  }, [windowSize])
+  }
+  useEffect(() => {
+    if (session && session.account.access_token) {
+      const { account } = session
+
+      convertTokenFunc(account.access_token as string, account.provider)
+    }
+  }, [session])
 
   const handleClose = () => {
     setOpenSnackbar(false)
@@ -44,10 +52,12 @@ const Main = (props: IMainProps) => {
     <main className="w-full">
       {props.meta}
 
-      <div className="mx-auto flex w-full xs:flex-wrap md:flex-nowrap">
-        {!isMobile && <Sidebar />}
-        <div className="flex grow flex-row flex-wrap xl:flex-nowrap">
-          <div className="div-content grow p-4 pt-0 xl:p-30px xl:pt-0">
+      <div className="flex w-full mx-auto xs:flex-wrap md:flex-nowrap">
+        <div className="hidden sm:block">
+          <Sidebar />
+        </div>
+        <div className="flex flex-row flex-wrap grow xl:flex-nowrap">
+          <div className="div-content p-4 pt-0 grow xl:p-30px xl:pt-0">
             <Header />
             <BoxCalenderRight className="xl:hidden" />
             <div className="mt-6 xl:mb-20">{props.children}</div>
