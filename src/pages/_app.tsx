@@ -19,8 +19,8 @@ const MyApp = ({ Component, pageProps }: AppPropsWithLayout) => {
   return (
     <SessionProvider
       session={pageProps.session}
-      refetchOnWindowFocus={true}
-      refetchInterval={10 * 60}
+      refetchOnWindowFocus={false}
+      refetchInterval={60 * 60}
     >
       {getLayout(
         <LocalizationProvider
