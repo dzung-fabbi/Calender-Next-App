@@ -32,8 +32,8 @@ const Calendar = ({
   const month = currentDate.format('MM')
   const year = currentDate.format('YYYY')
   const currentMonths = getMonth(+month, +year)
-  const ldCurren = currentMonths[0]
-  const emptyCells = (ldCurren.jd + 1) % 7
+  const ldCurrent = currentMonths[0]
+  const emptyCells = (ldCurrent.jd + 1) % 7
   const [arrGood, setArrGood] = useState<any>([])
 
   const nextMonths = getMonth(

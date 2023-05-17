@@ -27,7 +27,7 @@ const CalendarSchedule: NextPageWithLayout = () => {
 
   return (
     <>
-      <nav className="hidden gap-x-5 md:flex">
+      <nav className="gap-x-5 flex">
         <div
           className={twMerge(
             'font-medium text-default p-2.5 cursor-pointer transition-all',
