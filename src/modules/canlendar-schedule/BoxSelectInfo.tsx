@@ -12,6 +12,7 @@ import { IconCalendar, IconDown } from '@/components/icon'
 import { useStore } from '@/store/useStore'
 import { LABEL_WORK, MESSAGES } from '@/utils/constant'
 import {
+  addZero,
   findIndexCanChi,
   getCanChi,
   getLunarDate,
@@ -85,7 +86,9 @@ export default function BoxSelectInfo(props: any) {
     if (indexCanChiFirstDay > indexCanChiDaySearch) {
       rangeDay = 59 - indexCanChiFirstDay + indexCanChiDaySearch
     }
-    const firstDay = new Date(`${year}-${month}-1`)
+    const firstDay = new Date(
+      `${year}-${month.length > 1 ? month : `0${month.toString()}`}-01`
+    )
     const daySearchNumber = firstDay.setDate(firstDay.getDate() + rangeDay)
     const daySearch = new Date(daySearchNumber)
     const solarSearch = getSolarDate(
@@ -102,7 +105,9 @@ export default function BoxSelectInfo(props: any) {
     const canChiSearch = getCanChi(lunarDateSearchDay)
     if (canChiSearch[0]?.toUpperCase() !== canChi) return null
 
-    return `${solarSearch[2]}-${solarSearch[1]}-${solarSearch[0]}`
+    return `${solarSearch[2]}-${addZero(solarSearch[1])}-${addZero(
+      solarSearch[0]
+    )}`
   }
 
   // eslint-disable-next-line no-alert
@@ -133,19 +138,23 @@ export default function BoxSelectInfo(props: any) {
       )
       .then((res) => {
         let goodDays = res.data.map((el: any) => {
-          const newEl = { ...el }
-          newEl.lunar_day = getLunarDateByCanchi(
-            el.lunar_day,
-            el.month,
-            data.startDate.getFullYear()
-          )
-          return newEl
+          return {
+            ...el,
+            lunar_day: getLunarDateByCanchi(
+              el.lunar_day,
+              el.month,
+              data.startDate.getFullYear()
+            ),
+          }
         })
         goodDays = goodDays.filter((el: any) => el.lunar_day !== null)
         goodDays = goodDays.slice(0, 10)
         props.setGoodDays(goodDays)
         if (!goodDays.length) {
-          setMessageInfo({ type: 'warning', message: MESSAGES.NOT_FOUND })
+          setMessageInfo({
+            type: 'warning',
+            message: MESSAGES.NOT_FOUND,
+          })
         }
       })
       .catch(() => {})
