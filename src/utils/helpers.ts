@@ -20,7 +20,8 @@ export function getTextDay(
   goodThing: string,
   uglyThing: string,
   goodStar: string,
-  uglyStar: string
+  uglyStar: string,
+  dateConfig: any
 ) {
   if (!goodThing.trim() || !goodStar.trim()) {
     return {
@@ -34,23 +35,24 @@ export function getTextDay(
       text: 'Ngày rất tốt',
     }
   }
+
   const percent: number =
     ((goodThing.split(',').length / uglyThing.split(',').length) * 2 +
       goodStar.split(',').length / uglyStar.split(',').length) /
     3
-  if (percent > 1.5) {
+  if (percent > dateConfig.very_good_from) {
     return {
       is_good: true,
       text: 'Ngày rất tốt',
     }
   }
-  if (percent >= 1 && percent <= 1.5) {
+  if (percent >= dateConfig.good_from && percent <= dateConfig.very_good_from) {
     return {
       is_good: true,
       text: 'Ngày tốt',
     }
   }
-  if (percent < 1 && percent >= 0.5) {
+  if (percent < dateConfig.good_from && percent >= dateConfig.ugly_from) {
     return {
       is_good: false,
       text: 'Ngày xấu',
@@ -68,7 +70,8 @@ export function getTextHour(
   dataHourInDays: any,
   quyNhan: any,
   tuDai: any,
-  canNgay: string
+  canNgay: string,
+  hoursConfig: any
 ) {
   const isQuyNhan = quyNhan.some((el: any) => el.hour.trim() === text)
   const isTuDai = tuDai.some(
@@ -84,14 +87,14 @@ export function getTextHour(
     }
   })
   const percent: number = countGood / (countUgly || 0.1)
-  if ((isQuyNhan || isTuDai) && percent >= 2) {
+  if ((isQuyNhan || isTuDai) && percent >= hoursConfig.very_good) {
     return {
       is_good: true,
       text: 'Giờ rất tốt',
     }
   }
 
-  if (percent >= 3) {
+  if (percent >= hoursConfig.good) {
     return {
       is_good: true,
       text: 'Giờ tốt',

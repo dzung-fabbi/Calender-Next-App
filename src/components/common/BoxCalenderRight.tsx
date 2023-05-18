@@ -35,6 +35,17 @@ const Calendar = ({
   const ldCurrent = currentMonths[0]
   const emptyCells = (ldCurrent.jd + 1) % 7
   const [arrGood, setArrGood] = useState<any>([])
+  const [config, setConfig] = useState<any>({
+    date_config: {
+      very_good_from: 1.5,
+      good_from: 1.0,
+      ugly_from: 0.5,
+    },
+    hours_config: {
+      very_good: 3.0,
+      good: 2.0,
+    },
+  })
 
   const nextMonths = getMonth(
     +nextMonth.format('MM'),
@@ -77,12 +88,15 @@ const Calendar = ({
 
   useEffect(() => {
     if (arrDay.length)
-      homeApi
-        .getCalendar(arrDay)
-        .then((res) => {
-          setArrGood(res.data)
-        })
-        .catch(() => {})
+      homeApi.getConfig().then((res) => {
+        setConfig(res.data)
+      })
+    homeApi
+      .getCalendar(arrDay)
+      .then((res) => {
+        setArrGood(res.data)
+      })
+      .catch(() => {})
   }, [JSON.stringify(arrDay)])
 
   let count = -1
@@ -137,7 +151,8 @@ const Calendar = ({
                   arrGood[count].should_things,
                   arrGood[count].no_should_things,
                   arrGood[count].good_stars,
-                  arrGood[count].ugly_stars
+                  arrGood[count].ugly_stars,
+                  config.date_config
                 )
                 if (!textDay.is_good) classAdd = 'ugly-cal'
               }
@@ -168,7 +183,8 @@ const Calendar = ({
                 arrGood[count].should_things,
                 arrGood[count].no_should_things,
                 arrGood[count].good_stars,
-                arrGood[count].ugly_stars
+                arrGood[count].ugly_stars,
+                config.date_config
               )
               if (!textDay.is_good) classAdd = 'ugly-cal'
             }

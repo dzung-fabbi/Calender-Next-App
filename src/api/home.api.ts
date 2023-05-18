@@ -49,6 +49,11 @@ const homeApi = {
     const res = await axiosClient.post<ConvertTokenOutput>(url, data)
     return res.data
   },
+  async getConfig() {
+    const url = `/api/get-config`
+    const res = await axiosClient.get<ResultResponse<any>>(url)
+    return res.data
+  },
 }
 
 export default homeApi

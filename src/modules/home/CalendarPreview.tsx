@@ -75,6 +75,17 @@ export default function CalendarPreview(props: any) {
   const [dataHourInDays, setDataHourInDays] = useState<any>({})
   const [dataQuyNhan, setDataQuyNhan] = useState<any>([])
   const [dataTuDai, setDataTuDai] = useState<any>([])
+  const [config, setConfig] = useState<any>({
+    date_config: {
+      very_good_from: 1.5,
+      good_from: 1.0,
+      ugly_from: 0.5,
+    },
+    hours_config: {
+      very_good: 3.0,
+      good: 2.0,
+    },
+  })
   const [isOpen, toggleModal] = useToggle()
   const [chooseStars, setChooseStars] = useState<{
     name: string
@@ -91,6 +102,9 @@ export default function CalendarPreview(props: any) {
   }, [props.day])
 
   useEffect(() => {
+    homeApi.getConfig().then((res) => {
+      setConfig(res.data)
+    })
     homeApi
       .getInfo(
         currentLunarDate.month,
@@ -118,7 +132,8 @@ export default function CalendarPreview(props: any) {
     info.should_things,
     info.no_should_things,
     map(info.good_stars, 'name').join(','),
-    map(info.ugly_stars, 'name').join(',')
+    map(info.ugly_stars, 'name').join(','),
+    config.date_config
   )
 
   const getInfoByHour = (time: string) => {
@@ -406,7 +421,8 @@ export default function CalendarPreview(props: any) {
                 dataHourInDays,
                 dataQuyNhan,
                 dataTuDai,
-                (dayName[0] || '').split('')[0] || ''
+                (dayName[0] || '').split('')[0] || '',
+                config.hours_config
               )
               return (
                 <div
