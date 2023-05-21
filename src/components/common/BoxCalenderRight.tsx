@@ -90,9 +90,12 @@ const Calendar = ({
 
   useEffect(() => {
     if (arrDay.length)
-      homeApi.getConfig().then((res) => {
-        setConfig(res.data)
-      })
+      homeApi
+        .getConfig()
+        .then((res) => {
+          setConfig(res.data)
+        })
+        .catch(() => {})
     homeApi
       .getCalendar(arrDay)
       .then((res) => {

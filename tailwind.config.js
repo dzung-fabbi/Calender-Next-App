@@ -42,6 +42,7 @@ module.exports = {
           secondary: '#808182',
           'label-input': '#A6B1BE',
           bgBtn: '#F6F3F3',
+          'label-checkout': '#8D8D8D',
         },
         blue: {
           tag: '#13A2FA',
