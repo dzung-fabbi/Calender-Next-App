@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { map } from 'lodash'
+import { map, orderBy } from 'lodash'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -75,6 +75,7 @@ export default function CalendarPreview(props: any) {
   const [dataHourInDays, setDataHourInDays] = useState<any>({})
   const [dataQuyNhan, setDataQuyNhan] = useState<any>([])
   const [dataTuDai, setDataTuDai] = useState<any>([])
+  const [arrTextHours, setArrTextHours] = useState<any>([])
   const [config, setConfig] = useState<any>({
     date_config: {
       very_good_from: 1.5,
@@ -104,12 +105,13 @@ export default function CalendarPreview(props: any) {
     }
   }, [props.day])
 
-  console.log('dataTuDai', dataTuDai)
-
   useEffect(() => {
-    homeApi.getConfig().then((res) => {
-      setConfig(res.data)
-    })
+    homeApi
+      .getConfig()
+      .then((res) => {
+        setConfig(res.data)
+      })
+      .catch(() => {})
     homeApi
       .getInfo(
         currentLunarDate.month,
@@ -123,6 +125,36 @@ export default function CalendarPreview(props: any) {
         setDataHourInDays(res.data.hour_in_days)
         setDataQuyNhan(res.data.quy_nhan)
         setDataTuDai(res.data.tu_dai)
+        let arrHours: any = Array.from(Array(12).keys()).map((e: number) => {
+          const textHour: any = getTextHour(
+            e + 1,
+            arrGioHD[e].name,
+            res.data.hour_in_days,
+            res.data.quy_nhan,
+            res.data.tu_dai,
+            (dayName[0] || '').split('')[0] || '',
+            config.hours_config
+          )
+          return {
+            id: e,
+            ...textHour,
+          }
+        })
+        arrHours = orderBy(arrHours, 'percent', 'desc')
+
+        const arr = []
+        for (let i = 0; i < 3; i += 1) {
+          if (arrHours[i].is_good && arrHours[i].text) arr.push(arrHours[i])
+        }
+        let count = 0
+        for (let i = 3; i < 12; i += 1) {
+          if (!arrHours[i].is_good && arrHours[i].text && count < 3) {
+            count += 1
+            arr.push(arrHours[i])
+          }
+        }
+
+        setArrTextHours(arr)
       })
       .catch(() => {
         setInfo(initInfo)
@@ -130,6 +162,7 @@ export default function CalendarPreview(props: any) {
         setDataHourInDays({})
         setDataQuyNhan([])
         setDataTuDai([])
+        setArrTextHours([])
       })
   }, [currentDate])
 
@@ -407,16 +440,9 @@ export default function CalendarPreview(props: any) {
         </div>
         <div className="px-6 pb-6 lg:px-30px lg:pb-0">
           <div className="grid gap-x-6 lg:gap-0">
-            {Array.from(Array(12).keys()).map((e: number) => {
-              const textHour: any = getTextHour(
-                e + 1,
-                arrGioHD[e].name,
-                dataHourInDays,
-                dataQuyNhan,
-                dataTuDai,
-                (dayName[0] || '').split(' ')[0] || '',
-                config.hours_config
-              )
+            {arrTextHours.map((el: any) => {
+              const e = el && el.id
+              const textHour: any = { ...el }
               return (
                 <div
                   key={e}

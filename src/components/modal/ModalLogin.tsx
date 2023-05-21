@@ -26,8 +26,7 @@ export default function ModalLogin({
       <div className="h-[500px] relative">
         <div className="flex justify-center">
           <img
-            src={`${router.basePath}/apple-touch-icon.png`}
-            className="w-20"
+            src={`${router.basePath}/images/mobile_logo.png`}
             alt="login icon"
           />
         </div>

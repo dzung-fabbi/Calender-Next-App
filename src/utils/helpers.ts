@@ -97,6 +97,7 @@ export function getTextHour(
     return {
       is_good: true,
       text: 'Giờ rất tốt',
+      percent: 100,
     }
   }
 
@@ -104,6 +105,7 @@ export function getTextHour(
     return {
       is_good: true,
       text: 'Giờ tốt',
+      percent,
     }
   }
 
@@ -111,12 +113,14 @@ export function getTextHour(
     return {
       is_good: false,
       text: 'Giờ xấu',
+      percent,
     }
   }
 
   return {
     is_good: false,
     text: '',
+    percent: 0,
   }
 }
 

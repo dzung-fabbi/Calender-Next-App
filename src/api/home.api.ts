@@ -54,6 +54,11 @@ const homeApi = {
     const res = await axiosClient.get<ResultResponse<any>>(url)
     return res.data
   },
+  async getBankInfo() {
+    const url = `/api/get-bank`
+    const res = await axiosClient.get<ResultResponse<any>>(url)
+    return res.data
+  },
 }
 
 export default homeApi

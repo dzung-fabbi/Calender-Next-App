@@ -44,6 +44,38 @@ const months = [
   '12',
 ]
 
+function formatSao(array: any) {
+  return array.reduce(
+    (accumulator: any, currentValue: any) => {
+      let value = { ...accumulator }
+      if (
+        currentValue.sao.category &&
+        currentValue.sao.category.name in value
+      ) {
+        value = {
+          ...value,
+          [currentValue.sao.category.name]: [
+            ...value[currentValue.sao.category.name],
+            currentValue.sao,
+          ],
+        }
+      } else if (currentValue.sao.category) {
+        value = {
+          ...value,
+          [currentValue.sao.category.name]: [currentValue.sao],
+        }
+      } else {
+        value = {
+          ...value,
+          default: [...value.default, currentValue.sao],
+        }
+      }
+      return value
+    },
+    { default: [] }
+  )
+}
+
 function ThanSat() {
   const currentDate = useStore((state) => state.currentDate)
   const day = currentDate.format('DD')
@@ -135,6 +167,8 @@ function ThanSat() {
       (x: any) => x.direction === cungSelect.name && x.cung_son === 1
     )
 
+    const objSao = formatSao(saoCung)
+
     return (
       <TableContainer component={Paper}>
         <Table aria-label="am phu thai tue">
@@ -162,25 +196,30 @@ function ThanSat() {
           <TableBody>
             <TableRow>
               <TableCell width="25%" align="center" colSpan={6}>
-                <span>
-                  {saoCung.map((x: any, idx: number) => {
-                    const className =
-                      x.sao.good_ugly_stars === 1
-                        ? 'text-red-tag text-red-primary text-primary'
-                        : ''
-                    return (
-                      <>
-                        <span
-                          className={`cursor-pointer ${className}`}
-                          onClick={() => handleClickStars(x.sao)}
-                        >
-                          &nbsp;{jsUcfirst(x.sao.name)}&nbsp;
-                        </span>
-                        {idx < saoCung.length - 1 ? ',' : ''}
-                      </>
-                    )
-                  })}
-                </span>
+                {Object.keys(objSao).map((cat: string, index: number) => {
+                  return (
+                    <div className="block text-center" key={index}>
+                      {cat === 'default' ? '' : `${cat}: `}
+                      {objSao[cat].map((x: any, idx: number) => {
+                        const className =
+                          x.sao.good_ugly_stars === 1
+                            ? 'text-red-tag text-red-primary text-primary'
+                            : ''
+                        return (
+                          <>
+                            <span
+                              className={`cursor-pointer  ${className}`}
+                              onClick={() => handleClickStars(x)}
+                            >
+                              &nbsp;{jsUcfirst(x.name)}
+                            </span>
+                            {idx < objSao[cat].length - 1 ? ',' : ''}
+                          </>
+                        )
+                      })}
+                    </div>
+                  )
+                })}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -207,28 +246,35 @@ function ThanSat() {
                 const saoSon = thansatByYear.filter(
                   (x: any) => x.direction === el.name && x.cung_son === 2
                 )
+                const obj = formatSao(saoSon)
+
                 return (
                   <>
                     <TableCell width="8.3%" align="center" colSpan={2}>
-                      <span>
-                        {saoSon.map((x: any, idx: number) => {
-                          const className =
-                            x.sao.good_ugly_stars === 1
-                              ? 'text-red-tag text-red-primary text-primary'
-                              : ''
-                          return (
-                            <>
-                              <span
-                                className={`cursor-pointer  ${className}`}
-                                onClick={() => handleClickStars(x.sao)}
-                              >
-                                &nbsp;{jsUcfirst(x.sao.name)}
-                              </span>
-                              {idx < saoSon.length - 1 ? ',' : ''}
-                            </>
-                          )
-                        })}
-                      </span>
+                      {Object.keys(obj).map((cat: string, index: number) => {
+                        return (
+                          <div className="block text-left" key={index}>
+                            {cat === 'default' ? '' : `${cat}: `}
+                            {obj[cat].map((x: any, idx: number) => {
+                              const className =
+                                x.sao.good_ugly_stars === 1
+                                  ? 'text-red-tag text-red-primary text-primary'
+                                  : ''
+                              return (
+                                <>
+                                  <span
+                                    className={`cursor-pointer  ${className}`}
+                                    onClick={() => handleClickStars(x)}
+                                  >
+                                    &nbsp;{jsUcfirst(x.name)}
+                                  </span>
+                                  {idx < obj[cat].length - 1 ? ',' : ''}
+                                </>
+                              )
+                            })}
+                          </div>
+                        )
+                      })}
                     </TableCell>
                   </>
                 )
@@ -242,7 +288,7 @@ function ThanSat() {
 
   return (
     <div className="than_sat overflow-hidden">
-      <div className="flex gap-2">
+      <div className="flex gap-2 mb-4">
         <Autocomplete
           disablePortal
           id="year-select"
@@ -380,7 +426,7 @@ function ThanSat() {
                   })}
                   <div className="child-3">
                     <div className="flex items-center w-fit">
-                      <div>{monthSelect ? month : year}</div>
+                      <div>Trung Cung</div>
                     </div>
                   </div>
                 </div>

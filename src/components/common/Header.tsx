@@ -57,8 +57,11 @@ function Header() {
     setAnchorElUser(null)
   }
   const { data: session } = useSession()
-  // console.log('session', session)
   const settings = [
+    {
+      name: 'Xem thông tin cá nhân',
+      onSubmit: () => router.push('/profile'),
+    },
     {
       name: 'Đăng Nhập Lại',
       onSubmit: toggleModalLogin,

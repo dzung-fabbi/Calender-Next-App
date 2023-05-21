@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { useSession } from 'next-auth/react'
 import type { ReactNode } from 'react'
 import { useEffect } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 import homeApi from '@/api/home.api'
 import { BoxCalenderRight, Header, Sidebar } from '@/components/common'
@@ -11,9 +12,10 @@ import { useStore } from '@/store/useStore'
 type IMainProps = {
   meta: ReactNode
   children: ReactNode
+  isCalendar?: boolean
 }
 
-const Main = (props: IMainProps) => {
+const Main = ({ children, meta, isCalendar = true }: IMainProps) => {
   const { openSnackbar, setOpenSnackbar, messageInfo } = useStore((state) => ({
     openSnackbar: state.openSnackbar,
     setOpenSnackbar: state.setOpenSnackbar,
@@ -50,19 +52,24 @@ const Main = (props: IMainProps) => {
 
   return (
     <main className="w-full">
-      {props.meta}
+      {meta}
 
       <div className="flex w-full mx-auto xs:flex-wrap md:flex-nowrap">
         <div className="hidden sm:block">
           <Sidebar />
         </div>
         <div className="flex flex-row flex-wrap grow xl:flex-nowrap">
-          <div className="div-content p-4 pt-0 grow xl:p-30px xl:pt-0">
+          <div
+            className={twMerge(
+              'p-4 pt-0 grow xl:p-30px xl:pt-0',
+              isCalendar && 'div-content '
+            )}
+          >
             <Header />
-            <BoxCalenderRight className="xl:hidden" />
-            <div className="mt-6 xl:mb-20">{props.children}</div>
+            {isCalendar && <BoxCalenderRight className="xl:hidden" />}
+            <div className="mt-6 xl:mb-20">{children}</div>
           </div>
-          <BoxCalenderRight className="xs:hidden xl:block" />
+          {isCalendar && <BoxCalenderRight className="xs:hidden xl:block" />}
         </div>
       </div>
       <Snackbar
