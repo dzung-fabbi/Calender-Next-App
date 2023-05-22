@@ -163,9 +163,8 @@ function ThanSat() {
             <TableRow>
               <TableCell
                 width="25%"
-                align="left"
+                align="center"
                 colSpan={6}
-                className="text-center"
               >
                 <span className="text-red-tag text-red-primary text-primary">
                   {saoCung.map((x: any, idx: number) => {
@@ -210,12 +209,7 @@ function ThanSat() {
                 )
                 return (
                   <>
-                    <TableCell
-                      width="8.3%"
-                      align="left"
-                      colSpan={2}
-                      className="text-center"
-                    >
+                    <TableCell width="8.3%" align="center" colSpan={2}>
                       <span className="text-red-tag text-red-primary text-primary">
                         {saoSon.map((x: any, idx: number) => {
                           return (

@@ -143,9 +143,14 @@ export default function CalendarPreview(props: any) {
     return (
       quyNhan && (
         <>
-          <div>{`Giờ quý nhân đăng thiên môn : ${quyNhan?.am_duong} nhân ${
-            quyNhan?.quy_nhan
-          } (${PART_HOURS[quyNhan?.quy_nhan]})`}</div>
+          <div>
+            Giờ quý nhân đăng thiên môn :{' '}
+            <span className="text-red-tag text-red-primary text-primary">{`${
+              quyNhan?.am_duong
+            } nhân ${quyNhan?.quy_nhan} (${
+              PART_HOURS[quyNhan?.quy_nhan]
+            })`}</span>
+          </div>
           <div>Hướng: {DIRECTIONS[quyNhan?.quy_nhan]}</div>
         </>
       )
@@ -178,7 +183,7 @@ export default function CalendarPreview(props: any) {
                   <span
                     key={ab}
                     onClick={() => handleClickStars(el)}
-                    className="text-red-tag text-red-primary text-primary"
+                    className="text-red-tag text-red-primary text-primary cursor-pointer"
                   >
                     {jsUcfirst(el?.name)} (Tứ đại cát thời)
                   </span>
@@ -195,7 +200,7 @@ export default function CalendarPreview(props: any) {
                 <>
                   <span
                     onClick={() => handleClickStars(el)}
-                    className="text-red-tag text-red-primary text-primary"
+                    className="text-red-tag text-red-primary text-primary cursor-pointer"
                   >
                     {`${jsUcfirst(el?.name)} (Tứ đại cát thời)`}
                   </span>
@@ -205,7 +210,10 @@ export default function CalendarPreview(props: any) {
             }
             return (
               <>
-                <span onClick={() => handleClickStars(el)}>
+                <span
+                  onClick={() => handleClickStars(el)}
+                  className="cursor-pointer"
+                >
                   {`${jsUcfirst(el?.name)} (Tứ đại cát thời)`}
                 </span>
                 ,&nbsp;
@@ -428,7 +436,7 @@ export default function CalendarPreview(props: any) {
                 <div
                   key={e}
                   className={twMerge(
-                    'flex py-4 items-center pb-2 lg:pb-4 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5 cursor-pointer',
+                    'flex py-4 items-center pb-2 lg:pb-4 border-b border-[#CBE1FD] lg:border-[#E2E2E2] xl:px-5',
                     [11].includes(e) && 'lg:border-b-0'
                   )}
                 >
@@ -467,7 +475,7 @@ export default function CalendarPreview(props: any) {
                                   <span
                                     key={ab}
                                     onClick={() => handleClickStars(el)}
-                                    className="text-red-tag text-red-primary text-primary"
+                                    className="text-red-tag text-red-primary text-primary cursor-pointer"
                                   >
                                     {jsUcfirst(el?.name)}
                                   </span>
@@ -476,6 +484,7 @@ export default function CalendarPreview(props: any) {
                               return (
                                 <span
                                   key={ab}
+                                  className="cursor-pointer"
                                   onClick={() => handleClickStars(el)}
                                 >
                                   {jsUcfirst(el?.name)}
@@ -487,7 +496,7 @@ export default function CalendarPreview(props: any) {
                                 <>
                                   <span
                                     onClick={() => handleClickStars(el)}
-                                    className="text-red-tag text-red-primary text-primary"
+                                    className="text-red-tag text-red-primary text-primary cursor-pointer"
                                   >
                                     {`${jsUcfirst(el?.name)}`}
                                   </span>
@@ -497,7 +506,10 @@ export default function CalendarPreview(props: any) {
                             }
                             return (
                               <>
-                                <span onClick={() => handleClickStars(el)}>
+                                <span
+                                  className="cursor-pointer"
+                                  onClick={() => handleClickStars(el)}
+                                >
                                   {`${jsUcfirst(el?.name)}`}
                                 </span>
                                 ,&nbsp;
