@@ -37,10 +37,11 @@ export function getTextDay(
   }
 
   const percent: number =
-    ((goodThing.split(',').length / uglyThing.split(',').length) * 2 +
-      goodStar.split(',').length / uglyStar.split(',').length) /
-    3
-  if (percent > dateConfig.very_good_from) {
+    (goodThing.split(',').length / uglyThing.split(',').length) *
+      dateConfig.factor_2 +
+    (goodStar.split(',').length / uglyStar.split(',').length) *
+      dateConfig.factor_1
+  if (percent >= dateConfig.very_good_from) {
     return {
       is_good: true,
       text: 'Ngày rất tốt',

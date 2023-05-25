@@ -40,6 +40,8 @@ const Calendar = ({
       very_good_from: 1.5,
       good_from: 1.0,
       ugly_from: 0.5,
+      factor_1: 1,
+      factor_2: 2,
     },
     hours_config: {
       very_good: 3.0,
