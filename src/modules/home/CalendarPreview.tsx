@@ -104,6 +104,8 @@ export default function CalendarPreview(props: any) {
     }
   }, [props.day])
 
+  console.log('dataTuDai', dataTuDai)
+
   useEffect(() => {
     homeApi.getConfig().then((res) => {
       setConfig(res.data)
@@ -412,7 +414,7 @@ export default function CalendarPreview(props: any) {
                 dataHourInDays,
                 dataQuyNhan,
                 dataTuDai,
-                (dayName[0] || '').split('')[0] || '',
+                (dayName[0] || '').split(' ')[0] || '',
                 config.hours_config
               )
               return (

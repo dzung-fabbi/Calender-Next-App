@@ -109,7 +109,7 @@ export function getTextHour(
 
   if (countUgly / (countGood || 0.1) >= hoursConfig.ugly) {
     return {
-      is_good: true,
+      is_good: false,
       text: 'Giờ xấu',
     }
   }
