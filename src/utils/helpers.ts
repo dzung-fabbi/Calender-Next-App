@@ -87,7 +87,12 @@ export function getTextHour(
       countUgly += 1
     }
   })
-  const percent: number = (countGood - 1) / (countUgly || 0.1)
+
+  if (isQuyNhan || isTuDai) {
+    countGood += 1
+  }
+
+  const percent: number = countGood / (countUgly || 0.1)
   if ((isQuyNhan || isTuDai) && percent >= hoursConfig.very_good) {
     return {
       is_good: true,

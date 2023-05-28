@@ -437,11 +437,13 @@ export default function CalendarPreview(props: any) {
                       </span>
                       <span>{arrGioHD[e].time}</span>
                     </div>
-                    <div className="absolute left-[80px] lg:left-[100px] top-[-5px] rotate-[-10deg]">
-                      <BadgeHourStatus isBeatifulDay={textHour.is_good}>
-                        {textHour.text}
-                      </BadgeHourStatus>
-                    </div>
+                    {textHour.text !== '' && (
+                      <div className="absolute left-[80px] lg:left-[100px] top-[-5px] rotate-[-10deg]">
+                        <BadgeHourStatus isBeatifulDay={textHour.is_good}>
+                          {textHour.text}
+                        </BadgeHourStatus>
+                      </div>
+                    )}
                   </div>
                   <div className="pl-8 grow lg:pl-10">
                     <div>
