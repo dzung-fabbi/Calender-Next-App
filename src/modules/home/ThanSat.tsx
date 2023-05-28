@@ -161,17 +161,17 @@ function ThanSat() {
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell
-                width="25%"
-                align="center"
-                colSpan={6}
-              >
-                <span className="text-red-tag text-red-primary text-primary">
+              <TableCell width="25%" align="center" colSpan={6}>
+                <span>
                   {saoCung.map((x: any, idx: number) => {
+                    const className =
+                      x.sao.good_ugly_stars === 1
+                        ? 'text-red-tag text-red-primary text-primary'
+                        : ''
                     return (
                       <>
                         <span
-                          className="cursor-pointer"
+                          className={`cursor-pointer ${className}`}
                           onClick={() => handleClickStars(x.sao)}
                         >
                           &nbsp;{jsUcfirst(x.sao.name)}&nbsp;
@@ -210,12 +210,16 @@ function ThanSat() {
                 return (
                   <>
                     <TableCell width="8.3%" align="center" colSpan={2}>
-                      <span className="text-red-tag text-red-primary text-primary">
+                      <span>
                         {saoSon.map((x: any, idx: number) => {
+                          const className =
+                            x.sao.good_ugly_stars === 1
+                              ? 'text-red-tag text-red-primary text-primary'
+                              : ''
                           return (
                             <>
                               <span
-                                className="cursor-pointer"
+                                className={`cursor-pointer  ${className}`}
                                 onClick={() => handleClickStars(x.sao)}
                               >
                                 &nbsp;{jsUcfirst(x.sao.name)}

@@ -84,8 +84,9 @@ export default function CalendarPreview(props: any) {
       factor_2: 2,
     },
     hours_config: {
-      very_good: 3.0,
+      very_good: 2,
       good: 2.0,
+      ugly: 2.0,
     },
   })
   const [isOpen, toggleModal] = useToggle()
@@ -180,41 +181,21 @@ export default function CalendarPreview(props: any) {
           tudai.sao.length > 0 &&
           tudai.sao.map((el: any, ab: number) => {
             if (ab === tudai.sao.length - 1) {
-              if (el.good_ugly_stars === 1) {
-                return (
-                  <span
-                    key={ab}
-                    onClick={() => handleClickStars(el)}
-                    className="text-red-tag text-red-primary text-primary cursor-pointer"
-                  >
-                    {jsUcfirst(el?.name)} (Tứ đại cát thời)
-                  </span>
-                )
-              }
               return (
-                <span key={ab} onClick={() => handleClickStars(el)}>
+                <span
+                  key={ab}
+                  onClick={() => handleClickStars(el)}
+                  className="text-red-tag text-red-primary text-primary cursor-pointer"
+                >
                   {jsUcfirst(el?.name)} (Tứ đại cát thời)
                 </span>
-              )
-            }
-            if (el.good_ugly_stars === 1) {
-              return (
-                <>
-                  <span
-                    onClick={() => handleClickStars(el)}
-                    className="text-red-tag text-red-primary text-primary cursor-pointer"
-                  >
-                    {`${jsUcfirst(el?.name)} (Tứ đại cát thời)`}
-                  </span>
-                  ,&nbsp;
-                </>
               )
             }
             return (
               <>
                 <span
                   onClick={() => handleClickStars(el)}
-                  className="cursor-pointer"
+                  className="text-red-tag text-red-primary text-primary cursor-pointer"
                 >
                   {`${jsUcfirst(el?.name)} (Tứ đại cát thời)`}
                 </span>
