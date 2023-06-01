@@ -202,7 +202,7 @@ function ThanSat() {
                       {cat === 'default' ? '' : `${cat}: `}
                       {objSao[cat].map((x: any, idx: number) => {
                         const className =
-                          x.sao.good_ugly_stars === 1
+                          x.good_ugly_stars === 1
                             ? 'text-red-tag text-red-primary text-primary'
                             : ''
                         return (
@@ -257,7 +257,7 @@ function ThanSat() {
                             {cat === 'default' ? '' : `${cat}: `}
                             {obj[cat].map((x: any, idx: number) => {
                               const className =
-                                x.sao.good_ugly_stars === 1
+                                x.good_ugly_stars === 1
                                   ? 'text-red-tag text-red-primary text-primary'
                                   : ''
                               return (
