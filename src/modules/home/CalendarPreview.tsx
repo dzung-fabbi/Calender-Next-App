@@ -76,6 +76,7 @@ export default function CalendarPreview(props: any) {
   const [dataQuyNhan, setDataQuyNhan] = useState<any>([])
   const [dataTuDai, setDataTuDai] = useState<any>([])
   const [arrTextHours, setArrTextHours] = useState<any>([])
+  const [arrGoodHours, setArrGoodHours] = useState<any>([])
   const [config, setConfig] = useState<any>({
     date_config: {
       very_good_from: 1.5,
@@ -140,6 +141,7 @@ export default function CalendarPreview(props: any) {
             ...textHour,
           }
         })
+        setArrTextHours(arrHours)
         arrHours = orderBy(arrHours, 'percent', 'desc')
 
         const arr = []
@@ -154,7 +156,7 @@ export default function CalendarPreview(props: any) {
           }
         }
 
-        setArrTextHours(arr)
+        setArrGoodHours(arr)
       })
       .catch(() => {
         setInfo(initInfo)
@@ -163,6 +165,7 @@ export default function CalendarPreview(props: any) {
         setDataQuyNhan([])
         setDataTuDai([])
         setArrTextHours([])
+        setArrGoodHours([])
       })
   }, [currentDate])
 
@@ -465,13 +468,14 @@ export default function CalendarPreview(props: any) {
                       </span>
                       <span>{arrGioHD[e].time}</span>
                     </div>
-                    {textHour.text !== '' && (
-                      <div className="absolute left-[80px] lg:left-[100px] top-[-5px] rotate-[-10deg]">
-                        <BadgeHourStatus isBeatifulDay={textHour.is_good}>
-                          {textHour.text}
-                        </BadgeHourStatus>
-                      </div>
-                    )}
+                    {textHour.text !== '' &&
+                      arrGoodHours.some((hourEl: any) => hourEl.id === e) && (
+                        <div className="absolute left-[80px] lg:left-[100px] top-[-5px] rotate-[-10deg]">
+                          <BadgeHourStatus isBeatifulDay={textHour.is_good}>
+                            {textHour.text}
+                          </BadgeHourStatus>
+                        </div>
+                      )}
                   </div>
                   <div className="pl-8 grow lg:pl-10">
                     <div>
