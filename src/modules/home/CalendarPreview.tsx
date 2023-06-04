@@ -336,20 +336,27 @@ export default function CalendarPreview(props: any) {
 
           <ul className="flex pt-5">
             <li className="w-2/5">
-              Ngày:
-              <span className="font-semibold text-left">{dayName[0]}</span>
+              Giờ:&nbsp;
+              <span className="font-semibold text-left">{dayName[3]}</span>
             </li>
-            <li>
-              Tháng:
-              <span className="font-semibold text-left">{dayName[1]}</span>
+            <li className="w-2/5">
+              Ngày:&nbsp;
+              <span className="font-semibold text-left">{dayName[0]}</span>
             </li>
           </ul>
           <ul className="flex">
             <li className="w-2/5">
-              Năm: <span className="font-semibold text-left">{dayName[2]}</span>
+              Tháng:&nbsp;
+              <span className="font-semibold text-left">{dayName[1]}</span>
             </li>
+            <li className="w-2/5">
+              Năm:&nbsp;
+              <span className="font-semibold text-left">{dayName[2]}</span>
+            </li>
+          </ul>
+          <ul className="flex">
             <li>
-              Tiết:
+              Tiết:&nbsp;
               <span className="font-semibold text-left">
                 {TIETKHI[getSunLongitude(currentLunarDate.jd + 1, 7.0)]}
               </span>
@@ -357,7 +364,7 @@ export default function CalendarPreview(props: any) {
           </ul>
           <ul className="flex">
             <li>
-              Ngày khởi tiết:{' '}
+              Ngày khởi tiết:&nbsp;
               <span className="font-semibold text-left">
                 {tietKhiInfo.start_time &&
                   dayjs(tietKhiInfo.start_time).format('HH:mm')}{' '}
@@ -368,12 +375,11 @@ export default function CalendarPreview(props: any) {
           </ul>
           <ul className="flex">
             <li>
-              Ngày chuyển tiết:{' '}
+              Ngày chuyển tiết:&nbsp;
               <span className="font-semibold text-left">
                 {tietKhiInfo.end_time &&
-                  dayjs(tietKhiInfo.end_time)
-                    .add(1, 'minutes')
-                    .format('HH:mm')}{' '}
+                  dayjs(tietKhiInfo.end_time).add(1, 'minutes').format('HH:mm')}
+                &nbsp;
                 {tietKhiInfo.end_time &&
                   `ngày ${dayjs(tietKhiInfo.end_time)
                     .add(1, 'minutes')

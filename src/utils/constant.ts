@@ -732,3 +732,77 @@ export const cungSon = [
     ],
   },
 ]
+
+export const HOURS_CAN = [
+  {
+    chi: 'Tý',
+    hours: [23, 24],
+  },
+  {
+    chi: 'Sửu',
+    hours: [1, 2],
+  },
+  {
+    chi: 'Dần',
+    hours: [3, 4],
+  },
+  {
+    chi: 'Mão',
+    hours: [5, 6],
+  },
+  {
+    chi: 'Thìn',
+    hours: [7, 8],
+  },
+  {
+    chi: 'Tỵ',
+    hours: [9, 10],
+  },
+  {
+    chi: 'Ngọ',
+    hours: [11, 12],
+  },
+  {
+    chi: 'Mùi',
+    hours: [13, 14],
+  },
+  {
+    chi: 'Thân',
+    hours: [15, 16],
+  },
+  {
+    chi: 'Dậu',
+    hours: [17, 18],
+  },
+  {
+    chi: 'Tuất',
+    hours: [19, 20],
+  },
+  {
+    chi: 'Hợi',
+    hours: [21, 22],
+  },
+]
+
+export const HOURS_CAN_START = [
+  {
+    can: ['Giáp', 'Kỷ'],
+    start: 'Giáp',
+  },
+  {
+    can: ['Ất', 'Canh'],
+    start: 'Bính',
+  },
+  {
+    can: ['Bính', 'Tân'],
+    start: 'Mậu',
+  },
+  {
+    can: ['Đinh', 'Nhâm'],
+    start: 'Canh',
+  },
+  {
+    can: ['Mậu', 'Quý'],
+    start: 'Nhâm',
+  },
+]

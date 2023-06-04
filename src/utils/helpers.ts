@@ -6,7 +6,7 @@ import {
   CAN_GROUP_DECLARE,
   CHI,
   CUNG_GROUP_DECLARE,
-  GIO_HD,
+  GIO_HD, HOURS_CAN, HOURS_CAN_START,
   ICON_CHI,
   PHUONG_VI_CAT_HUNG_BGCOLOR,
   TIETKHI,
@@ -608,7 +608,19 @@ export function getCanChi(lunar: any) {
     monthName += ' (nhu\u1EADn)'
   }
   const yearName = getYearCanChi(lunar.year)
-  return [dayName, monthName, yearName]
+
+  const now = new Date()
+  const hours = now.getHours()
+  const hoursChi = HOURS_CAN.find((el: any) => el.hours.includes(hours))?.chi
+  const canStart = HOURS_CAN_START.find((el: any) =>
+    el.can.includes(CAN[(lunar.jd + 9) % 10])
+  )?.start
+  const arrTmp = CAN.concat(CAN)
+  const indexStart = CAN.findIndex((element: string) => element === canStart)
+  const indexChi = CHI.findIndex((element: string) => element === hoursChi)
+  const hoursCan = arrTmp[indexChi + indexStart]
+  const hoursName = `${hoursCan} ${hoursChi}`
+  return [dayName, monthName, yearName, hoursName]
 }
 
 export function getDayName(lunarDate: any) {
