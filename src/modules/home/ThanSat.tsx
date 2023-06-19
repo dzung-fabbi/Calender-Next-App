@@ -26,7 +26,8 @@ import {
   getBgColorCung,
   getDayName,
   getLunarDate,
-  jsUcfirst,
+  getSolarDate,
+  jsUcfirst, removeZero,
 } from '@/utils/helpers'
 
 const months = [
@@ -81,7 +82,12 @@ function ThanSat() {
   const day = currentDate.format('DD')
   const month = currentDate.format('MM')
   const year = currentDate.format('YYYY')
-  const currentLunarDate = getLunarDate(+day, +month, +year)
+  const convertSolar = getSolarDate(removeZero(day), removeZero(month), +year)
+  const currentLunarDate = getLunarDate(
+    +convertSolar[0],
+    +convertSolar[1],
+    +convertSolar[2]
+  )
   const dayName = getDayName(currentLunarDate)
   const [thansatByYear, setThansatByYear] = useState<any>([])
   const [isOpen, toggleModal] = useToggle()

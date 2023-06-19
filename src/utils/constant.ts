@@ -571,7 +571,7 @@ export const cungSon = [
   },
   {
     name: 'Đoài',
-    direction: 'Nam',
+    direction: 'Tây',
     coordinates: '247,5',
     backgroundColor: 'white',
     color: 'black',
