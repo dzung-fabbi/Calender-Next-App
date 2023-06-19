@@ -49,6 +49,7 @@ function Header() {
   const [openDrawer, setOpenDrawer] = useToggle(false)
   const [openModalLogin, toggleModalLogin] = useToggle(false)
   const onChangeTab = useStore((state) => state.setTabHeader)
+  const setUserInfo = useStore((state) => state.setUserInfo)
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
@@ -68,7 +69,11 @@ function Header() {
     },
     {
       name: 'Đăng Xuất',
-      onSubmit: () => signOut(),
+      onSubmit: () => {
+        signOut().then(() => {
+          setUserInfo(null)
+        })
+      },
     },
   ]
   const handleChangeTabHeader = (newTab: number) => {
@@ -105,67 +110,74 @@ function Header() {
         })}
       </nav>
       <div className="hidden gap-x-4 md:flex md:items-stretch">
-        <Button onClick={() => router.push('/calendar-schedule')} primary>
-          Sắp đặt lịch làm việc
-        </Button>
         {session?.user ? (
-          <Box>
-            <Tooltip title={`${session.user.name}`}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  cursor: 'pointer',
-                  ':hover': {
-                    opacity: 0.8,
-                  },
-                  transition: 'all ease 0.2s',
+          <>
+            <Button onClick={() => router.push('/calendar-schedule')} primary>
+              Sắp đặt lịch làm việc
+            </Button>
+            <Box>
+              <Tooltip title={`${session.user.name}`}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                    ':hover': {
+                      opacity: 0.8,
+                    },
+                    transition: 'all ease 0.2s',
+                  }}
+                  onClick={handleOpenUserMenu}
+                >
+                  <Avatar
+                    alt="Avatar"
+                    src={session.user.image || '/apple-touch-icon.png'}
+                    sx={{ width: 45, height: 45, mr: 1 }}
+                  />
+                  <IconDown2 />
+                </Box>
+              </Tooltip>
+              <Menu
+                sx={{ mt: 6 }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
                 }}
-                onClick={handleOpenUserMenu}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                disableScrollLock={true}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
               >
-                <Avatar
-                  alt="Avatar"
-                  src={session.user.image || '/apple-touch-icon.png'}
-                  sx={{ width: 45, height: 45, mr: 1 }}
-                />
-                <IconDown2 />
-              </Box>
-            </Tooltip>
-            <Menu
-              sx={{ mt: 6 }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-              }}
-              disableScrollLock={true}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map(({ name, onSubmit }) => (
-                <MenuItem key={name} onClick={handleCloseUserMenu}>
-                  <Typography
-                    textAlign="center"
-                    onClick={onSubmit}
-                    sx={{
-                      transition: 'all ease 0.2s',
-                      '&:hover': { color: '#F96A2D' },
-                    }}
-                  >
-                    {name}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+                {settings.map(({ name, onSubmit }) => (
+                  <MenuItem key={name} onClick={handleCloseUserMenu}>
+                    <Typography
+                      textAlign="center"
+                      onClick={onSubmit}
+                      sx={{
+                        transition: 'all ease 0.2s',
+                        '&:hover': { color: '#F96A2D' },
+                      }}
+                    >
+                      {name}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          </>
         ) : (
-          <Button onClick={toggleModalLogin}>Đăng Nhập</Button>
+          <>
+            <Button onClick={toggleModalLogin} primary>
+              Sắp đặt lịch làm việc
+            </Button>
+            <Button onClick={toggleModalLogin}>Đăng Nhập</Button>
+          </>
         )}
 
         <ModalLogin

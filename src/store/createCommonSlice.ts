@@ -10,8 +10,15 @@ type MessageProp = {
   message: string
 }
 
+type UserInfo = {
+  id: number
+  username: string
+  user_permissions: any
+}
+
 export interface ICommonSlice {
   tabHeader: number
+  isGetUser: boolean
   setTabHeader: (value: number) => void
   currentDate: Dayjs
   setCurrentDate: (value: Dayjs) => void
@@ -21,10 +28,14 @@ export interface ICommonSlice {
   setOpenSnackbar: (value: boolean) => void
   messageInfo: MessageProp
   setMessageInfo: (value: MessageProp) => void
+  userInfo: UserInfo | null
+  setUserInfo: (value: UserInfo | null) => void
 }
 export const createCommonSlice: StateCreator<MyState, [], [], ICommonSlice> = (
   set
 ) => ({
+  userInfo: null,
+  isGetUser: false,
   tabHeader: 1,
   currentDate: dayjs(),
   isMobile: false,
@@ -40,4 +51,6 @@ export const createCommonSlice: StateCreator<MyState, [], [], ICommonSlice> = (
     set((state) => ({ ...state, openSnackbar: value })),
   setMessageInfo: (value: MessageProp) =>
     set((state) => ({ ...state, messageInfo: value, openSnackbar: true })),
+  setUserInfo: (value: UserInfo | null) =>
+    set((state) => ({ ...state, userInfo: value, isGetUser: true })),
 })
