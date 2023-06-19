@@ -72,6 +72,7 @@ function Header() {
       onSubmit: () => {
         signOut().then(() => {
           setUserInfo(null)
+          window.location.href = '/'
         })
       },
     },
