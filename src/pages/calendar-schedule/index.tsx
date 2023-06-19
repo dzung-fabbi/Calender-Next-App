@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import calendarSchedule from '@/api/calendar-schedule.api'
@@ -18,6 +19,7 @@ import { MESSAGES } from '@/utils/constant'
 
 const CalendarSchedule: NextPageWithLayout = () => {
   const router = useRouter()
+  const { data: session } = useSession()
   const handleRedirectToCheckout = () => router.push('/checkout')
   const setMessageInfo = useStore((state) => state.setMessageInfo)
   const currentDate = useStore((state) => state.currentDate)
@@ -30,6 +32,11 @@ const CalendarSchedule: NextPageWithLayout = () => {
   const [goodDays, setGoodDays] = useState<any>([])
   const [work, setWork] = useState<any>('')
   const [tab, setTab] = useState<number>(1)
+  useEffect(() => {
+    if (!session || !session.user) {
+      router.push('/')
+    }
+  }, [])
 
   if (
     isGetUser &&

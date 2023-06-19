@@ -3,7 +3,7 @@ import MailOutlinedIcon from '@mui/icons-material/MailOutlined'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
-import type { ReactElement } from 'react'
+import { type ReactElement, useEffect } from 'react'
 
 import ButtonRegisteMember from '@/components/button/ButtonRegisteMember'
 import { InputProfile } from '@/components/input'
@@ -15,6 +15,11 @@ const Profile: NextPageWithLayout = () => {
   const router = useRouter()
   const { data: session } = useSession()
   const handleRedirectToCheckout = () => router.push('/checkout')
+  useEffect(() => {
+    if (!session || !session.user) {
+      router.push('/')
+    }
+  }, [])
   return (
     <section>
       <h3 className="text-2xl font-bold text-primary">Thông tin cá nhân</h3>
