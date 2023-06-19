@@ -59,6 +59,11 @@ const homeApi = {
     const res = await axiosClient.get<ResultResponse<any>>(url)
     return res.data
   },
+  async getUserInfo() {
+    const url = `/api/get-user`
+    const res = await axiosClient.get<ResultResponse<any>>(url)
+    return res.data
+  },
 }
 
 export default homeApi

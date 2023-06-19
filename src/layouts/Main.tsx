@@ -16,11 +16,14 @@ type IMainProps = {
 }
 
 const Main = ({ children, meta, isCalendar = true }: IMainProps) => {
-  const { openSnackbar, setOpenSnackbar, messageInfo } = useStore((state) => ({
-    openSnackbar: state.openSnackbar,
-    setOpenSnackbar: state.setOpenSnackbar,
-    messageInfo: state.messageInfo,
-  }))
+  const { openSnackbar, setOpenSnackbar, messageInfo, setUserInfo } = useStore(
+    (state) => ({
+      openSnackbar: state.openSnackbar,
+      setOpenSnackbar: state.setOpenSnackbar,
+      messageInfo: state.messageInfo,
+      setUserInfo: state.setUserInfo,
+    })
+  )
 
   const { data: session } = useSession()
 
@@ -32,6 +35,14 @@ const Main = ({ children, meta, isCalendar = true }: IMainProps) => {
           expires: res.expires_in,
         })
         Cookies.set('refresh_token', res.refresh_token)
+        homeApi
+          .getUserInfo()
+          .then((data: any) => {
+            setUserInfo(data.data)
+          })
+          .catch(() => {
+            setUserInfo(null)
+          })
       }
     } catch (err) {
       // eslint-disable-next-line no-console

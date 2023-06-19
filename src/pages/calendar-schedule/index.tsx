@@ -1,8 +1,10 @@
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import calendarSchedule from '@/api/calendar-schedule.api'
 import { Button } from '@/components/button'
+import ButtonRegisteMember from '@/components/button/ButtonRegisteMember'
 import { TitlePage } from '@/components/common'
 import { ModalContact } from '@/components/modal'
 import { useToggle } from '@/hooks'
@@ -15,8 +17,12 @@ import { useStore } from '@/store/useStore'
 import { MESSAGES } from '@/utils/constant'
 
 const CalendarSchedule: NextPageWithLayout = () => {
+  const router = useRouter()
+  const handleRedirectToCheckout = () => router.push('/checkout')
   const setMessageInfo = useStore((state) => state.setMessageInfo)
   const currentDate = useStore((state) => state.currentDate)
+  const isGetUser = useStore((state) => state.isGetUser)
+  const userInfo = useStore((state) => state.userInfo)
   const day = currentDate.format('DD')
   const month = currentDate.format('MM')
   const year = currentDate.format('YYYY')
@@ -25,72 +31,98 @@ const CalendarSchedule: NextPageWithLayout = () => {
   const [work, setWork] = useState<any>('')
   const [tab, setTab] = useState<number>(1)
 
-  return (
-    <>
-      <nav className="gap-x-5 flex">
-        <div
-          className={twMerge(
-            'font-medium text-default p-2.5 cursor-pointer transition-all',
-            `${tab === 1 && 'text-primary border-b border-primary'}`
-          )}
-          onClick={() => setTab(1)}
-        >
-          Sắp đặt lịch
+  if (
+    isGetUser &&
+    (!userInfo ||
+      !(userInfo.user_permissions && !userInfo.user_permissions.length))
+  ) {
+    return (
+      <>
+        <div>
+          <p>Nôi dung này chỉ dành cho thành viên VIP</p>
+          <ButtonRegisteMember
+            className="mt-4 h-14"
+            primary
+            onClick={handleRedirectToCheckout}
+          >
+            Đăng Kí Ngay
+          </ButtonRegisteMember>
         </div>
-        <div
-          className={twMerge(
-            'font-medium text-default p-2.5 cursor-pointer transition-all',
-            `${tab === 2 && 'text-primary border-b border-primary'}`
-          )}
-          onClick={() => setTab(2)}
-        >
-          Hẹn lịch
-        </div>
-      </nav>
-      {tab === 1 ? (
-        <>
-          <TitlePage>Nhập khoảng thời gian</TitlePage>
-          <div className="flex flex-col gap-y-9">
-            <BoxSelectInfo setGoodDays={setGoodDays} setWork={setWork} />
-            <BoxSelectDate goodDays={goodDays} />
-          </div>
-          {goodDays.length > 0 && (
-            <div className="mt-5 flex justify-center">
-              <Button onClick={toogleModal} className="w-[145px]" primary>
-                Đặt lịch
-              </Button>
-            </div>
-          )}
+      </>
+    )
+  }
 
-          <ModalContact
-            isOpen={isOpenModal}
-            toggleModal={toogleModal}
-            titleModal="Xác nhận đặt ngày"
-            onSubmit={(data: any) => {
-              const body = {
-                ...data,
-                work,
-                date: `${year}-${month}-${day}`,
-              }
-              calendarSchedule
-                .bookCalendar(body)
-                .then(() => {
-                  toogleModal(false)
-                  setMessageInfo({ type: 'success', message: MESSAGES.SUCCESS })
-                })
-                .catch((err) => {
-                  setMessageInfo({
-                    type: 'error',
-                    message: err.response.data.email[0],
+  return (
+    isGetUser && (
+      <>
+        <nav className="gap-x-5 flex">
+          <div
+            className={twMerge(
+              'font-medium text-default p-2.5 cursor-pointer transition-all',
+              `${tab === 1 && 'text-primary border-b border-primary'}`
+            )}
+            onClick={() => setTab(1)}
+          >
+            Sắp đặt lịch
+          </div>
+          <div
+            className={twMerge(
+              'font-medium text-default p-2.5 cursor-pointer transition-all',
+              `${tab === 2 && 'text-primary border-b border-primary'}`
+            )}
+            onClick={() => setTab(2)}
+          >
+            Hẹn lịch
+          </div>
+        </nav>
+        {tab === 1 ? (
+          <>
+            <TitlePage>Nhập khoảng thời gian</TitlePage>
+            <div className="flex flex-col gap-y-9">
+              <BoxSelectInfo setGoodDays={setGoodDays} setWork={setWork} />
+              <BoxSelectDate goodDays={goodDays} />
+            </div>
+            {goodDays.length > 0 && (
+              <div className="mt-5 flex justify-center">
+                <Button onClick={toogleModal} className="w-[145px]" primary>
+                  Đặt lịch
+                </Button>
+              </div>
+            )}
+
+            <ModalContact
+              isOpen={isOpenModal}
+              toggleModal={toogleModal}
+              titleModal="Xác nhận đặt ngày"
+              onSubmit={(data: any) => {
+                const body = {
+                  ...data,
+                  work,
+                  date: `${year}-${month}-${day}`,
+                }
+                calendarSchedule
+                  .bookCalendar(body)
+                  .then(() => {
+                    toogleModal(false)
+                    setMessageInfo({
+                      type: 'success',
+                      message: MESSAGES.SUCCESS,
+                    })
                   })
-                })
-            }}
-          />
-        </>
-      ) : (
-        <AppointmentDate />
-      )}
-    </>
+                  .catch((err) => {
+                    setMessageInfo({
+                      type: 'error',
+                      message: err.response.data.email[0],
+                    })
+                  })
+              }}
+            />
+          </>
+        ) : (
+          <AppointmentDate />
+        )}
+      </>
+    )
   )
 }
 

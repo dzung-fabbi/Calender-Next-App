@@ -30,16 +30,16 @@ axiosClient.interceptors.response.use(
   (error) => {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    // const { config, data, status } = error.response
+    const { status } = error.response
     // if (config.url === '/users' && status === 400) {
     //   const listError = data.username || []
     //   const mesError = listError[0]
     //   throw new Error(mesError)
     // }
-    // if (config.url === '/login/' && status === 401) {
-    //   const mesError = data.detail
-    //   throw new Error(mesError)
-    // }
+    if (status === 401) {
+      Cookies.remove('access_token')
+      window.location.href = '/'
+    }
     return Promise.reject(error)
   }
 )

@@ -22,8 +22,8 @@ const calendarSchedule = {
     return res.data
   },
 
-  async getAppointmentDate(userId: string) {
-    const url = `/api/appointment-date?user_id=${userId}`
+  async getAppointmentDate() {
+    const url = `/api/appointment-date`
     const res = await axiosClient.get<ResultResponse<any>>(url)
     return res.data
   },

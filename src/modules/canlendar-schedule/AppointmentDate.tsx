@@ -1,5 +1,5 @@
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
-import { TextField } from '@mui/material'
+import { Autocomplete, TextField } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import * as React from 'react'
@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import calendarSchedule from '@/api/calendar-schedule.api'
 import { Button } from '@/components/button'
 import { TitlePage } from '@/components/common'
-import { IconCalendar } from '@/components/icon'
+import { IconCalendar, IconDown } from '@/components/icon'
 import { useStore } from '@/store/useStore'
 import { MESSAGES } from '@/utils/constant'
 
@@ -16,22 +16,63 @@ type ItemProps = {
   id?: number
   name: string
   value: null | string
+  days: string
   isDefault: boolean
   isNew: boolean
 }
 
+const days = [
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '20',
+  '21',
+  '22',
+  '23',
+  '24',
+  '25',
+  '26',
+  '27',
+  '28',
+  '29',
+  '30',
+]
+
 export default function AppointmentDate() {
-  const setMessageInfo = useStore((state) => state.setMessageInfo)
+  const { setMessageInfo, userInfo } = useStore((state) => ({
+    setMessageInfo: state.setMessageInfo,
+    userInfo: state.userInfo,
+  }))
+
   const [list, setList] = useState<Array<ItemProps>>([
     {
       name: 'Ngày sinh',
       value: null,
+      days: '0',
       isDefault: true,
       isNew: false,
     },
     {
       name: 'Ngày cưới',
       value: null,
+      days: '0',
       isDefault: true,
       isNew: false,
     },
@@ -39,18 +80,24 @@ export default function AppointmentDate() {
 
   useEffect(() => {
     calendarSchedule
-      .getAppointmentDate('1')
+      .getAppointmentDate()
       .then((res) => {
         if (res.data && res.data.length)
           setList(
             res.data.map(
               (
-                item: { name: string; date: string; id: number },
+                item: {
+                  name: string
+                  date: string
+                  id: number
+                  convert_time: number
+                },
                 index: number
               ) => {
                 return {
                   name: item.name,
                   value: item.date,
+                  days: item.convert_time / 86400,
                   isDefault: !!(index === 0 || index === 1),
                   isNew: false,
                   id: item.id,
@@ -70,6 +117,7 @@ export default function AppointmentDate() {
       {
         name: '',
         value: null,
+        days: '0',
         isDefault: false,
         isNew: true,
       },
@@ -89,6 +137,21 @@ export default function AppointmentDate() {
           return {
             ...item,
             name: value,
+            isNew: false,
+          }
+        }
+        return item
+      })
+    )
+  }
+
+  const changeDays = (index: number, value: string) => {
+    setList(
+      list.map((item: ItemProps, idx: number) => {
+        if (idx === index) {
+          return {
+            ...item,
+            days: value,
             isNew: false,
           }
         }
@@ -118,7 +181,8 @@ export default function AppointmentDate() {
           let data: any = {
             name: item.name,
             date: item.value,
-            user_id: 1,
+            before_days: item.days,
+            user_id: userInfo && userInfo.id,
           }
           if (item.id) {
             data = {
@@ -134,12 +198,18 @@ export default function AppointmentDate() {
         setList(
           res.data.map(
             (
-              item: { name: string; date: string; id: number },
+              item: {
+                name: string
+                date: string
+                id: number
+                convert_time: number
+              },
               index: number
             ) => {
               return {
                 name: item.name,
                 value: item.date,
+                days: item.convert_time / 86400,
                 isDefault: !!(index === 0 || index === 1),
                 isNew: false,
                 id: item.id,
@@ -186,6 +256,23 @@ export default function AppointmentDate() {
                   renderInput={(params) => (
                     <TextField variant="filled" {...params} />
                   )}
+                />
+              </div>
+              <div className="w-full lg:w-[11.25rem] 2xl:w-52">
+                <Autocomplete
+                  disablePortal
+                  clearOnBlur
+                  id="month-select"
+                  options={days}
+                  className="w-32"
+                  renderInput={(params) => (
+                    <TextField variant="filled" {...params} label="Ngày hẹn" />
+                  )}
+                  value={item.days}
+                  onChange={(_, v: string | null) => {
+                    changeDays(index, v || '0')
+                  }}
+                  popupIcon={<IconDown />}
                 />
               </div>
               {!item.isDefault && (

@@ -19,6 +19,7 @@ interface BankInfo {
   account_holder: string | null
   bank: string | null
   branch: string | null
+  qr_img: string | null
 }
 
 const Checkout: NextPageWithLayout = () => {
@@ -30,6 +31,7 @@ const Checkout: NextPageWithLayout = () => {
     account_holder: '',
     bank: '',
     branch: '',
+    qr_img: '',
   })
   const [bankList, setBankList] = useState([])
   const [code, setCode] = useState<string>('')
@@ -102,23 +104,26 @@ const Checkout: NextPageWithLayout = () => {
               </div>
             </div>
             <hr className="my-5" />
-            <div>
-              <h4 className="font-semibold uppercase text-gray-label-checkout">
-                Mã QR
-              </h4>
-              <Tooltip title="Click để xem mã QR">
-                <div
-                  className="mt-2.5 h-36 flex justify-center cursor-pointer"
-                  onClick={toggleModalQR}
-                >
-                  <img
-                    src="https://cafetaichinh.com/wp-content/uploads/2021/06/CAFETAICHINH-QR-PIC.jpg"
-                    alt="Ma QR"
-                    className="h-full transition-all rounded shadow hover:shadow-lg hover:brightness-95"
-                  />
-                </div>
-              </Tooltip>
-            </div>
+            {bankInfo.qr_img && (
+              <div>
+                <h4 className="font-semibold uppercase text-gray-label-checkout">
+                  Mã QR
+                </h4>
+                <Tooltip title="Click để xem mã QR">
+                  <div
+                    className="mt-2.5 h-36 flex justify-center cursor-pointer"
+                    onClick={toggleModalQR}
+                  >
+                    <img
+                      src={bankInfo.qr_img}
+                      alt="Ma QR"
+                      className="h-full transition-all rounded shadow hover:shadow-lg hover:brightness-95"
+                    />
+                  </div>
+                </Tooltip>
+              </div>
+            )}
+
             <hr className="my-5" />
             <div>
               <h4 className="font-semibold uppercase text-gray-label-checkout">
@@ -214,10 +219,7 @@ const Checkout: NextPageWithLayout = () => {
         </p>
       </div>
       <ModalInformation isOpen={isOpenQR} toggleModal={toggleModalQR}>
-        <img
-          src="https://cafetaichinh.com/wp-content/uploads/2021/06/CAFETAICHINH-QR-PIC.jpg"
-          alt=""
-        />
+        <img src={bankInfo.qr_img || ''} alt="" />
       </ModalInformation>
     </section>
   )
