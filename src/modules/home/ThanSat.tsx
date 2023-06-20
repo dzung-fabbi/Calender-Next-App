@@ -170,7 +170,7 @@ function ThanSat() {
 
   const renderThansatByYear = () => {
     const saoCung = thansatByYear.filter(
-      (x: any) => x.direction === cungSelect.name && x.cung_son === 1
+      (x: any) => x.direction === cungSelect.name && x.sao.is_mountain === 1
     )
 
     const objSao = formatSao(saoCung)
@@ -250,7 +250,7 @@ function ThanSat() {
             <TableRow>
               {cungSelect.son.map((el: any) => {
                 const saoSon = thansatByYear.filter(
-                  (x: any) => x.direction === el.name && x.cung_son === 2
+                  (x: any) => x.direction === el.name && x.sao.is_mountain === 2
                 )
                 const obj = formatSao(saoSon)
 
