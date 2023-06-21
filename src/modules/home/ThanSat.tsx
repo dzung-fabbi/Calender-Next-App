@@ -27,7 +27,8 @@ import {
   getDayName,
   getLunarDate,
   getSolarDate,
-  jsUcfirst, removeZero,
+  jsUcfirst,
+  removeZero,
 } from '@/utils/helpers'
 
 const months = [
@@ -129,6 +130,8 @@ function ThanSat() {
       },
     ],
   })
+  const [isTrungCung, setIsTrungCung] = useState<boolean>(false)
+
   useEffect(() => {
     ;(async () => {
       try {
@@ -166,14 +169,21 @@ function ThanSat() {
     } else {
       setCungSelect(tmp)
     }
+    setIsTrungCung(false)
+  }
+
+  const chooseCungTrung = () => {
+    setIsTrungCung(true)
   }
 
   const renderThansatByYear = () => {
-    const saoCung = thansatByYear.filter(
-      (x: any) => x.direction === cungSelect.name && x.sao.is_mountain === 1
+    const saoCung = thansatByYear.filter((x: any) =>
+      ['Mậu', 'Trung', 'Kỷ'].includes(x.direction)
     )
 
     const objSao = formatSao(saoCung)
+
+    console.log('objSao', objSao)
 
     return (
       <TableContainer component={Paper}>
@@ -195,98 +205,133 @@ function ThanSat() {
                   fontWeight: 'bold',
                 }}
               >
-                {cungSelect.name}
+                {isTrungCung ? 'Trung Cung' : cungSelect.name}
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell width="25%" align="center" colSpan={6}>
-                {Object.keys(objSao).map((cat: string, index: number) => {
+          {isTrungCung && (
+            <TableBody>
+              <TableRow>
+                <TableCell width="25%" align="center" colSpan={6}>
+                  {Object.keys(objSao).map((cat: string, index: number) => {
+                    return (
+                      <div className="block text-center" key={index}>
+                        {cat === 'default' ? '' : `${cat}: `}
+                        {objSao[cat].map((x: any, idx: number) => {
+                          const className =
+                            x.good_ugly_stars === 1
+                              ? 'text-red-tag text-red-primary text-primary'
+                              : ''
+                          return (
+                            <>
+                              <span
+                                className={`cursor-pointer  ${className}`}
+                                onClick={() => handleClickStars(x)}
+                              >
+                                &nbsp;{jsUcfirst(x.name)}
+                              </span>
+                              {idx < objSao[cat].length - 1 ? ',' : ''}
+                            </>
+                          )
+                        })}
+                      </div>
+                    )
+                  })}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          )}
+          {!isTrungCung && (
+            <TableBody>
+              <TableRow>
+                <TableCell width="25%" align="center" colSpan={6}>
+                  {Object.keys(objSao).map((cat: string, index: number) => {
+                    return (
+                      <div className="block text-center" key={index}>
+                        {cat === 'default' ? '' : `${cat}: `}
+                        {objSao[cat].map((x: any, idx: number) => {
+                          const className =
+                            x.good_ugly_stars === 1
+                              ? 'text-red-tag text-red-primary text-primary'
+                              : ''
+                          return (
+                            <>
+                              <span
+                                className={`cursor-pointer  ${className}`}
+                                onClick={() => handleClickStars(x)}
+                              >
+                                &nbsp;{jsUcfirst(x.name)}
+                              </span>
+                              {idx < objSao[cat].length - 1 ? ',' : ''}
+                            </>
+                          )
+                        })}
+                      </div>
+                    )
+                  })}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                {cungSelect.son.map((row: any, idx: number) => {
                   return (
-                    <div className="block text-center" key={index}>
-                      {cat === 'default' ? '' : `${cat}: `}
-                      {objSao[cat].map((x: any, idx: number) => {
-                        const className =
-                          x.good_ugly_stars === 1
-                            ? 'text-red-tag text-red-primary text-primary'
-                            : ''
-                        return (
-                          <>
-                            <span
-                              className={`cursor-pointer  ${className}`}
-                              onClick={() => handleClickStars(x)}
-                            >
-                              &nbsp;{jsUcfirst(x.name)}
-                            </span>
-                            {idx < objSao[cat].length - 1 ? ',' : ''}
-                          </>
-                        )
-                      })}
-                    </div>
+                    <TableCell
+                      width="16.6%"
+                      align="center"
+                      colSpan={2}
+                      key={idx}
+                      style={{
+                        backgroundColor: row.backgroundColor,
+                        color: row.color,
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {row.name}
+                    </TableCell>
                   )
                 })}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              {cungSelect.son.map((row: any, idx: number) => {
-                return (
-                  <TableCell
-                    width="16.6%"
-                    align="center"
-                    colSpan={2}
-                    key={idx}
-                    style={{
-                      backgroundColor: row.backgroundColor,
-                      color: row.color,
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    {row.name}
-                  </TableCell>
-                )
-              })}
-            </TableRow>
-            <TableRow>
-              {cungSelect.son.map((el: any) => {
-                const saoSon = thansatByYear.filter(
-                  (x: any) => x.direction === el.name && x.sao.is_mountain === 2
-                )
-                const obj = formatSao(saoSon)
+              </TableRow>
+              <TableRow>
+                {cungSelect.son.map((el: any) => {
+                  const saoSon = thansatByYear.filter(
+                    (x: any) =>
+                      x.direction === el.name && x.sao.is_mountain === 2
+                  )
+                  const obj = formatSao(saoSon)
 
-                return (
-                  <>
-                    <TableCell width="8.3%" align="center" colSpan={2}>
-                      {Object.keys(obj).map((cat: string, index: number) => {
-                        return (
-                          <div className="block text-left" key={index}>
-                            {cat === 'default' ? '' : `${cat}: `}
-                            {obj[cat].map((x: any, idx: number) => {
-                              const className =
-                                x.good_ugly_stars === 1
-                                  ? 'text-red-tag text-red-primary text-primary'
-                                  : ''
-                              return (
-                                <>
-                                  <span
-                                    className={`cursor-pointer  ${className}`}
-                                    onClick={() => handleClickStars(x)}
-                                  >
-                                    &nbsp;{jsUcfirst(x.name)}
-                                  </span>
-                                  {idx < obj[cat].length - 1 ? ',' : ''}
-                                </>
-                              )
-                            })}
-                          </div>
-                        )
-                      })}
-                    </TableCell>
-                  </>
-                )
-              })}
-            </TableRow>
-          </TableBody>
+                  return (
+                    <>
+                      <TableCell width="8.3%" align="center" colSpan={2}>
+                        {Object.keys(obj).map((cat: string, index: number) => {
+                          return (
+                            <div className="block text-left" key={index}>
+                              {cat === 'default' ? '' : `${cat}: `}
+                              {obj[cat].map((x: any, idx: number) => {
+                                const className =
+                                  x.good_ugly_stars === 1
+                                    ? 'text-red-tag text-red-primary text-primary'
+                                    : ''
+                                return (
+                                  <>
+                                    <span
+                                      className={`cursor-pointer  ${className}`}
+                                      onClick={() => handleClickStars(x)}
+                                    >
+                                      &nbsp;{jsUcfirst(x.name)}
+                                    </span>
+                                    {idx < obj[cat].length - 1 ? ',' : ''}
+                                  </>
+                                )
+                              })}
+                            </div>
+                          )
+                        })}
+                      </TableCell>
+                    </>
+                  )
+                })}
+              </TableRow>
+            </TableBody>
+          )}
         </Table>
       </TableContainer>
     )
@@ -432,7 +477,11 @@ function ThanSat() {
                   })}
                   <div className="child-3">
                     <div className="flex items-center w-fit">
-                      <div>Trung Cung</div>
+                      <div>
+                        <span onClick={() => chooseCungTrung()}>
+                          Trung Cung
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
