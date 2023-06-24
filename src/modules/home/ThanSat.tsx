@@ -177,13 +177,27 @@ function ThanSat() {
   }
 
   const renderThansatByYear = () => {
-    const saoCung = thansatByYear.filter((x: any) =>
-      ['Mậu', 'Trung', 'Kỷ'].includes(x.direction)
+    let saoCung = thansatByYear.filter(
+      (x: any) => x.direction === cungSelect.name && x.sao.is_mountain === 1
+    )
+
+    if (isTrungCung) {
+      saoCung = thansatByYear.filter((x: any) =>
+        ['Trung'].includes(x.direction)
+      )
+    }
+
+    let objSaoMau = thansatByYear.filter((x: any) =>
+      ['Mậu'].includes(x.direction)
+    )
+
+    let objSaoKy = thansatByYear.filter((x: any) =>
+      ['Kỷ'].includes(x.direction)
     )
 
     const objSao = formatSao(saoCung)
-
-    console.log('objSao', objSao)
+    objSaoMau = formatSao(objSaoMau)
+    objSaoKy = formatSao(objSaoKy)
 
     return (
       <TableContainer component={Paper}>
@@ -231,6 +245,86 @@ function ThanSat() {
                                 &nbsp;{jsUcfirst(x.name)}
                               </span>
                               {idx < objSao[cat].length - 1 ? ',' : ''}
+                            </>
+                          )
+                        })}
+                      </div>
+                    )
+                  })}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell
+                  width="16.6%"
+                  align="center"
+                  colSpan={2}
+                  style={{
+                    backgroundColor: 'white',
+                    color: 'black',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Mậu
+                </TableCell>
+                <TableCell
+                  width="16.6%"
+                  align="center"
+                  colSpan={2}
+                  style={{
+                    backgroundColor: 'white',
+                    color: 'black',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  Kỷ
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell width="8.3%" align="center" colSpan={2}>
+                  {Object.keys(objSaoMau).map((cat: string, index: number) => {
+                    return (
+                      <div className="block text-left" key={index}>
+                        {cat === 'default' ? '' : `${cat}: `}
+                        {objSaoMau[cat].map((x: any, idx: number) => {
+                          const className =
+                            x.good_ugly_stars === 1
+                              ? 'text-red-tag text-red-primary text-primary'
+                              : ''
+                          return (
+                            <>
+                              <span
+                                className={`cursor-pointer  ${className}`}
+                                onClick={() => handleClickStars(x)}
+                              >
+                                &nbsp;{jsUcfirst(x.name)}
+                              </span>
+                              {idx < objSaoMau[cat].length - 1 ? ',' : ''}
+                            </>
+                          )
+                        })}
+                      </div>
+                    )
+                  })}
+                </TableCell>
+                <TableCell width="8.3%" align="center" colSpan={2}>
+                  {Object.keys(objSaoKy).map((cat: string, index: number) => {
+                    return (
+                      <div className="block text-left" key={index}>
+                        {cat === 'default' ? '' : `${cat}: `}
+                        {objSaoKy[cat].map((x: any, idx: number) => {
+                          const className =
+                            x.good_ugly_stars === 1
+                              ? 'text-red-tag text-red-primary text-primary'
+                              : ''
+                          return (
+                            <>
+                              <span
+                                className={`cursor-pointer  ${className}`}
+                                onClick={() => handleClickStars(x)}
+                              >
+                                &nbsp;{jsUcfirst(x.name)}
+                              </span>
+                              {idx < objSaoKy[cat].length - 1 ? ',' : ''}
                             </>
                           )
                         })}
