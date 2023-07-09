@@ -317,20 +317,33 @@ export default function CalendarPreview(props: any) {
             </div>
           </div>
 
-          <div className="flex flex-col lg:hidden">
-            <span className="font-semibold leading-tight capitalize">
-              {LOWER_DAYS[dayOfWeek]}
+          <div className="flex flex-col items-center lg:hidden">
+            <span className="font-semibold text-[1.325rem] text-primary">
+              Lịch Dương
             </span>
-            <span className="text-2xl font-medium leading-tight capitalize text-primary">{`${day} Tháng ${month} `}</span>
-            <span className="relative font-medium leading-tight capitalize w-fit">
-              {`${addZero(currentLunarDate.day)} Tháng ${addZero(
-                currentLunarDate.month
-              )}, ${dayName[2]}`}
-              <div className="absolute left-full -top-5 translate-x-4 rotate-[-27.42deg]">
+            <span className="font-semibold leading-tight capitalize mt-2">
+              {`Tháng ${month} Năm ${year}`}
+            </span>
+            <span className="relative font-medium leading-tight capitalize text-primary text-[6.75rem]">
+              {day}
+              <div className="absolute left-full top-0 translate-y-1/2 translate-x-4 rotate-[-27.42deg]">
                 <BadgeDateStatus isBeatifulDay={textDay.is_good}>
                   {textDay.text}
                 </BadgeDateStatus>
               </div>
+            </span>
+            <span className="font-semibold leading-tight capitalize text-3xl">
+              {LOWER_DAYS[dayOfWeek]}
+            </span>
+            <hr className="my-4 border-t border-gray-200 w-4/5" />
+            <span className="font-semibold text-[1.325rem] text-primary">
+              Lịch Âm
+            </span>
+            <span className="font-semibold leading-tight capitalize mt-2">
+              {`Tháng ${addZero(currentLunarDate.month)} Năm ${dayName[2]}`}
+            </span>
+            <span className="font-medium leading-tight capitalize w-fit text-6xl text-primary">
+              {addZero(currentLunarDate.day)}
             </span>
           </div>
 

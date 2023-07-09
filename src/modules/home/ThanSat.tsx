@@ -27,6 +27,7 @@ import {
   getDayName,
   getLunarDate,
   getSolarDate,
+  isBrowser,
   jsUcfirst,
   removeZero,
 } from '@/utils/helpers'
@@ -158,6 +159,11 @@ function ThanSat() {
     toggleModal()
   }
 
+  function scrollToBottom() {
+    if (!isBrowser()) return
+    window.scrollTo({ top: 500, behavior: 'smooth' })
+  }
+
   const chooseCung = (cung: string, son: string) => {
     const tmp = cungSon.find((el: any) => el.name === cung)
     const cungNew = { ...tmp }
@@ -170,6 +176,7 @@ function ThanSat() {
       setCungSelect(tmp)
     }
     setIsTrungCung(false)
+    scrollToBottom()
   }
 
   const chooseCungTrung = () => {
