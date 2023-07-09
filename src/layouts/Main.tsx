@@ -1,6 +1,6 @@
 import { Alert, Snackbar } from '@mui/material'
 import Cookies from 'js-cookie'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -46,11 +46,16 @@ const Main = ({ children, meta, isCalendar = true }: IMainProps) => {
       }
     } catch (err) {
       // eslint-disable-next-line no-console
-      console.log(err)
+      signOut().then(() => {
+        Cookies.remove('access_token')
+        Cookies.remove('refresh_token')
+        setUserInfo(null)
+      })
     }
   }
   useEffect(() => {
-    if (session && session.account.access_token) {
+    const token = Cookies.get('access_token')
+    if (session && session.account.access_token && !token) {
       const { account } = session
 
       convertTokenFunc(account.access_token as string, account.provider)
