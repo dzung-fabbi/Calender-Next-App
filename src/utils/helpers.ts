@@ -6,7 +6,9 @@ import {
   CAN_GROUP_DECLARE,
   CHI,
   CUNG_GROUP_DECLARE,
-  GIO_HD, HOURS_CAN, HOURS_CAN_START,
+  GIO_HD,
+  HOURS_CAN,
+  HOURS_CAN_START,
   ICON_CHI,
   PHUONG_VI_CAT_HUNG_BGCOLOR,
   TIETKHI,
@@ -781,3 +783,4 @@ export const jsUcfirst = (string: string) => {
   const tmp = string.toLowerCase()
   return tmp.charAt(0).toUpperCase() + tmp.slice(1)
 }
+export const isBrowser = () => typeof window !== 'undefined'

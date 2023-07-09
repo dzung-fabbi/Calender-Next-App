@@ -12,7 +12,7 @@ export default function BadgeDateStatus({
   return (
     <div
       className={twMerge(
-        'rounded-xl transition-all bg-white border-[1.34px] border-[#F0F0F0] min-h-[2.75rem] min-w-[5.625rem] lg:min-h-[3.125rem] lg:min-w-[9.375rem] flex justify-center items-center',
+        'rounded-xl transition-all px-1 bg-white border-[1.34px] border-[#F0F0F0] min-h-[2.75rem] min-w-[5.625rem] lg:min-h-[3.125rem] lg:min-w-[9.375rem] flex justify-center items-center',
         isBeatifulDay && 'border-[#D8464C] bg-[#FDD5CE]'
       )}
     >
