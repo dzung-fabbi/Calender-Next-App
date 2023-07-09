@@ -11,6 +11,7 @@ import {
   Typography,
 } from '@mui/material'
 import Avatar from '@mui/material/Avatar'
+import Cookies from 'js-cookie'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { signIn, signOut, useSession } from 'next-auth/react'
@@ -49,7 +50,6 @@ function Header() {
   const [openDrawer, setOpenDrawer] = useToggle(false)
   const [openModalLogin, toggleModalLogin] = useToggle(false)
   const onChangeTab = useStore((state) => state.setTabHeader)
-  const setUserInfo = useStore((state) => state.setUserInfo)
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
@@ -71,8 +71,8 @@ function Header() {
       name: 'Đăng Xuất',
       onSubmit: () => {
         signOut().then(() => {
-          setUserInfo(null)
-          window.location.href = '/'
+          Cookies.remove('access_token')
+          Cookies.remove('refresh_token')
         })
       },
     },
@@ -83,6 +83,7 @@ function Header() {
   }
 
   const handleSubmitLogin = (type: 'facebook' | 'google') => {
+    Cookies.remove('access_token')
     if (type === 'google') signIn('google', { callbackUrl: CALLBACK_URL_LOGIN })
     else {
       signIn('facebook', { callbackUrl: CALLBACK_URL_LOGIN })
@@ -111,74 +112,67 @@ function Header() {
         })}
       </nav>
       <div className="hidden gap-x-4 md:flex md:items-stretch">
+        <Button onClick={() => router.push('/calendar-schedule')} primary>
+          Sắp đặt lịch làm việc
+        </Button>
         {session?.user ? (
-          <>
-            <Button onClick={() => router.push('/calendar-schedule')} primary>
-              Sắp đặt lịch làm việc
-            </Button>
-            <Box>
-              <Tooltip title={`${session.user.name}`}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                    ':hover': {
-                      opacity: 0.8,
-                    },
-                    transition: 'all ease 0.2s',
-                  }}
-                  onClick={handleOpenUserMenu}
-                >
-                  <Avatar
-                    alt="Avatar"
-                    src={session.user.image || '/apple-touch-icon.png'}
-                    sx={{ width: 45, height: 45, mr: 1 }}
-                  />
-                  <IconDown2 />
-                </Box>
-              </Tooltip>
-              <Menu
-                sx={{ mt: 6 }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center',
+          <Box>
+            <Tooltip title={`${session.user.name}`}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  ':hover': {
+                    opacity: 0.8,
+                  },
+                  transition: 'all ease 0.2s',
                 }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center',
-                }}
-                disableScrollLock={true}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
+                onClick={handleOpenUserMenu}
               >
-                {settings.map(({ name, onSubmit }) => (
-                  <MenuItem key={name} onClick={handleCloseUserMenu}>
-                    <Typography
-                      textAlign="center"
-                      onClick={onSubmit}
-                      sx={{
-                        transition: 'all ease 0.2s',
-                        '&:hover': { color: '#F96A2D' },
-                      }}
-                    >
-                      {name}
-                    </Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-          </>
+                <Avatar
+                  alt="Avatar"
+                  src={session.user.image || '/apple-touch-icon.png'}
+                  sx={{ width: 45, height: 45, mr: 1 }}
+                />
+                <IconDown2 />
+              </Box>
+            </Tooltip>
+            <Menu
+              sx={{ mt: 6 }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              disableScrollLock={true}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map(({ name, onSubmit }) => (
+                <MenuItem key={name} onClick={handleCloseUserMenu}>
+                  <Typography
+                    textAlign="center"
+                    onClick={onSubmit}
+                    sx={{
+                      transition: 'all ease 0.2s',
+                      '&:hover': { color: '#F96A2D' },
+                    }}
+                  >
+                    {name}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
         ) : (
-          <>
-            <Button onClick={toggleModalLogin} primary>
-              Sắp đặt lịch làm việc
-            </Button>
-            <Button onClick={toggleModalLogin}>Đăng Nhập</Button>
-          </>
+          <Button onClick={toggleModalLogin}>Đăng Nhập</Button>
         )}
 
         <ModalLogin

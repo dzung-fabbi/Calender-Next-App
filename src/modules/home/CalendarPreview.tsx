@@ -106,14 +106,14 @@ export default function CalendarPreview(props: any) {
     }
   }, [props.day])
 
-  useEffect(() => {
-    homeApi
+  const fetchData = async () => {
+    await homeApi
       .getConfig()
       .then((res) => {
         setConfig(res.data)
       })
       .catch(() => {})
-    homeApi
+    await homeApi
       .getInfo(
         currentLunarDate.month,
         (dayName[0] || '').toUpperCase(),
@@ -167,6 +167,9 @@ export default function CalendarPreview(props: any) {
         setArrTextHours([])
         setArrGoodHours([])
       })
+  }
+  useEffect(() => {
+    fetchData()
   }, [currentDate])
 
   const textDay = getTextDay(
