@@ -132,6 +132,22 @@ function ThanSat() {
     ],
   })
   const [isTrungCung, setIsTrungCung] = useState<boolean>(false)
+  const [config, setConfig] = useState<any>({
+    direction_config: {
+      good: 1,
+    },
+  })
+
+  useEffect(() => {
+    ;(async () => {
+      await homeApi
+        .getConfig()
+        .then((res) => {
+          setConfig(res.data)
+        })
+        .catch(() => {})
+    })()
+  }, [])
 
   useEffect(() => {
     ;(async () => {
@@ -183,6 +199,42 @@ function ThanSat() {
     setIsTrungCung(true)
   }
 
+  const getLabelGoodUgly = (arr: any) => {
+    let totalPointGood = 0
+    let totalPointUgly = 0
+    let numberUgly = 0
+    let numberGood = 0
+    arr.map((el: any) => {
+      let { level } = el.sao
+      if (el.sao.level_year) level = el.sao.level_year
+      if (monthSelect && el.sao.level_month) level = el.sao.level_month
+      if (el.sao.good_ugly_stars === 1) totalPointGood += level * el.sao.point
+      if (el.sao.good_ugly_stars === 0) totalPointUgly += level * el.sao.point
+      const nameStars = el.sao.name
+      if (nameStars.toLowerCase().split(' ').includes('đức')) numberGood += 1
+      if (nameStars.toLowerCase().split(' ').includes('sát')) numberUgly += 1
+      return el
+    })
+    if (totalPointGood && totalPointUgly) {
+      if (totalPointGood / totalPointUgly > config.direction_config.value) {
+        return 'Tốt'
+      }
+
+      if (totalPointGood / totalPointUgly < config.direction_config.value) {
+        return 'Xấu'
+      }
+
+      if (numberGood > numberUgly) {
+        return 'Tốt'
+      }
+
+      if (numberGood < numberUgly) {
+        return 'Xấu'
+      }
+    }
+    return ''
+  }
+
   const renderThansatByYear = () => {
     let saoCung = thansatByYear.filter(
       (x: any) => x.direction === cungSelect.name && x.sao.is_mountain === 1
@@ -201,6 +253,8 @@ function ThanSat() {
     let objSaoKy = thansatByYear.filter((x: any) =>
       ['Kỷ'].includes(x.direction)
     )
+
+    const labelCung = getLabelGoodUgly(saoCung)
 
     const objSao = formatSao(saoCung)
     objSaoMau = formatSao(objSaoMau)
@@ -226,7 +280,7 @@ function ThanSat() {
                   fontWeight: 'bold',
                 }}
               >
-                {isTrungCung ? 'Trung Cung' : cungSelect.name}
+                {isTrungCung ? 'Trung Cung' : cungSelect.name} {labelCung}
               </TableCell>
             </TableRow>
           </TableHead>
@@ -374,6 +428,11 @@ function ThanSat() {
               </TableRow>
               <TableRow>
                 {cungSelect.son.map((row: any, idx: number) => {
+                  const saoSon = thansatByYear.filter(
+                    (x: any) =>
+                      x.direction === row.name && x.sao.is_mountain === 2
+                  )
+                  const labelSon = getLabelGoodUgly(saoSon)
                   return (
                     <TableCell
                       width="16.6%"
@@ -386,7 +445,7 @@ function ThanSat() {
                         fontWeight: 'bold',
                       }}
                     >
-                      {row.name}
+                      {row.name} {labelSon}
                     </TableCell>
                   )
                 })}
