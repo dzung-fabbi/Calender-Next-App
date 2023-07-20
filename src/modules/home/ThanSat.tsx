@@ -15,6 +15,7 @@ import * as React from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import homeApi from '@/api/home.api'
+import { BadgeDateStatus } from '@/components/badge'
 import { Button } from '@/components/button'
 import { IconDown } from '@/components/icon'
 import { ModalInformation } from '@/components/modal'
@@ -215,6 +216,17 @@ function ThanSat() {
       if (nameStars.toLowerCase().split(' ').includes('sát')) numberUgly += 1
       return el
     })
+    console.log('totalPointGood', totalPointGood)
+    console.log('totalPointUgly', totalPointUgly)
+
+    if (totalPointGood && !totalPointUgly) {
+      return 'Tốt'
+    }
+
+    if (!totalPointGood && totalPointUgly) {
+      return 'Xấu'
+    }
+
     if (totalPointGood && totalPointUgly) {
       if (totalPointGood / totalPointUgly > config.direction_config.value) {
         return 'Tốt'
@@ -255,7 +267,6 @@ function ThanSat() {
     )
 
     const labelCung = getLabelGoodUgly(saoCung)
-
     const objSao = formatSao(saoCung)
     objSaoMau = formatSao(objSaoMau)
     objSaoKy = formatSao(objSaoKy)
@@ -280,7 +291,7 @@ function ThanSat() {
                   fontWeight: 'bold',
                 }}
               >
-                {isTrungCung ? 'Trung Cung' : cungSelect.name} {labelCung}
+                {isTrungCung ? 'Trung Cung' : cungSelect.name} <span>{labelCung}</span>
               </TableCell>
             </TableRow>
           </TableHead>
