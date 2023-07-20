@@ -210,7 +210,7 @@ function ThanSat() {
       if (el.sao.level_year) level = el.sao.level_year
       if (monthSelect && el.sao.level_month) level = el.sao.level_month
       if (el.sao.good_ugly_stars === 1) totalPointGood += level * el.sao.point
-      if (el.sao.good_ugly_stars === 0) totalPointUgly += level * el.sao.point
+      if (el.sao.good_ugly_stars === 2) totalPointUgly += level * el.sao.point
       const nameStars = el.sao.name
       if (nameStars.toLowerCase().split(' ').includes('đức')) numberGood += 1
       if (nameStars.toLowerCase().split(' ').includes('sát')) numberUgly += 1
