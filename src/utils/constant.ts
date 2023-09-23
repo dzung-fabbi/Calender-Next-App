@@ -6,6 +6,24 @@ export const MESSAGES = {
   NOT_FOUND: 'Không có dữ  liệu phù hợp',
 }
 
+export const MONTH_CAN_CHI: any = {
+  Tý: ['12', '01'],
+  Sửu: ['01', '02'],
+  Dần: ['02', '03'],
+  Mão: ['03', '04'],
+  Thìn: ['04', '05'],
+  Tỵ: ['05', '06'],
+  Ngọ: ['06', '07'],
+  Mùi: ['07', '08'],
+  Thân: ['08', '09'],
+  Dậu: ['09', '10'],
+  Tuất: ['10', '11'],
+  Hợi: ['11', '12'],
+}
+
+export const SAO_LUNAR = 1
+export const SAO_TIETKHI = 2
+
 export const TYPE_GOOGLE = 'google'
 export const TYPE_FACEBOOK = 'facebook'
 export const CONVERT_TOKEN_GRANT_TYPE = 'convert_token'
