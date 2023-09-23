@@ -15,16 +15,21 @@ import * as React from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import homeApi from '@/api/home.api'
-import { BadgeDateStatus } from '@/components/badge'
 import { Button } from '@/components/button'
 import { IconDown } from '@/components/icon'
 import { ModalInformation } from '@/components/modal'
 import { useToggle } from '@/hooks'
 import { useStore } from '@/store/useStore'
-import { cungSon } from '@/utils/constant'
+import {
+  cungSon,
+  MONTH_CAN_CHI,
+  SAO_LUNAR,
+  SAO_TIETKHI,
+} from '@/utils/constant'
 import {
   getBgColorCan,
   getBgColorCung,
+  getCanChi,
   getDayName,
   getLunarDate,
   getSolarDate,
@@ -78,6 +83,14 @@ function formatSao(array: any) {
     },
     { default: [] }
   )
+}
+
+function convertFromSolar(day: any, month: any, year: any) {
+  const value = getSolarDate(removeZero(day), removeZero(month), +year)
+  const currentLunar = getLunarDate(+value[0], +value[1], +value[2])
+  const canChi: any = getCanChi(currentLunar)
+
+  return MONTH_CAN_CHI[canChi[1].split(' ')[1]]
 }
 
 function ThanSat() {
@@ -155,9 +168,19 @@ function ThanSat() {
       try {
         const responseData = await homeApi.getThanSatInfo(dayName[2] || '')
         if (monthSelect) {
-          setThansatByYear(
-            (responseData.than_sat_by_month as any)[`month_${monthSelect}`]
+          const data: any = responseData.than_sat_by_month
+          const dataLunar = data[`month_${monthSelect}`].filter(
+            (el: any) => el.sao.calendar === SAO_LUNAR
           )
+          const arrayMonths = convertFromSolar(day, month, year)
+          const dataTietkhi1 = data[`month_${arrayMonths[0]}`].filter(
+            (el: any) => el.sao.calendar === SAO_TIETKHI
+          )
+          const dataTietkhi2 = data[`month_${arrayMonths[1]}`].filter(
+            (el: any) => el.sao.calendar === SAO_TIETKHI
+          )
+
+          setThansatByYear([...dataLunar, ...dataTietkhi1, ...dataTietkhi2])
         } else {
           setThansatByYear(responseData.than_sat_by_year?.than_sat_sao)
         }
@@ -291,7 +314,8 @@ function ThanSat() {
                   fontWeight: 'bold',
                 }}
               >
-                {isTrungCung ? 'Trung Cung' : cungSelect.name} <span>{labelCung}</span>
+                {isTrungCung ? 'Trung Cung' : cungSelect.name}{' '}
+                <span>{labelCung}</span>
               </TableCell>
             </TableRow>
           </TableHead>
