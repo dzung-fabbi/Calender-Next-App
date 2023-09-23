@@ -223,6 +223,30 @@ function ThanSat() {
     setIsTrungCung(true)
   }
 
+  const labelGood = () => {
+    return (
+      <div className="absolute right-[15px] top-[12px] rotate-[-10deg]">
+        <div className="rounded-xl transition-all border-[1.34px] min-h-[20px] min-w-[70px] lg:min-h-[20px] lg:min-w-[80px] flex justify-center items-center border-[#D8464C] bg-[#FDD5CE]">
+          <span className="text-sm lg:text-[14px] lg:font-semibold text-center text-[#D63C44]">
+            Tốt
+          </span>
+        </div>
+      </div>
+    )
+  }
+
+  const labelUgly = () => {
+    return (
+      <div class="absolute right-[15px] top-[12px] rotate-[-10deg]">
+        <div class="rounded-xl transition-all bg-[#4a4545] border-[1.34px] border-[#000000] min-h-[20px] min-w-[70px] lg:min-h-[20px] lg:min-w-[80px] flex justify-center items-center">
+          <span class="text-sm text-[#fff] lg:text-[14px] lg:font-semibold text-center">
+            Xấu
+          </span>
+        </div>
+      </div>
+    )
+  }
+
   const getLabelGoodUgly = (arr: any) => {
     let totalPointGood = 0
     let totalPointUgly = 0
@@ -239,32 +263,30 @@ function ThanSat() {
       if (nameStars.toLowerCase().split(' ').includes('sát')) numberUgly += 1
       return el
     })
-    console.log('totalPointGood', totalPointGood)
-    console.log('totalPointUgly', totalPointUgly)
 
     if (totalPointGood && !totalPointUgly) {
-      return 'Tốt'
+      return labelGood()
     }
 
     if (!totalPointGood && totalPointUgly) {
-      return 'Xấu'
+      return labelUgly()
     }
 
     if (totalPointGood && totalPointUgly) {
       if (totalPointGood / totalPointUgly > config.direction_config.value) {
-        return 'Tốt'
+        return labelGood()
       }
 
       if (totalPointGood / totalPointUgly < config.direction_config.value) {
-        return 'Xấu'
+        return labelUgly()
       }
 
       if (numberGood > numberUgly) {
-        return 'Tốt'
+        return labelGood()
       }
 
       if (numberGood < numberUgly) {
-        return 'Xấu'
+        return labelUgly()
       }
     }
     return ''
@@ -312,10 +334,10 @@ function ThanSat() {
                   backgroundColor: cungSelect.backgroundColor,
                   color: cungSelect.color,
                   fontWeight: 'bold',
+                  position: 'relative',
                 }}
               >
-                {isTrungCung ? 'Trung Cung' : cungSelect.name}{' '}
-                <span>{labelCung}</span>
+                {isTrungCung ? 'Trung Cung' : cungSelect.name} {labelCung}
               </TableCell>
             </TableRow>
           </TableHead>
@@ -478,6 +500,7 @@ function ThanSat() {
                         backgroundColor: row.backgroundColor,
                         color: row.color,
                         fontWeight: 'bold',
+                        position: 'relative',
                       }}
                     >
                       {row.name} {labelSon}
