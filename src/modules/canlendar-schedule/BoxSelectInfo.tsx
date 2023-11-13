@@ -44,7 +44,7 @@ export default function BoxSelectInfo(props: any) {
       .required('Please enter your end date')
       .min(yup.ref('startDate')),
   })
-  const [workMain, setWorkMain] = useState('Việc liên quan đến sản xuất')
+  const [workMain, setWorkMain] = useState('Cúng giường')
   const {
     handleSubmit,
     control,
