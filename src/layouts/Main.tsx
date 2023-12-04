@@ -8,6 +8,7 @@ import { twMerge } from 'tailwind-merge'
 import homeApi from '@/api/home.api'
 import { BoxCalenderRight, Header, Sidebar } from '@/components/common'
 import { useStore } from '@/store/useStore'
+import { MODE_TAB_HEADER } from '@/utils/constant'
 
 type IMainProps = {
   meta: ReactNode
@@ -16,14 +17,14 @@ type IMainProps = {
 }
 
 const Main = ({ children, meta, isCalendar = true }: IMainProps) => {
-  const { openSnackbar, setOpenSnackbar, messageInfo, setUserInfo } = useStore(
-    (state) => ({
+  const { openSnackbar, setOpenSnackbar, messageInfo, setUserInfo, tabHeader } =
+    useStore((state) => ({
       openSnackbar: state.openSnackbar,
       setOpenSnackbar: state.setOpenSnackbar,
       messageInfo: state.messageInfo,
       setUserInfo: state.setUserInfo,
-    })
-  )
+      tabHeader: state.tabHeader,
+    }))
 
   const { data: session } = useSession()
 
@@ -66,6 +67,8 @@ const Main = ({ children, meta, isCalendar = true }: IMainProps) => {
     setOpenSnackbar(false)
   }
 
+  const isShowCalendar = isCalendar && !(tabHeader !== MODE_TAB_HEADER.PREVIEW)
+
   return (
     <main className="w-full">
       {meta}
@@ -78,14 +81,16 @@ const Main = ({ children, meta, isCalendar = true }: IMainProps) => {
           <div
             className={twMerge(
               'p-4 pt-0 grow xl:p-30px xl:pt-0',
-              isCalendar && 'div-content '
+              isShowCalendar && 'div-content '
             )}
           >
             <Header />
-            {isCalendar && <BoxCalenderRight className="xl:hidden" />}
+            {isShowCalendar && <BoxCalenderRight className="xl:hidden" />}
             <div className="mt-6 xl:mb-20">{children}</div>
           </div>
-          {isCalendar && <BoxCalenderRight className="xs:hidden xl:block" />}
+          {isShowCalendar && (
+            <BoxCalenderRight className="xs:hidden xl:block" />
+          )}
         </div>
       </div>
       <Snackbar
